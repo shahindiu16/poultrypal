@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poultrypal/components/home_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,6 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final i10 = AppLocalizations.of(context);
     return Column(
       children: [
         Row(
@@ -15,13 +17,13 @@ class HomePage extends StatelessWidget {
             Expanded(
               child: HomeCard(
                 img: Assets.img.hands13854025.path,
-                title: 'Diseases',
+                title: i10!.homeCardDiseases,
               ),
             ),
             Expanded(
               child: HomeCard(
                 img: Assets.img.medical13854010.path,
-                title: 'Medicines',
+                title: i10.homeCardMedicines,
               ),
             )
           ],

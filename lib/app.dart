@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
+import 'package:poultrypal/main.dart';
 import 'package:poultrypal/pages/home.dart';
 import 'package:poultrypal/pages/info.dart';
 
@@ -21,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          // LanguageChangeBtn(),
           LangChangeBtn(),
         ],
         backgroundColor: Color(0xfff8f9fa),
@@ -81,13 +83,19 @@ class LangChangeBtn extends StatefulWidget {
 
 class _LangChangeBtnState extends State<LangChangeBtn> {
   bool isUsa = true;
+
+  String getLocalString() => isUsa ? "en" : "bn";
+
   @override
   Widget build(BuildContext context) {
+    var t = AppLocalizations.of(context)!;
+    final Locale locale = Localizations.localeOf(context);
     return IconButton(
       onPressed: () {
         setState(() {
           isUsa = !isUsa;
         });
+        MyApp.setLocale(context, Locale(getLocalString()));
       },
       icon: AnimatedContainer(
         duration: Durations.medium2,
@@ -101,3 +109,33 @@ class _LangChangeBtnState extends State<LangChangeBtn> {
     );
   }
 }
+
+// class LanguageChangeBtn extends StatelessWidget {
+//   const LanguageChangeBtn({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var t = AppLocalizations.of(context)!;
+//     final Locale locale = Localizations.localeOf(context);
+//     // Dropdown options
+//     var items = [
+//       'en',
+//       'bn',
+//     ];
+//     return DropdownButton(
+//       // Down Arrow Icon
+//       icon: const Icon(
+//         Icons.settings,
+//       ),
+//       items: items.map((String items) {
+//         return DropdownMenuItem(
+//           value: items,
+//           child: Text(items),
+//         );
+//       }).toList(),
+//       onChanged: (String? newValue) {
+//         if (newValue != null) MyApp.setLocale(context, Locale(newValue));
+//       },
+//     );
+//   }
+// }

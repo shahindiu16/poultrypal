@@ -1,3 +1,5 @@
 {
-  "appTitle": "Poultry Pal"
+  "appTitle": "Poultry Pal",
+  "homeCardDiseases": "Diseases",
+  "homeCardMedicines": "Medicines"
 }

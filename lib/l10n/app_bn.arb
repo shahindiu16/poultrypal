@@ -1,4 +1,7 @@
 
 {
-  "appTitle": "পোল্ট্রি পাল"
+  "appTitle": "পোল্ট্রি পাল",
+  "homeCardDiseases": "রোগসমূহ",
+  "homeCardMedicines": "ওষুধ"
 }
+
