@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:poultrypal/pages/info.dart';
 
 class Section extends StatelessWidget {
   final String title;
-  final List<Map<String, String>> items;
+  final List<SectionItem> items;
 
   const Section({
-    Key? key,
+    super.key,
     required this.title,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class Section extends StatelessWidget {
         const SizedBox(height: 10),
         ...items.map(
           (item) => ExpandableItem(
-            title: item["title"]!,
-            content: item["content"]!,
+            title: item.title,
+            content: item.contents,
           ),
         ),
       ],
@@ -33,25 +34,32 @@ class Section extends StatelessWidget {
 
 class ExpandableItem extends StatelessWidget {
   final String title;
-  final String content;
+  final List<String> content;
 
   const ExpandableItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: ExpansionTile(
+        childrenPadding: EdgeInsets.all(10),
         title: Text(title),
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(content),
-          ),
+          for (var text in content)
+            text.endsWith('.jpg')
+                ? ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Image.asset(text),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(text),
+                  )
         ],
       ),
     );
