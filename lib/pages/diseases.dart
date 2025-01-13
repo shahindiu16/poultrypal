@@ -3,17 +3,17 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poultrypal/models/diseases_model.dart';
 
 class DiseasesPage extends StatelessWidget {
-  DiseasesPage({super.key});
+  const DiseasesPage({super.key});
 
-  final diseases = diseasesData
-      .map((e) => DiseaseModel.fromJson(e as Map<String, dynamic>))
-      .toList();
   @override
   Widget build(BuildContext context) {
     final i10 = AppLocalizations.of(context);
+    final diseases = diseasesData(i10!)
+        .map((e) => DiseaseModel.fromJson(e as Map<String, dynamic>))
+        .toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(i10!.homeCardDiseasesTitle),
+        title: Text(i10.homeCardDiseasesTitle),
       ),
       body: ListView.builder(
         itemCount: diseases.length,

@@ -1,3 +1,5 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DiseaseModel {
   final String name;
   final List<SectionModel> sections;
@@ -51,298 +53,312 @@ class ContentModel {
   }
 }
 
-const diseasesData = [
-  {
-    "name": "Coccidiosis",
-    "sections": [
+List<Map<String, Object>> diseasesData(AppLocalizations i10) => [
       {
-        "title": "Overview",
-        "content": [
+        "name": i10.coccidiosis_name,
+        "sections": [
           {
-            "heading": "Definition",
-            "text":
-                "Enteric disease caused by Eimeria parasites, prevalent in poultry with significant economic impact.",
+            "title": i10.coccidiosis_sections_overview_title,
+            "content": [
+              {
+                "heading": i10.coccidiosis_sections_overview_definition_heading,
+                "text": i10.coccidiosis_sections_overview_definition_text,
+              },
+              {
+                "heading":
+                    i10.coccidiosis_sections_overview_causal_agents_heading,
+                "text": i10.coccidiosis_sections_overview_causal_agents_text,
+              },
+              {
+                "heading":
+                    i10.coccidiosis_sections_overview_transmission_heading,
+                "points": [
+                  i10.coccidiosis_sections_overview_transmission_points_1,
+                  i10.coccidiosis_sections_overview_transmission_points_2,
+                  i10.coccidiosis_sections_overview_transmission_points_3,
+                  i10.coccidiosis_sections_overview_transmission_points_4,
+                ],
+              },
+            ],
           },
           {
-            "heading": "Causal Agents",
-            "text":
-                "Seven species of Eimeria parasites infect chickens' intestinal tract.",
+            "title": i10.newcastle_disease_sections_clinical_signs_title,
+            "content": [
+              {
+                "heading":
+                    i10.coccidiosis_sections_clinical_signs_severe_heading,
+                "subHeading":
+                    i10.coccidiosis_sections_clinical_signs_severe_sub_heading,
+                "points": [
+                  i10.coccidiosis_sections_clinical_signs_severe_points_1,
+                  i10.coccidiosis_sections_clinical_signs_severe_points_2,
+                ],
+              },
+              {
+                "heading":
+                    i10.coccidiosis_sections_clinical_signs_moderate_heading,
+                "subHeading": i10
+                    .coccidiosis_sections_clinical_signs_moderate_sub_heading,
+                "points": [
+                  i10.coccidiosis_sections_clinical_signs_moderate_points_1,
+                  i10.coccidiosis_sections_clinical_signs_moderate_points_2,
+                ],
+              },
+              {
+                "heading": i10.coccidiosis_sections_clinical_signs_mild_heading,
+                "subHeading":
+                    i10.coccidiosis_sections_clinical_signs_mild_sub_heading,
+                "points": [
+                  i10.coccidiosis_sections_clinical_signs_mild_points_1,
+                  i10.coccidiosis_sections_clinical_signs_mild_points_2,
+                ],
+              },
+            ],
           },
           {
-            "heading": "Transmission/Epidemiology",
-            "points": [
-              "Sporulated oocysts are primary infective agents.",
-              "Spread through various vectors like animals, insects, contaminated equipment, feed, and water.",
-              "Outbreaks common in rainy seasons with high temperatures and humidity.",
-              "Environmental factors like moisture and stress increase risk.",
+            "title": i10.coccidiosis_sections_diagnosis_title,
+            "content": [
+              {
+                "heading": i10
+                    .coccidiosis_sections_diagnosis_faecal_examinations_heading,
+                "text":
+                    i10.coccidiosis_sections_diagnosis_faecal_examinations_text,
+              },
+              {
+                "heading": i10
+                    .coccidiosis_sections_diagnosis_postmortem_findings_heading,
+                "text":
+                    i10.coccidiosis_sections_diagnosis_postmortem_findings_text,
+              },
+            ],
+          },
+          {
+            "title": i10.coccidiosis_sections_zoonotic_risk_title,
+            "content": [
+              {
+                "text": i10.coccidiosis_sections_zoonotic_risk_content,
+              }
+            ],
+          },
+          {
+            "title": i10.coccidiosis_sections_treatments_title,
+            "content": [
+              {
+                "text": i10.coccidiosis_sections_treatments_content_1,
+              },
+              {
+                "text": i10.coccidiosis_sections_treatments_content_2,
+              },
+            ],
+          },
+          {
+            "title": i10.coccidiosis_sections_prevention_title,
+            "content": [
+              {
+                "heading":
+                    i10.coccidiosis_sections_prevention_live_vaccines_heading,
+                "text": i10.coccidiosis_sections_prevention_live_vaccines_text,
+              },
+              {
+                "heading": i10.coccidiosis_sections_prevention_hygiene_heading,
+                "text": i10.coccidiosis_sections_prevention_hygiene_text,
+              },
+              {
+                "heading": i10
+                    .coccidiosis_sections_prevention_housing_and_feeding_heading,
+                "text": i10
+                    .coccidiosis_sections_prevention_housing_and_feeding_text,
+              },
+              {
+                "heading": i10
+                    .coccidiosis_sections_prevention_environmental_management_heading,
+                "text": i10
+                    .coccidiosis_sections_prevention_environmental_management_text,
+              },
             ],
           },
         ],
       },
       {
-        "title": "Clinical Signs",
-        "content": [
+        "name": i10.salmonellosis_name,
+        "sections": [
           {
-            "heading": "Severe Coccidiosis",
-            "subHeading": "(E. brunetti, E. necatrix, E. tenella)",
-            "points": [
-              "Depressed chickens, emaciation, drooping wings, weight reduction.",
-              "Bloody diarrhea, loss of appetite, high mortality.",
+            "title": i10.salmonellosis_sections_overview_title,
+            "content": [
+              {
+                "heading":
+                    i10.salmonellosis_sections_overview_definition_heading,
+                "text": i10.salmonellosis_sections_overview_definition_text,
+              },
+              {
+                "heading": i10
+                    .salmonellosis_sections_overview_age_susceptibility_heading,
+                "text":
+                    i10.salmonellosis_sections_overview_age_susceptibility_text,
+              },
+              {
+                "heading":
+                    i10.salmonellosis_sections_overview_mortality_heading,
+                "text": i10.salmonellosis_sections_overview_mortality_text,
+              },
+              {
+                "heading":
+                    i10.salmonellosis_sections_overview_transmission_heading,
+                "text": i10.salmonellosis_sections_overview_transmission_text,
+              },
             ],
           },
           {
-            "heading": "Moderate Coccidiosis",
-            "subHeading": "(E. acervulina, E. maxima)",
-            "points": [
-              "Emaciation, poor growth, pale mucous membrane, blood in droppings.",
-              "Associated with weight loss, moderate mortality.",
+            "title": i10.salmonellosis_sections_clinical_signs_title,
+            "content": [
+              {
+                "text": i10.salmonellosis_sections_clinical_signs_points_1,
+              },
+              {
+                "text": i10.salmonellosis_sections_clinical_signs_points_2,
+              },
+              {
+                "text": i10.salmonellosis_sections_clinical_signs_points_3,
+              },
+              {
+                "text": i10.salmonellosis_sections_clinical_signs_points_4,
+              },
+              {
+                "text": i10.salmonellosis_sections_clinical_signs_points_5,
+              },
             ],
           },
           {
-            "heading": "Mild Coccidiosis",
-            "subHeading": "(E. mitis, E. praecox)",
-            "points": [
-              "Generally milder symptoms like poor growth and paleness of shanks.",
-              "Lower mortality compared to severe and moderate forms.",
+            "title": i10.salmonellosis_sections_diagnosis_title,
+            "content": [
+              {
+                "text": i10.salmonellosis_sections_diagnosis_content_1,
+              },
+            ],
+          },
+          {
+            "title": i10.salmonellosis_sections_zoonotic_risk_title,
+            "content": [
+              {
+                "text": i10.salmonellosis_sections_zoonotic_risk_content_1,
+              }
             ],
           },
         ],
       },
       {
-        "title": "Diagnosis",
-        "content": [
+        "name": i10.newcastle_disease_name,
+        "sections": [
           {
-            "heading": "Faecal Examinations",
-            "text": "Microscopy or RT-PCR for oocysts identification.",
+            "title": i10.newcastle_disease_sections_overview_title,
+            "content": [
+              {
+                "heading":
+                    i10.newcastle_disease_sections_overview_definition_heading,
+                "text": i10.newcastle_disease_sections_overview_definition_text,
+              },
+              {
+                "heading": i10
+                    .newcastle_disease_sections_overview_affected_species_heading,
+                "text": i10
+                    .newcastle_disease_sections_overview_affected_species_text,
+              },
+              {
+                "heading":
+                    i10.newcastle_disease_sections_overview_pathotypes_heading,
+                "text": i10.newcastle_disease_sections_overview_pathotypes_text,
+              },
+              {
+                "heading": i10
+                    .newcastle_disease_sections_overview_transmission_heading,
+                "text":
+                    i10.newcastle_disease_sections_overview_transmission_text,
+              },
+              {
+                "heading":
+                    i10.newcastle_disease_sections_overview_virulence_heading,
+                "text": i10.newcastle_disease_sections_overview_virulence_text,
+              },
+              {
+                "heading":
+                    i10.newcastle_disease_sections_overview_seasonality_heading,
+                "text":
+                    i10.newcastle_disease_sections_overview_seasonality_text,
+              },
+            ],
           },
           {
-            "heading": "Postmortem Findings",
-            "text":
-                "Lesions in the intestinal tract, species differentiation based on observations.",
-          },
-        ],
-      },
-      {
-        "title": "Zoonotic Risk",
-        "content": [
-          {
-            "text": "Negligible risk for humans.",
-          }
-        ],
-      },
-      {
-        "title": "Treatments",
-        "content": [
-          {
-            "text":
-                "Toltrazuril, Amprolium, Amoxicillin, Vitamins K, C, B-Complex, prescribed by a Registered Veterinary Physician.",
-          },
-          {
-            "text":
-                "Choice based on parasite species, infection severity, and animal characteristics.",
-          },
-        ],
-      },
-      {
-        "title": "Prevention",
-        "content": [
-          {
-            "heading": "Live Vaccines",
-            "text": "Expensive but effective prevention method.",
+            "title": i10.newcastle_disease_sections_clinical_signs_title,
+            "content": [
+              {
+                "heading": i10
+                    .newcastle_disease_sections_clinical_signs_vesogenic_strain_heading,
+                "text": i10
+                    .newcastle_disease_sections_clinical_signs_vesogenic_strain_text,
+              },
+              {
+                "heading": i10
+                    .newcastle_disease_sections_clinical_signs_mesogenic_strain_heading,
+                "text": i10
+                    .newcastle_disease_sections_clinical_signs_mesogenic_strain_text,
+              },
+              {
+                "heading": i10
+                    .newcastle_disease_sections_clinical_signs_lentogenic_strain_heading,
+                "text": i10
+                    .newcastle_disease_sections_clinical_signs_lentogenic_strain_text,
+              },
+            ],
           },
           {
-            "heading": "Hygiene",
-            "text":
-                "Essential for reducing oocyst contamination, ensuring dry litter conditions.",
+            "title": i10.newcastle_disease_sections_diagnosis_title,
+            "content": [
+              {
+                "text": i10.newcastle_disease_sections_diagnosis_content_1,
+              },
+              {
+                "text": i10.newcastle_disease_sections_diagnosis_content_2,
+              },
+              {
+                "text": i10.newcastle_disease_sections_diagnosis_content_3,
+              },
+              {
+                "text": i10.newcastle_disease_sections_diagnosis_content_4,
+              },
+            ],
           },
           {
-            "heading": "Housing and Feeding",
-            "text":
-                "Proper spacing, clean feeding areas, and quarantining new birds to prevent disease spread.",
+            "title":
+                i10.newcastle_disease_sections_treatment_and_vaccination_title,
+            "content": [
+              {
+                "text": i10
+                    .newcastle_disease_sections_treatment_and_vaccination_content_1,
+              },
+              {
+                "text": i10
+                    .newcastle_disease_sections_treatment_and_vaccination_content_2,
+              },
+              {
+                "text": i10
+                    .newcastle_disease_sections_treatment_and_vaccination_content_3,
+              },
+            ],
           },
           {
-            "heading": "Environmental Management",
-            "text":
-                "Using stone lime on wet litter, frequent litter changes, and disinfection with hydrogen peroxide.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    "name": "Salmonellosis",
-    "sections": [
-      {
-        "title": "Overview",
-        "content": [
-          {
-            "heading": "Definition",
-            "text":
-                "Acute or chronic infection caused by Salmonella bacteria, affecting primarily very young poultry.",
-          },
-          {
-            "heading": "Age Susceptibility",
-            "text":
-                "Most common in chickens aged 4 days to 2 weeks, rarely seen after 1 month.",
-          },
-          {
-            "heading": "Mortality",
-            "text":
-                "Varied, ranging from 15% to 80%, influenced by strain virulence, bird age, and stress.",
-          },
-          {
-            "heading": "Transmission",
-            "text":
-                "Horizontal and vertical transmission occurs through various vectors and contaminated environments.",
-          },
-        ],
-      },
-      {
-        "title": "Clinical Signs",
-        "content": [
-          {
-            "text": "Huddling near heat source.",
-          },
-          {
-            "text": "Depression, weakness, ruffled feathers, closed eyes.",
-          },
-          {
-            "text": "Diarrhea, pasty feces around the vent.",
-          },
-          {
-            "text": "Mortality highest in first few weeks of age.",
-          },
-          {
-            "text": "Rarely, blindness and lameness may occur.",
-          },
-        ],
-      },
-      {
-        "title": "Diagnosis",
-        "content": [
-          {
-            "text":
-                "Requires clinical examination, laboratory testing, epidemiological investigation, and post-mortem examination.",
+            "title": i10.newcastle_disease_sections_prevention_title,
+            "content": [
+              {
+                "text": i10.newcastle_disease_sections_prevention_content_1,
+              },
+              {
+                "text": i10.newcastle_disease_sections_prevention_content_2,
+              },
+              {
+                "text": i10.newcastle_disease_sections_prevention_content_3,
+              },
+            ],
           },
         ],
       },
-      {
-        "title": "Zoonotic Risk",
-        "content": [
-          {
-            "text": "Low risk for humans.",
-          }
-        ],
-      },
-    ],
-  },
-  {
-    "name": "Newcastle Disease",
-    "sections": [
-      {
-        "title": "Overview",
-        "content": [
-          {
-            "heading": "Definition",
-            "text":
-                "Highly contagious viral disease affecting poultry worldwide.",
-          },
-          {
-            "heading": "Affected Species",
-            "text": "Chickens, turkeys, pigeons, geese, and ducks.",
-          },
-          {
-            "heading": "Pathotypes",
-            "text": "Lentogenic, mesogenic, and velogenic strains.",
-          },
-          {
-            "heading": "Transmission",
-            "text":
-                "Inhalation or ingestion of virus; excretion by sick birds, healthy carriers, and humans; wind dispersal.",
-          },
-          {
-            "heading": "Virulence",
-            "text":
-                "Velogenic strains cause severe disease; endemic in Asia, Africa, and some parts of the Americas.",
-          },
-          {
-            "heading": "Seasonality",
-            "text": "Most common in summer.",
-          },
-        ],
-      },
-      {
-        "title": "Clinical Signs",
-        "content": [
-          {
-            "heading": "Vesogenic strain",
-            "text":
-                "Sudden death, depression, diarrhea, edema, high mortality.",
-          },
-          {
-            "heading": "Mesogenic strain",
-            "text":
-                "Severe respiratory disease, nervous signs, egg production decrease.",
-          },
-          {
-            "heading": "Lentogenic strain",
-            "text": "Mild respiratory distress or no disease.",
-          },
-        ],
-      },
-      {
-        "title": "Diagnosis",
-        "content": [
-          {
-            "text":
-                "Clinical signs, laboratory tests, and postmortem examination.",
-          },
-          {
-            "text":
-                "Serology (HAI test), virus growth from tissue samples, molecular detection (sequencing, RT-PCR).",
-          },
-          {
-            "text":
-                "Ulcers in intestines, hemorrhagic ulcers, petechial hemorrhages in various organs, organ proliferation.",
-          },
-          {
-            "text":
-                "Necrosis, congestion, inflammation in liver, lungs, ovaries, and spleen.",
-          },
-        ],
-      },
-      {
-        "title": "Treatment and Vaccination",
-        "content": [
-          {
-            "text": "No specific treatment; vaccination crucial for control.",
-          },
-          {
-            "text":
-                "Live vaccines (e.g., LaSota, B1 lentogenic) reduce losses; killed vaccines for certain situations.",
-          },
-          {
-            "text":
-                "Vaccination schedules vary by region and strain virulence.",
-          },
-        ],
-      },
-      {
-        "title": "Prevention",
-        "content": [
-          {
-            "text": "Quarantine, biosecurity, vaccination crucial.",
-          },
-          {
-            "text":
-                "'All in-all out' farming, pest control, human traffic management, shed fumigation.",
-          },
-          {
-            "text":
-                "Disinfection with potassium permanganate, cresol, and formalin.",
-          },
-        ],
-      },
-    ],
-  },
-];
+    ];
