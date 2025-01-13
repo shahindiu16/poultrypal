@@ -34,7 +34,9 @@ class DiseasesPage extends StatelessWidget {
                   shape: Border.all(),
                   title: Text(
                     section.title,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   children: section.content.map((content) {
                     if (content.points != null) {
