@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "110131626994",
+    "firebase_url": "https://poultry-pal-7f86c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "poultry-pal-7f86c",
+    "storage_bucket": "poultry-pal-7f86c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110131626994:android:d61aac3e5aa1de758e616b",
+        "android_client_info": {
+          "package_name": "com.nevronus.poultry_pal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWaJnbOKSiJFZdwZEJ0ND8iidMSBGZnYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110131626994:android:862dc81252be6a938e616b",
+        "android_client_info": {
+          "package_name": "com.nevronus.poultrypal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWaJnbOKSiJFZdwZEJ0ND8iidMSBGZnYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
