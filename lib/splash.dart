@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,20 +19,22 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     getToken();
-    Timer(Duration(seconds: 6), () {
-      // Navigate to the next screen after 2 seconds
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(),
-        ), // Replace with your actual next screen
-      );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Timer(Duration(seconds: 6), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                MyHomePage(), // Replace with your actual next screen
+          ),
+        );
+      });
     });
   }
 
   @override
-  void dispose() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+  void dispose() {
+    // flutterLocalNotificationsPlugin.cancelAll();
     super.dispose();
   }
 
@@ -86,30 +89,66 @@ Future<void> setupFlutterNotifications() async {
   isFlutterLocalNotificationsInitialized = true;
 }
 
-void showFlutterNotification(RemoteMessage message) {
+void showFlutterNotification(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
+  print("Remote Notification : ${notification?.title}");
+  print("Android Notification : ${android?.count} || ${android?.imageUrl}");
 
   if (notification != null && android != null && !kIsWeb) {
+    final isImg = android.imageUrl;
+    if (isImg != null) {
+      print("Image is not null");
+      final ByteArrayAndroidBitmap bigPicture =
+          ByteArrayAndroidBitmap(await _getByteArrayFromUrl(isImg));
+      print("bigPICTURE");
+
+      final BigPictureStyleInformation bigPictureStyleInformation =
+          BigPictureStyleInformation(
+        bigPicture,
+      );
+      print("bigPICTURE style");
+
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description,
+              styleInformation: bigPictureStyleInformation,
+              icon: "app_icon"
+              // ... other notification details
+              ),
+        ),
+      );
+    } else {
+      print("Image is null");
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(channel.id, channel.name,
+              channelDescription: channel.description, icon: "app_icon"
+              // ... other notification details
+              ),
+        ),
+      );
+    }
+
     // Optional check for existing notification (uncomment if needed)
     // final existingNotificationId = notification.hashCode;
     // if (!flutterLocalNotificationsPlugin.pendingNotificationRequests(ListNotificationDetails({}).toList())
     //     .any((pending) => pending.id == existingNotificationId)) {
-    flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          // ... other notification details
-        ),
-      ),
-    );
+
     // }
   }
+}
+
+Future<Uint8List> _getByteArrayFromUrl(String url) async {
+  final http.Response response = await http.get(Uri.parse(url));
+  return response.bodyBytes;
 }
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
