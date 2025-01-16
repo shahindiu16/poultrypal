@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poultrypal/pages/info.dart';
+import 'package:poultrypal/pages/info/info.dart';
 
 class Section extends StatelessWidget {
   final String title;

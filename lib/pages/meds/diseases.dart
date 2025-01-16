@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poultrypal/models/diseases_model.dart';
+import 'package:poultrypal/pages/components/lang_change.dart';
 
 class DiseasesPage extends StatelessWidget {
   const DiseasesPage({super.key});
@@ -14,6 +15,9 @@ class DiseasesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(i10.homeCardDiseasesTitle),
+        actions: [
+          LangChangeBtn(),
+        ],
       ),
       body: ListView.builder(
         itemCount: diseases.length,

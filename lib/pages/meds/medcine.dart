@@ -54,11 +54,22 @@ class MedicinesPage extends StatelessWidget {
                               ? trade.tradeName
                               : 'No Trade Name',
                           style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 2,
                         ),
-                        subtitle: Text(trade.company),
-                        trailing: trade.dosage != null
-                            ? Text(trade.dosage!)
-                            : SizedBox.shrink(),
+                        subtitle: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(trade.company,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                )),
+                            trade.dosage != null
+                                ? Text(trade.dosage!)
+                                : SizedBox.shrink(),
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),
