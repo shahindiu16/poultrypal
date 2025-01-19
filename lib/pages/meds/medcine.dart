@@ -18,20 +18,17 @@ class MedicinesPage extends StatelessWidget {
     final i10 = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(i10!.homeCardMedicines),
-            Text(
-              "Brand-name drug are only applicable in Bangladesh",
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
-          ],
-        ),
+        title: Text(i10!.homeCardMedicines),
       ),
       body: ListView(
         children: [
+          Text(
+            "(Brand-name drug are only applicable in Bangladesh)",
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
+            textAlign: TextAlign.center,
+          ),
           Card(
             margin: EdgeInsets.all(10),
             child: ExpansionTile(
