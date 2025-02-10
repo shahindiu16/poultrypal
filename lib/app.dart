@@ -37,21 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(AppLocalizations.of(context)!.appTitle),
         ),
         body: curr == 0 ? HomePage() : InfoPage(),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   currentIndex: curr,
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.home),
-        //       label: "Home",
-        //     ),
-        //     BottomNavigationBarItem(icon: Icon(Icons.info), label: "Info"),
-        //   ],
-        //   onTap: (int i) {
-        //     setState(() {
-        //       curr = i;
-        //     });
-        //   },
-        // ),
         floatingActionButton: PieMenu(
           theme: PieTheme(
             delayDuration: Duration.zero,
@@ -97,25 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
           onTap: (index) => setState(() => curr = index),
           //other params
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        // floatingActionButton: ExpandableFab(
-        //   pos: ExpandableFabPos.center,
-        //   type: ExpandableFabType.fan,
-        //   distance: 60,
-        //   // pos: ExpandableFabPos.right,
-        //   children: [
-        //     FloatingActionButton(
-        //       heroTag: null,
-        //       child: const Icon(Icons.camera),
-        //       onPressed: () => pickImage(context, ImageSource.camera),
-        //     ),
-        //     FloatingActionButton(
-        //       heroTag: null,
-        //       child: const Icon(Icons.file_open),
-        //       onPressed: () => pickImage(context, ImageSource.gallery),
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }
