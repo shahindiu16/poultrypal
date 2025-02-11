@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:poultrypal/admob/admob_ids.dart';
+import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
-
 import 'package:poultrypal/pages/lab/components/prediction_service.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ImagePreviewPage extends StatefulWidget {
   final String imagePath;
@@ -20,13 +20,11 @@ class ImagePreviewPage extends StatefulWidget {
 }
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
-  late Interpreter interpreter;
   String _prediction = 'No prediction yet';
-  // final PredictionService _predictionService =
-  //     PredictionService(); // Create instance
+  String _accuracy = '';
 
-  final PredictionService2 _predictionService =
-      PredictionService2(); // Create instance
+  final PredictionService _predictionService =
+      PredictionService(); // Create instance
 
   InterstitialAd? _interstitialAd;
   final _consentManager = ConsentManager();
@@ -121,26 +119,41 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   }
 
   Future<void> _loadModel() async {
-    // await _predictionService.loadModel(); // Load using the service
+    await _predictionService.loadModel(); // Load using the service
     // if (!_predictionService.isModelLoaded()) {
     //   // Handle model loading failure, e.g., show an error message.
     //   ScaffoldMessenger.of(context).showSnackBar(
     //     const SnackBar(content: Text('Failed to load model.')),
     //   );
     // }
+
+    final File imageFile = File(widget.imagePath);
+    var inputImage = await _predictionService.loadImageAndPrepare(
+        imageFile, 224); // Example size
+    if (inputImage != null) {
+      final labels = await _predictionService.processImage(inputImage);
+      if (labels != null) {
+        final prediction = _predictionService.getPrediction(labels);
+        setState(() {
+          _prediction = prediction.$1;
+          _accuracy = prediction.$2;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+      if (!_adsAlreadyShowed) _interstitialAd?.show();
+    }
   }
 
-  bool isLoading = false;
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
     final File imageFile = File(widget.imagePath);
     final i10 = AppLocalizations.of(context);
-    final fileName = imageFile.path.split('/').last;
-    // imageFile.readAsBytes
-    final fileSize =
-        (imageFile.lengthSync() / 1024).toStringAsFixed(2); // In KB
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Report'),
@@ -154,37 +167,10 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Image Preview Card
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      i10?.imagePreview ?? "",
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: Image.file(
-                          imageFile,
-                          fit: BoxFit.cover,
-                          // height: 250,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            ImagePreviewCard(i10: i10, imageFile: imageFile),
             const SizedBox(height: 16),
-            // BannerAds(
-            //     adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+            BannerAds(
+                adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
             const SizedBox(height: 16),
             // Image Details Card
             Card(
@@ -199,65 +185,60 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                     Text(
                       'Prediction: $_prediction',
                     ),
-                    // const SizedBox(height: 8),
+                    const SizedBox(height: 8),
+
+                    Text(
+                      'Accuracy: $_accuracy%',
+                    ),
                     // Text('File Size: $fileSize KB',
                     //     style: const TextStyle(fontSize: 16)),
                   ],
                 ),
               ),
             ),
-            if (isLoading)
-              Center(child: CircularProgressIndicator.adaptive())
-            else
-              ElevatedButton(
-                  onPressed: isLoading
-                      ? null
-                      : () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          // final out = await loadModel(await imageFile.readAsBytes());
-                          var inputImage =
-                              await _predictionService.loadImageAndPrepare(
-                                  imageFile, 224); // Example size
-                          if (inputImage != null) {
-                            final labels = await _predictionService
-                                .processImage(inputImage);
-                            if (labels != null) {
-                              String prediction =
-                                  _predictionService.getPrediction(labels);
-                              setState(() {
-                                _prediction = prediction;
-                                isLoading = false;
-                              });
-                            } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                            // var output = await _predictionService
-                            //     .runInference(inputImage);
-                            // if (output != null) {
-                            //   List<double> dequantizedOutput =
-                            //       _predictionService.dequantize(output);
-                            //   String prediction = _predictionService
-                            //       .getPrediction(dequantizedOutput);
+            if (isLoading) Center(child: CircularProgressIndicator.adaptive())
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-                            //   setState(() {
-                            //     _prediction = prediction;
-                            //     print("Prediction -> $prediction");
-                            //     isLoading = false;
-                            //   });
-                            // } else {
-                            //   setState(() {
-                            //     isLoading = false;
-                            //   });
-                            // }
+class ImagePreviewCard extends StatelessWidget {
+  const ImagePreviewCard({
+    super.key,
+    required this.i10,
+    required this.imageFile,
+  });
 
-                            if (!_adsAlreadyShowed) _interstitialAd?.show();
-                          }
-                        },
-                  child: Text("Predict")),
+  final AppLocalizations? i10;
+  final File imageFile;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              i10?.imagePreview ?? "",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: Image.file(
+                  imageFile,
+                  fit: BoxFit.cover,
+                  // height: 250,
+                ),
+              ),
+            ),
           ],
         ),
       ),
