@@ -1,11 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:poultrypal/admob/widgest/consent_manager.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
 
-import 'package:image/image.dart' as img;
-import 'dart:typed_data';
+import 'package:poultrypal/pages/lab/components/prediction_service.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class ImagePreviewPage extends StatefulWidget {
@@ -20,95 +22,115 @@ class ImagePreviewPage extends StatefulWidget {
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
   late Interpreter interpreter;
   String _prediction = 'No prediction yet';
+  // final PredictionService _predictionService =
+  //     PredictionService(); // Create instance
 
+  final PredictionService2 _predictionService =
+      PredictionService2(); // Create instance
+
+  InterstitialAd? _interstitialAd;
+  final _consentManager = ConsentManager();
+
+  var _isMobileAdsInitializeCalled = false;
+  bool _adsAlreadyShowed = false;
+
+  final String _adUnitId = Platform.isAndroid
+      ? 'ca-app-pub-3940256099942544/1033173712'
+      : 'ca-app-pub-3940256099942544/4411468910';
   @override
   void initState() {
     super.initState();
     _loadModel();
+    _consentManager.gatherConsent((consentGatheringError) {
+      if (consentGatheringError != null) {
+        // Consent not obtained in current session.
+        debugPrint(
+            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+      }
+    });
+
+    // Attempt to initialize the Mobile Ads SDK.
+    _initializeMobileAdsSDK();
+  }
+
+  void _initializeMobileAdsSDK() async {
+    if (_isMobileAdsInitializeCalled) {
+      return;
+    }
+
+    if (await _consentManager.canRequestAds()) {
+      _isMobileAdsInitializeCalled = true;
+
+      // Initialize the Mobile Ads SDK.
+      MobileAds.instance.initialize();
+
+      // Load an ad.
+      _loadAd();
+    }
+  }
+
+  void _loadAd() async {
+    // Only load an ad if the Mobile Ads SDK has gathered consent aligned with
+    // the app's configured messages.
+    var canRequestAds = await _consentManager.canRequestAds();
+    if (!canRequestAds) {
+      return;
+    }
+
+    InterstitialAd.load(
+        adUnitId: _adUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          // Called when an ad is successfully received.
+          onAdLoaded: (InterstitialAd ad) {
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+                // Called when the ad showed the full screen content.
+                onAdShowedFullScreenContent: (ad) {},
+                // Called when an impression occurs on the ad.
+                onAdImpression: (ad) {},
+                // Called when the ad failed to show full screen content.
+                onAdFailedToShowFullScreenContent: (ad, err) {
+                  ad.dispose();
+                },
+                // Called when the ad dismissed full screen content.
+                onAdDismissedFullScreenContent: (ad) {
+                  setState(() {
+                    _adsAlreadyShowed = true;
+                  });
+                  ad.dispose();
+                },
+                // Called when a click is recorded for an ad.
+                onAdClicked: (ad) {});
+
+            // Keep a reference to the ad so you can show it later.
+            _interstitialAd = ad;
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            // ignore: avoid_print
+            print('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    _predictionService.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadModel() async {
+    // await _predictionService.loadModel(); // Load using the service
+    // if (!_predictionService.isModelLoaded()) {
+    //   // Handle model loading failure, e.g., show an error message.
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text('Failed to load model.')),
+    //   );
+    // }
   }
 
   bool isLoading = false;
-  Future<void> _loadModel() async {
-    try {
-      interpreter = await Interpreter.fromAsset('assets/models/model.tflite');
-      print('Model loaded successfully');
-
-      var inputDetails = interpreter.getInputTensor(0);
-      var outputDetails = interpreter.getOutputTensor(0);
-
-      print('Input Type: ${inputDetails.type}');
-      print('Output Type: ${outputDetails.type}');
-      print('Input Shape: ${inputDetails.shape}');
-      print('Output Shape: ${outputDetails.shape}');
-    } catch (e) {
-      print('Error loading model: $e');
-    }
-  }
-
-  Future<Uint8List?> _loadImageAndPrepare(File imageFile, int inputSize) async {
-    try {
-      var image = img.decodeImage(await imageFile.readAsBytes());
-      if (image != null) {
-        var resizedImage =
-            img.copyResize(image, width: inputSize, height: inputSize);
-        // ***KEY CHANGE: Convert to Uint8List correctly***
-        var bytes =
-            // resizedImage.getBytes(format: img.Format.rgb); // Use Format.rgb
-            resizedImage.getBytes(
-                order: img.ChannelOrder.rgb); // Use Format.rgb
-        return Uint8List.fromList(bytes);
-      } else {
-        print('Unable to decode image');
-        return null;
-      }
-    } catch (e) {
-      print('Error loading or preparing image: $e');
-      return null;
-    }
-  }
-
-  Future<List<int>?> _runInference(Uint8List inputImage) async {
-    try {
-      final isolateInterpreter =
-          await IsolateInterpreter.create(address: interpreter.address);
-      var outputTensor = interpreter.getOutputTensor(0);
-      var outputShape = outputTensor.shape;
-      var outputType = outputTensor.type;
-
-      if (outputType.value == TfLiteType.kTfLiteUInt8) {
-        var outputBuffer = Uint8List(outputShape.reduce((a, b) => a * b));
-        isolateInterpreter.run(inputImage, outputBuffer);
-        return outputBuffer.toList();
-      } else {
-        print("Output Type ${outputType} not supported. Expected uint8.");
-        return null;
-      }
-    } catch (e) {
-      print('Error running inference: $e');
-      return null;
-    }
-  }
-
-  List<double> _dequantize(List<int> output) {
-    double scale = 0.00390625; // Your quantization scale
-    return output.map((value) => value * scale).toList();
-  }
-
-  String _getPrediction(List<double> output) {
-    // Assuming classification (adjust for your model's output)
-    int maxIndex = output.indexOf(output.reduce((a, b) => a > b ? a : b));
-    List<String> labels = [
-      // 'class1',
-      // 'class2',
-      // 'class3',
-      // 'class4'
-      'cocci',
-      'healthy',
-      'ncd',
-      'salmo'
-    ]; // Your labels
-    return labels[maxIndex];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,19 +217,17 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                             isLoading = true;
                           });
                           // final out = await loadModel(await imageFile.readAsBytes());
-                          var inputImage = await _loadImageAndPrepare(
-                              imageFile, 224); // Example size
+                          var inputImage =
+                              await _predictionService.loadImageAndPrepare(
+                                  imageFile, 224); // Example size
                           if (inputImage != null) {
-                            var output = await _runInference(inputImage);
-                            if (output != null) {
-                              List<double> dequantizedOutput =
-                                  _dequantize(output);
+                            final labels = await _predictionService
+                                .processImage(inputImage);
+                            if (labels != null) {
                               String prediction =
-                                  _getPrediction(dequantizedOutput);
-
+                                  _predictionService.getPrediction(labels);
                               setState(() {
                                 _prediction = prediction;
-                                print("Prediction -> $prediction");
                                 isLoading = false;
                               });
                             } else {
@@ -215,6 +235,26 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                 isLoading = false;
                               });
                             }
+                            // var output = await _predictionService
+                            //     .runInference(inputImage);
+                            // if (output != null) {
+                            //   List<double> dequantizedOutput =
+                            //       _predictionService.dequantize(output);
+                            //   String prediction = _predictionService
+                            //       .getPrediction(dequantizedOutput);
+
+                            //   setState(() {
+                            //     _prediction = prediction;
+                            //     print("Prediction -> $prediction");
+                            //     isLoading = false;
+                            //   });
+                            // } else {
+                            //   setState(() {
+                            //     isLoading = false;
+                            //   });
+                            // }
+
+                            if (!_adsAlreadyShowed) _interstitialAd?.show();
                           }
                         },
                   child: Text("Predict")),
