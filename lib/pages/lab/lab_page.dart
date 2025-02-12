@@ -12,6 +12,7 @@ import 'package:poultrypal/pages/components/lang_change.dart';
 import 'package:poultrypal/pages/lab/components/image_preview_card.dart';
 import 'package:poultrypal/pages/lab/components/prediction_service.dart';
 import 'package:poultrypal/pages/lab/components/time_n_accuracy_card.dart';
+import 'package:poultrypal/utils/utilts.dart';
 
 class ImagePreviewPage extends StatefulWidget {
   final String imagePath;
@@ -122,6 +123,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     super.dispose();
   }
 
+  ImagePrediction imgPrediction = ImagePrediction.notAValidImage;
   Future<void> _loadModel() async {
     await _predictionService.loadModel(); // Load using the service
     // if (!_predictionService.isModelLoaded()) {
@@ -140,12 +142,25 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
+        late ImagePrediction imp;
+        if (prediction.$1 == 'cocci') {
+          imp = ImagePrediction.cocci;
+        } else if (prediction.$1 == 'healthy') {
+          imp = ImagePrediction.healthy;
+        } else if (prediction.$1 == 'ncd') {
+          imp = ImagePrediction.ncd;
+        } else if (prediction.$1 == 'salmo') {
+          imp = ImagePrediction.healthy;
+        } else {
+          imp = ImagePrediction.notAValidImage;
+        }
         stopwatch.stop();
         setState(() {
           _prediction = prediction.$1;
           _accuracy = prediction.$2;
           timeTook = stopwatch.elapsedMilliseconds;
           isLoading = false;
+          imgPrediction = imp;
         });
       } else {
         setState(() {
@@ -157,6 +172,81 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   }
 
   bool isLoading = true;
+
+  String getSubtitle(AppLocalizations? i10, ImagePrediction imp) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+        return i10?.invalidImage ?? '';
+      case ImagePrediction.healthy:
+        return i10?.diseaseMap_healthy ?? '';
+      case ImagePrediction.salmo:
+        return i10?.diseaseMap_salmo ?? '';
+      case ImagePrediction.cocci:
+        return i10?.diseaseMap_cocci ?? '';
+      case ImagePrediction.ncd:
+        return i10?.diseaseMap_ncd ?? '';
+    }
+  }
+
+  String getSubtitleGeneric(AppLocalizations? i10, ImagePrediction imp) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+        return '';
+      case ImagePrediction.healthy:
+        return i10?.medicine_healthy ?? '';
+      case ImagePrediction.salmo:
+        return i10?.medicine_salmo ?? '';
+      case ImagePrediction.cocci:
+        return i10?.medicine_cocci ?? '';
+      case ImagePrediction.ncd:
+        return i10?.medicine_ncd ?? '';
+    }
+  }
+
+  String getSubtitleSeverity(AppLocalizations? i10, ImagePrediction imp) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+        return '';
+      case ImagePrediction.healthy:
+        return i10?.severity_healthy ?? '';
+      case ImagePrediction.salmo:
+        return i10?.severity_salmo ?? '';
+      case ImagePrediction.cocci:
+        return i10?.severity_cocci ?? '';
+      case ImagePrediction.ncd:
+        return i10?.severity_ncd ?? '';
+    }
+  }
+
+  String getSubtitleDetahRate(AppLocalizations? i10, ImagePrediction imp) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+        return '';
+      case ImagePrediction.healthy:
+        return i10?.deathRate_healthy ?? '';
+      case ImagePrediction.salmo:
+        return i10?.deathRate_salmo ?? '';
+      case ImagePrediction.cocci:
+        return i10?.deathRate_cocci ?? '';
+      case ImagePrediction.ncd:
+        return i10?.deathRate_ncd ?? '';
+    }
+  }
+
+  String getSubtitlePrevention(AppLocalizations? i10, ImagePrediction imp) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+        return i10?.invalidImage ?? '';
+      case ImagePrediction.healthy:
+        return i10?.diseaseMap_healthy ?? '';
+      case ImagePrediction.salmo:
+        return i10?.diseaseMap_salmo ?? '';
+      case ImagePrediction.cocci:
+        return i10?.diseaseMap_cocci ?? '';
+      case ImagePrediction.ncd:
+        return i10?.diseaseMap_ncd ?? '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,115 +264,133 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
         child: ListView(
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // slogan
+
+            Text(i10?.slogan ?? '',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    )),
+            const SizedBox(height: 16),
             // Image Preview Card
             ImagePreviewCard(imageFile: imageFile),
             const SizedBox(height: 16),
             BannerAds(
                 adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
             const SizedBox(height: 16),
-            // time & accuracy
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TimeAndAccuracyCard(
-                    value: "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
-                    isTime: true),
-                SizedBox(
-                  width: 30,
-                ),
-                TimeAndAccuracyCard(
-                  value: "$_accuracy%",
-                  isTime: false,
-                ),
-              ],
-            ),
-            // Image Details Card
-            SizedBox(
-              height: 15,
-            ),
-            Text("Diagnosis Report",
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
-
-            SizedBox(
-              height: 15,
-            ),
-
-            DiagnosisReportCard(
-              image: Assets.img.chicken2713365.path,
-              title: 'Disease Detected',
-              subtitle: 'Sulfonamides or lonophores like Amprolium.',
-              content:
-                  'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-
-            DiagnosisReportCard(
-              image: Assets.img.firstAidKit2713349.path,
-              title: 'Generic Medicine',
-              subtitle: 'Sulfonamides or lonophores like Amprolium.',
-              content:
-                  'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            DiagnosisReportCard(
-              image: Assets.img.diagram2713368.path,
-              title: 'Severity Level',
-              subtitle: 'Sulfonamides or lonophores like Amprolium.',
-              content:
-                  'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            DiagnosisReportCard(
-              image: Assets.img.death2713357Copy.path,
-              title: 'Death Rate',
-              subtitle: 'Sulfonamides or lonophores like Amprolium.',
-              content:
-                  'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            DiagnosisReportCard(
-              image: Assets.img.protection2713342.path,
-              title: 'Prevention',
-              subtitle: 'Sulfonamides or lonophores like Amprolium.',
-              content:
-                  'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Prediction: $_prediction',
-                    ),
-                    const SizedBox(height: 8),
-
-                    Text(
-                      'Accuracy: $_accuracy%',
-                    ),
-                    // Text('File Size: $fileSize KB',
-                    //     style: const TextStyle(fontSize: 16)),
-                  ],
-                ),
+            if (!isLoading &&
+                imgPrediction == ImagePrediction.notAValidImage) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TimeAndAccuracyCard(
+                      value:
+                          "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
+                      isTime: true),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  TimeAndAccuracyCard(
+                    value: "$_accuracy%",
+                    isTime: false,
+                  ),
+                ],
               ),
-            ),
+              // Image Details Card
+              SizedBox(
+                height: 15,
+              ),
+              Text(i10?.invalidImage ?? '',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      )),
+            ],
+
+            // time & accuracy
+            if (!isLoading &&
+                imgPrediction != ImagePrediction.notAValidImage) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TimeAndAccuracyCard(
+                      value:
+                          "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
+                      isTime: true),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  TimeAndAccuracyCard(
+                    value: "$_accuracy%",
+                    isTime: false,
+                  ),
+                ],
+              ),
+              // Image Details Card
+              SizedBox(
+                height: 15,
+              ),
+              Text(i10?.diagnosisReportTitle ?? '',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      )),
+
+              SizedBox(
+                height: 15,
+              ),
+
+              DiagnosisReportCard(
+                image: Assets.img.chicken2713365.path,
+                title: i10?.diagnosisReportTitle1 ?? '',
+                subtitle: getSubtitle(i10, imgPrediction),
+                content:
+                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              DiagnosisReportCard(
+                image: Assets.img.firstAidKit2713349.path,
+                title: i10?.diagnosisReportTitle2 ?? '',
+                subtitle: getSubtitleGeneric(i10, imgPrediction),
+                content:
+                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              DiagnosisReportCard(
+                image: Assets.img.diagram2713368.path,
+                title: i10?.diagnosisReportTitle3 ?? '',
+                subtitle: getSubtitleSeverity(i10, imgPrediction),
+                content:
+                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              DiagnosisReportCard(
+                image: Assets.img.death2713357Copy.path,
+                title: i10?.diagnosisReportTitle4 ?? '',
+                subtitle: getSubtitleDetahRate(i10, imgPrediction),
+                content:
+                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              DiagnosisReportCard(
+                image: Assets.img.protection2713342.path,
+                title: i10?.diagnosisReportTitle5 ?? '',
+                subtitle: getSubtitlePrevention(i10, imgPrediction),
+                content:
+                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
             if (isLoading) Center(child: CircularProgressIndicator.adaptive())
           ],
         ),
