@@ -1,6 +1,1 @@
-enum ImagePrediction {
-  notAValidImage,
-  healthy,
-  salmo,
-  cocci,
-}
+enum ImagePrediction { notAValidImage, healthy, salmo, cocci, ncd }

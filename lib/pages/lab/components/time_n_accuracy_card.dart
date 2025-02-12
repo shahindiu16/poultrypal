@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class TimeAndAccuracyCard extends StatelessWidget {
@@ -13,6 +15,7 @@ class TimeAndAccuracyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final i10 = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -34,7 +37,7 @@ class TimeAndAccuracyCard extends StatelessWidget {
               Icons.bar_chart,
               color: Colors.orange[800],
             ),
-          Text(isTime ? "Time" : "Accuracy",
+          Text(isTime ? i10?.time ?? "" : i10?.accuracy ?? "",
               style: TextStyle(
                 color: isTime ? Colors.green : Colors.orange[800],
                 fontWeight: FontWeight.bold,

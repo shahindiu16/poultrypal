@@ -42,6 +42,7 @@ class AboutUsPage extends StatelessWidget {
                   _buildTeamMember(
                     name: 'Akram Hossain',
                     role: 'Finance & Marketing',
+                    link: 'https://www.linkedin.com/in/akram-hossain-59925872',
                   ),
                 ],
               ),
