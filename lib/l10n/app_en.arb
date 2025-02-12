@@ -3,10 +3,7 @@
   "homeCardDiseases": "Diseases",
   "homeCardDiseasesTitle": "Diseases & Treatments",
   "homeCardMedicines": "Medicines",
-  "imagePreview":"Image Preview",
-  
-
-
+  "imagePreview": "Image Preview",
   "infoPageSection1": "Privacy Policy",
   "infoPageSection1General": "General",
   "infoPageSection1General1": "(1) These Terms of Use govern all agreements between Poultry Pal and users of the livestock health analysis software provided by Poultry Pal as a software-as-a-service (SaaS) solution. This includes associated websites, platforms, services, applications, and functions. In these terms, ‘users’ refer to entrepreneurs as defined by the ICT Act of 2006 under Bangladesh civil law. These Terms of Use constitute the contract between the parties or, if additional contracts exist, become an integral part of each user agreement.",
@@ -58,8 +55,6 @@
   "infoPageSection1AL1": "(1) Any user agreement and any dispute or claim arising out of or in connection with the user agreement or the subject matter or formation thereof shall be governed by the laws of the People’s Republic of Bangladesh, excluding its conflict of law provisions and the United Nations convention on contracts for the international sale of goods of 11.4.1980 (UN Sales Convention).",
   "infoPageSection1AL2": "(2) For disputes in connection with the contract of use and the use of the service, Bangladesh is specified as the exclusive place of Jurisdiction between the user and Poultry Pal.",
   "infoPageSection2": "User Manual",
-
-
   "infoPageSection2heading1": "1. Home Screen Overview",
   "infoPageSection2heading2": "2. Diseases Menu",
   "infoPageSection2heading3": "3. Medicines Menu",
@@ -72,10 +67,8 @@
   "infoPageSection2content3": "The Medicines menu contains information about various medications used to treat chicken diseases. Each medication has its own submenu with detailed usage instructions.",
   "infoPageSection2content4": "The red circular button in the middle of the screen reveals two pop-up buttons. One allows you to browse your device’s gallery, and the other opens the camera to take pictures. This feature is useful for uploading images for diagnosis.",
   "infoPageSection2content5": "You can upload pictures of chicken faeces to the app’s neural network for disease diagnosis. Simply select a photo from your gallery or take a new one using the camera.",
-  "infoPageSection2content6": "Faeces Pictures can be uploaded to the app’s neural network to be diagnosed for diseases.",
+  "infoPageSection2content6": "Take a picture of the faeces from 6-7 inches away and in good focus, covering the frame at least 70% or higher with your phone camera. In addition, when selecting an image from the device's gallery, please make sure the image covers at least 70% of the frame. Blurry and small subject sizes will lead to wrong diagnoses.",
   "infoPageSection2content7": "The i button located in the bottom right corner stands for information. It provides access to the Privacy Policy and this User Manual.",
-
-
   "coccidiosis_name": "Coccidiosis",
   "coccidiosis_sections_overview_title": "Overview",
   "coccidiosis_sections_overview_definition_heading": "Definition",
@@ -118,9 +111,6 @@
   "coccidiosis_sections_prevention_housing_and_feeding_text": "Proper spacing, clean feeding areas, and quarantining new birds to prevent disease spread.",
   "coccidiosis_sections_prevention_environmental_management_heading": "Environmental Management",
   "coccidiosis_sections_prevention_environmental_management_text": "Using stone lime on wet litter, frequent litter changes, and disinfection with hydrogen peroxide.",
-
-
-
   "salmonellosis_name": "Salmonellosis",
   "salmonellosis_sections_overview_title": "Overview",
   "salmonellosis_sections_overview_definition_heading": "Definition",
@@ -141,9 +131,6 @@
   "salmonellosis_sections_diagnosis_content_1": "Requires clinical examination, laboratory testing, epidemiological investigation, and post-mortem examination.",
   "salmonellosis_sections_zoonotic_risk_title": "Zoonotic Risk",
   "salmonellosis_sections_zoonotic_risk_content_1": "Low risk for humans.",
-
-
-
   "newcastle_disease_name": "Newcastle Disease",
   "newcastle_disease_sections_overview_title": "Overview",
   "newcastle_disease_sections_overview_definition_heading": "Definition",
@@ -177,5 +164,35 @@
   "newcastle_disease_sections_prevention_title": "Prevention",
   "newcastle_disease_sections_prevention_content_1": "Quarantine, biosecurity, vaccination crucial.",
   "newcastle_disease_sections_prevention_content_2": "'All in-all out' farming, pest control, human traffic management, shed fumigation.",
-  "newcastle_disease_sections_prevention_content_3": "Disinfection with potassium permanganate, cresol, and formalin."
+  "newcastle_disease_sections_prevention_content_3": "Disinfection with potassium permanganate, cresol, and formalin.",
+  "time": "Time",
+  "accuracy": "Accuracy",
+  "invalidImage": "Please input a valid image of chicken faeces",
+  "diagnosisReportTitle": "Diagnosis Report",
+  "diagnosisReportTitle1": "Disease Detected",
+  "diagnosisReportTitle2": "Generic Medicine",
+  "diagnosisReportTitle3": "Severity Level",
+  "diagnosisReportTitle4": "Death Rate",
+  "diagnosisReportTitle5": "Prevention",
+  "prevention_cocci": "Avoid overcrowding and use coccidiostats in feed",
+  "prevention_healthy": "Clean water, balanced nutrition, and appropriate housing.",
+  "prevention_ncd": "Administer recommended vaccines",
+  "prevention_salmo": "Administer antibiotic treatment ",
+  "diseaseMap_cocci": "Coccidiosis",
+  "diseaseMap_healthy": "Healthy",
+  "diseaseMap_ncd": "Newcastle Disease",
+  "diseaseMap_salmo": "Salmonella infection",
+  "deathRate_cocci": "5% to 30%, in young or immunocompromised birds.",
+  "deathRate_healthy": "Not applicable",
+  "deathRate_ncd": "90% in unvaccinated flocks",
+  "deathRate_salmo": "5% to 30% in untreated cases",
+  "severity_cocci": "Decreased growth rates and egg production",
+  "severity_healthy": "Not Applicable",
+  "severity_ncd": "Highly contagious and can cause severe illness",
+  "severity_salmo": "Pose a risk of transmission to humans",
+  "medicine_cocci": "Sulfonamides or Ionophores like Amprolium.",
+  "medicine_healthy": "Not Applicable",
+  "medicine_ncd": "antiviral medications and antibiotics",
+  "medicine_salmo": "Antibiotic Treatment",
+  "slogan": "Snap a Shot to Secure the Flock"
 }
