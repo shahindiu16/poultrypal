@@ -5,6 +5,7 @@ import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/components/section.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
+import 'package:poultrypal/pages/info/about_us_page.dart';
 
 class SectionItem {
   const SectionItem({required this.title, required this.contents});
@@ -137,6 +138,15 @@ class InfoPage extends StatelessWidget {
               adsize: AdSize.largeBanner,
               adUnitId: AdMobAdIds.bannerAdUnitId,
             ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutUsPage()),
+                  );
+                },
+                child: Text("About Us"))
           ],
         ),
       ),
