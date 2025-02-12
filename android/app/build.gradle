@@ -9,6 +9,10 @@ plugins {
 }
 
 android {
+    aaptOptions {
+        noCompress "tflite"
+        // or noCompress "lite"
+    }
     namespace = "com.nevronus.poultrypal"
     // compileSdk = flutter.compileSdkVersion
     compileSdk = 34
