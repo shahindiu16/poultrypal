@@ -32,6 +32,7 @@ dependencies:
   google_mlkit_image_labeling: ^0.13.0
   path_provider: ^2.1.5
   path: ^1.9.0
+  url_launcher: ^6.3.1
   # google_mlkit_image_labeling: ^0.13.0
   # webview_flutter_wkwebview: ^3.17.0
 
