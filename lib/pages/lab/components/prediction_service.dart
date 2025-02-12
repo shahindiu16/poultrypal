@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 
-import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -17,6 +16,7 @@ class PredictionService {
       final modelPath = await getModelPath();
       final LocalLabelerOptions options = LocalLabelerOptions(
         modelPath: modelPath,
+        confidenceThreshold: 0.8,
       );
       _imageLabeler = ImageLabeler(options: options);
       _modelLoaded = true;
@@ -53,13 +53,7 @@ class PredictionService {
 
   Future<InputImage?> loadImageAndPrepare(File imageFile, int inputSize) async {
     try {
-      var image = img.decodeImage(await imageFile.readAsBytes());
-      if (image != null) {
-        return InputImage.fromFile(imageFile);
-      } else {
-        print('Unable to decode image');
-        return null;
-      }
+      return InputImage.fromFile(imageFile);
     } catch (e) {
       print('Error loading or preparing image: $e');
       return null;
