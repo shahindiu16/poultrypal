@@ -23,10 +23,81 @@ class ImagePreviewPage extends StatefulWidget {
   State<ImagePreviewPage> createState() => _ImagePreviewPageState();
 }
 
+enum ReportList {
+  diseaseDetected,
+  genericMedicine,
+  severityLevel,
+  deathRate,
+  prevension,
+}
+
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
   String _prediction = 'No prediction yet';
   String _accuracy = '';
   int? timeTook;
+
+  ReportList getReportListFromTitle(String title) {
+    if (title == "Disease Detected" || title == "শনাক্তকৃত রোগ") {
+      return ReportList.diseaseDetected;
+    } else if (title == "Generic Medicine" || title == "জেনেরিক ওষুধ") {
+      return ReportList.genericMedicine;
+    } else if (title == "Severity Level" || title == "তীব্রতার স্তর") {
+      return ReportList.severityLevel;
+    } else if (title == "Death Rate" || title == "মৃত্যুহার") {
+      return ReportList.deathRate;
+    } else if (title == "Prevention" || title == "প্রতিরোধ") {
+      return ReportList.prevension;
+    }
+    return ReportList.diseaseDetected;
+  }
+
+  String getContent(
+      AppLocalizations? i10, ImagePrediction imp, ReportList rst) {
+    switch (imp) {
+      case ImagePrediction.notAValidImage:
+      case ImagePrediction.healthy:
+        return "";
+      case ImagePrediction.salmo:
+        switch (rst) {
+          case ReportList.diseaseDetected:
+            return i10?.contentdiseaseDetectedSalmo ?? "";
+          case ReportList.genericMedicine:
+            return i10?.contentgenericMedicineSalmo ?? "";
+          case ReportList.severityLevel:
+            return i10?.contentseverityLevelSalmo ?? "";
+          case ReportList.deathRate:
+            return i10?.contentdeathRateSalmo ?? "";
+          case ReportList.prevension:
+            return i10?.contentprevensionSalmo ?? "";
+        }
+      case ImagePrediction.cocci:
+        switch (rst) {
+          case ReportList.diseaseDetected:
+            return i10?.contentdiseaseDetectedCocci ?? "";
+          case ReportList.genericMedicine:
+            return i10?.contentgenericMedicineCocci ?? "";
+          case ReportList.severityLevel:
+            return i10?.contentseverityLevelCocci ?? "";
+          case ReportList.deathRate:
+            return i10?.contentdeathRateCocci ?? "";
+          case ReportList.prevension:
+            return i10?.contentprevensionCocci ?? "";
+        }
+      case ImagePrediction.ncd:
+        switch (rst) {
+          case ReportList.diseaseDetected:
+            return i10?.contentdiseaseDetectedncd ?? "";
+          case ReportList.genericMedicine:
+            return i10?.contentgenericMedicinencd ?? "";
+          case ReportList.severityLevel:
+            return i10?.contentseverityLevelncd ?? "";
+          case ReportList.deathRate:
+            return i10?.contentdeathRatencd ?? "";
+          case ReportList.prevension:
+            return i10?.contentprevensionncd ?? "";
+        }
+    }
+  }
 
   final PredictionService _predictionService =
       PredictionService(); // Create instance
@@ -343,8 +414,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 image: Assets.img.chicken2713365.path,
                 title: i10?.diagnosisReportTitle1 ?? '',
                 subtitle: getSubtitle(i10, imgPrediction),
-                content:
-                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+                content: getContent(i10, imgPrediction,
+                    getReportListFromTitle(i10?.diagnosisReportTitle1 ?? '')),
               ),
               SizedBox(
                 height: 10,
@@ -354,8 +425,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 image: Assets.img.firstAidKit2713349.path,
                 title: i10?.diagnosisReportTitle2 ?? '',
                 subtitle: getSubtitleGeneric(i10, imgPrediction),
-                content:
-                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+                content: getContent(i10, imgPrediction,
+                    getReportListFromTitle(i10?.diagnosisReportTitle2 ?? '')),
               ),
               SizedBox(
                 height: 10,
@@ -364,8 +435,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 image: Assets.img.diagram2713368.path,
                 title: i10?.diagnosisReportTitle3 ?? '',
                 subtitle: getSubtitleSeverity(i10, imgPrediction),
-                content:
-                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+                content: getContent(i10, imgPrediction,
+                    getReportListFromTitle(i10?.diagnosisReportTitle3 ?? '')),
               ),
               SizedBox(
                 height: 10,
@@ -374,8 +445,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 image: Assets.img.death2713357Copy.path,
                 title: i10?.diagnosisReportTitle4 ?? '',
                 subtitle: getSubtitleDetahRate(i10, imgPrediction),
-                content:
-                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+                content: getContent(i10, imgPrediction,
+                    getReportListFromTitle(i10?.diagnosisReportTitle4 ?? '')),
               ),
               SizedBox(
                 height: 10,
@@ -384,8 +455,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 image: Assets.img.protection2713342.path,
                 title: i10?.diagnosisReportTitle5 ?? '',
                 subtitle: getSubtitlePrevention(i10, imgPrediction),
-                content:
-                    'Cared by eimeria parasites , is a common entrie diseas in poultry. impacting the gloval industry',
+                content: getContent(i10, imgPrediction,
+                    getReportListFromTitle(i10?.diagnosisReportTitle5 ?? '')),
               ),
               SizedBox(
                 height: 10,
@@ -424,19 +495,20 @@ class DiagnosisReportCard extends StatelessWidget {
       leading: ClipRRect(
           borderRadius: BorderRadius.circular(10), child: Image.asset(image)),
       children: [
-        Container(
-            padding: EdgeInsets.all(15),
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: Colors.grey,
+        if (content.isNotEmpty)
+          Container(
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            child: Text(
-              // "",
-              content,
-            )),
+              child: Text(
+                // "",
+                content,
+              )),
       ],
     );
   }
