@@ -88,9 +88,9 @@ class InfoPage extends StatelessWidget {
         SectionItem(
             title: i10.infoPageSection2heading2,
             contents: [i10.infoPageSection2content2]),
-        SectionItem(
-            title: i10.infoPageSection2heading2,
-            contents: [i10.infoPageSection2content2]),
+        // SectionItem(
+        //     title: i10.infoPageSection2heading2,
+        //     contents: [i10.infoPageSection2content2]),
         SectionItem(
             title: i10.infoPageSection2heading3,
             contents: [i10.infoPageSection2content3]),
