@@ -26,23 +26,23 @@ class AboutUsPage extends StatelessWidget {
                 title: 'Development Team',
                 children: [
                   _buildTeamMember(
-                    name: 'Razib Mustafiz',
-                    role: 'Project Owner & UI/UX',
+                    name: 'Project Owner & UI/UX',
+                    role: 'Razib Mustafiz',
                     link: 'https://www.linkedin.com/in/razibmustafiz',
                   ),
                   _buildTeamMember(
-                    name: 'Redwan Hossain',
-                    role: 'ML Engineer',
-                  ),
-                  _buildTeamMember(
-                    name: 'Chandan Kumar Roy',
-                    role: 'Technical Advisor',
-                    link: 'https://www.linkedin.com/in/royck',
-                  ),
-                  _buildTeamMember(
-                    name: 'Akram Hossain',
-                    role: 'Finance & Marketing',
+                    name: 'Finance & Marketing',
+                    role: 'Akram Hossain',
                     link: 'https://www.linkedin.com/in/akram-hossain-59925872',
+                  ),
+                  _buildTeamMember(
+                    name: 'ML Engineer',
+                    role: 'Redwan Hossain',
+                  ),
+                  _buildTeamMember(
+                    name: 'Technical Advisor',
+                    role: 'Chandan Kumar Roy',
+                    link: 'https://www.linkedin.com/in/royck',
                   ),
                 ],
               ),
@@ -71,11 +71,14 @@ class AboutUsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Poultry Pal',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: const Text(
+                'Poultry Pal',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 8.0),
