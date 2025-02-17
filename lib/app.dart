@@ -47,13 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
               onSelect: () => pickImage(context, ImageSource.camera),
               child: const Icon(Icons.camera), // Can be any widget
               buttonTheme: PieButtonTheme(
-                backgroundColor: Color(0xff373A36),
+                // backgroundColor: Color(0xff373A36),
+                backgroundColor: Colors.red,
                 iconColor: Colors.white,
               ),
             ),
             PieAction(
               buttonTheme: PieButtonTheme(
-                backgroundColor: Color(0xff373A36),
+                // backgroundColor: Color(0xff373A36),
+                backgroundColor: Colors.red,
                 iconColor: Colors.white,
               ),
               tooltip: const Text('file'),
@@ -62,7 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           child: FloatingActionButton(
-              backgroundColor: Color(0xff373A36),
+              // backgroundColor: Color(0xff373A36),
+              backgroundColor: Colors.red,
               onPressed: null,
               shape: CircleBorder(),
               child: Icon(
@@ -89,25 +92,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Welcome!'),
-            content: Text('This is a welcome message.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    });
+    // Timer(Duration(seconds: 3), () {
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: Text('Welcome!'),
+    //         content: Text('This is a welcome message.'),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             onPressed: () {
+    //               Navigator.of(context).pop();
+    //             },
+    //             child: Text('OK'),
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // });
   }
 
   Future<void> pickImage(BuildContext context, ImageSource source) async {
