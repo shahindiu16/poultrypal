@@ -38,8 +38,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: curr == 0 ? HomePage() : InfoPage(),
         floatingActionButton: PieMenu(
+          key: UniqueKey(),
           theme: PieTheme(
             delayDuration: Duration.zero,
+            pointerDecoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
           ),
           actions: [
             PieAction(
@@ -64,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
           child: FloatingActionButton(
+              key: UniqueKey(),
               // backgroundColor: Color(0xff373A36),
               backgroundColor: Colors.red,
               onPressed: null,

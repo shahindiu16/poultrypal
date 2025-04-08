@@ -5,6 +5,7 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 // prediction_service2.dart
 class PredictionService {
@@ -14,9 +15,10 @@ class PredictionService {
   Future<void> loadModel() async {
     try {
       final modelPath = await getModelPath();
+      if (modelPath == null) throw Exception('Model path not available.');
       final LocalLabelerOptions options = LocalLabelerOptions(
         modelPath: modelPath,
-        confidenceThreshold: 0.8,
+        // confidenceThreshold: 0.8,
       );
       _imageLabeler = ImageLabeler(options: options);
       _modelLoaded = true;
@@ -27,17 +29,26 @@ class PredictionService {
     }
   }
 
-  Future<String> getModelPath() async {
-    const asset = 'assets/models/model.tflite';
-    final path = '${(await getApplicationSupportDirectory()).path}/$asset';
-    await Directory(dirname(path)).create(recursive: true);
-    final file = File(path);
-    if (!await file.exists()) {
-      final byteData = await rootBundle.load(asset);
-      await file.writeAsBytes(byteData.buffer
-          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  Future<String?> getModelPath() async {
+    try {
+      final asset = 'assets/models/model.tflite';
+      final appDir = await getApplicationSupportDirectory();
+      final fullPath = join(appDir.path, asset);
+
+      await Directory(dirname(fullPath)).create(recursive: true);
+      final file = File(fullPath);
+      if (!await file.exists()) {
+        final byteData = await rootBundle.load(asset);
+        await file.writeAsBytes(
+          byteData.buffer
+              .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes),
+        );
+      }
+      return file.path;
+    } catch (e) {
+      print("Error in getModelPath -> $e");
+      return null;
     }
-    return file.path;
   }
 
   Future<List<ImageLabel>?> processImage(InputImage inputImage) async {
@@ -51,7 +62,7 @@ class PredictionService {
     }
   }
 
-  Future<InputImage?> loadImageAndPrepare(File imageFile, int inputSize) async {
+  Future<InputImage?> loadImageAndPrepare(File imageFile) async {
     try {
       return InputImage.fromFile(imageFile);
     } catch (e) {
@@ -62,10 +73,14 @@ class PredictionService {
 
   (String, String) getPrediction(List<ImageLabel> labels) {
     if (labels.isNotEmpty) {
-      // Get the label with the highest confidence
       ImageLabel bestLabel =
           labels.reduce((a, b) => a.confidence > b.confidence ? a : b);
-      return (bestLabel.label, (bestLabel.confidence * 100).toStringAsFixed(2));
+      //return (bestLabel.label, (bestLabel.confidence * 800).toStringAsFixed(2));
+
+      return (
+        bestLabel.label,
+        (bestLabel.confidence * 100).toStringAsFixed(2)
+      ); // 0.80 => 80.00%
     } else {
       return ("Not a valid image!!", "100");
     }

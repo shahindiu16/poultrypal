@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
+import 'package:poultrypal/pages/lab/components/using_tflite_f.dart';
+import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
+import 'package:image/image.dart' as img; // For image resizing
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -35,20 +38,22 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   String _prediction = 'No prediction yet';
   String _accuracy = '';
   int? timeTook;
+  tfl.Interpreter? _interpreter;
+  final Map<String, ReportList> _reportListMap = {
+    "Disease Detected": ReportList.diseaseDetected,
+    "শনাক্তকৃত রোগ": ReportList.diseaseDetected,
+    "Generic Medicine": ReportList.genericMedicine,
+    "জেনেরিক ওষুধ": ReportList.genericMedicine,
+    "Severity Level": ReportList.severityLevel,
+    "তীব্রতার স্তর": ReportList.severityLevel,
+    "Death Rate": ReportList.deathRate,
+    "মৃত্যুহার": ReportList.deathRate,
+    "Prevention": ReportList.prevension,
+    "প্রতিরোধ": ReportList.prevension,
+  };
 
   ReportList getReportListFromTitle(String title) {
-    if (title == "Disease Detected" || title == "শনাক্তকৃত রোগ") {
-      return ReportList.diseaseDetected;
-    } else if (title == "Generic Medicine" || title == "জেনেরিক ওষুধ") {
-      return ReportList.genericMedicine;
-    } else if (title == "Severity Level" || title == "তীব্রতার স্তর") {
-      return ReportList.severityLevel;
-    } else if (title == "Death Rate" || title == "মৃত্যুহার") {
-      return ReportList.deathRate;
-    } else if (title == "Prevention" || title == "প্রতিরোধ") {
-      return ReportList.prevension;
-    }
-    return ReportList.diseaseDetected;
+    return _reportListMap[title] ?? ReportList.diseaseDetected;
   }
 
   String getContent(
@@ -197,34 +202,27 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   ImagePrediction imgPrediction = ImagePrediction.notAValidImage;
   Future<void> _loadModel() async {
     await _predictionService.loadModel(); // Load using the service
-    // if (!_predictionService.isModelLoaded()) {
-    //   // Handle model loading failure, e.g., show an error message.
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('Failed to load model.')),
-    //   );
-    // }
-
     final File imageFile = File(widget.imagePath);
-    var inputImage = await _predictionService.loadImageAndPrepare(
-        imageFile, 224); // Example size
+    var inputImage =
+        await _predictionService.loadImageAndPrepare(imageFile); // Example size
     if (inputImage != null) {
       final stopwatch = Stopwatch();
       stopwatch.start();
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
-        late ImagePrediction imp;
-        if (prediction.$1 == 'cocci') {
-          imp = ImagePrediction.cocci;
-        } else if (prediction.$1 == 'healthy') {
-          imp = ImagePrediction.healthy;
-        } else if (prediction.$1 == 'ncd') {
-          imp = ImagePrediction.ncd;
-        } else if (prediction.$1 == 'salmo') {
-          imp = ImagePrediction.healthy;
-        } else {
-          imp = ImagePrediction.notAValidImage;
-        }
+        final imp = mapLabelToEnum(prediction.$1);
+        final predictionService = PredictionService2();
+        await predictionService.loadModel();
+
+        final (label, confidence) =
+            await predictionService.predict(imageFile) ?? ('Unknown', '0');
+
+        print('Inference took: ${stopwatch.elapsedMilliseconds} ms');
+        print(
+          'Prediction: ${prediction.$1}||$imp, Confidence: ${prediction.$2}',
+        );
+        print('Prediction: $label ($confidence%)');
         stopwatch.stop();
         setState(() {
           _prediction = prediction.$1;
@@ -242,7 +240,28 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     }
   }
 
+  /* 
+  0 cocci
+  1 healthy
+  2 ncd
+  3 salmo 
+  */
   bool isLoading = true;
+  // map label to enum
+  ImagePrediction mapLabelToEnum(String label) {
+    switch (label.toLowerCase()) {
+      case 'coccidiosis':
+        return ImagePrediction.cocci;
+      case 'healthy':
+        return ImagePrediction.healthy;
+      case 'salmonella': // Same label
+        return ImagePrediction.salmo;
+      case 'new castle disease':
+        return ImagePrediction.ncd;
+      default:
+        return ImagePrediction.notAValidImage;
+    }
+  }
 
   String getSubtitle(AppLocalizations? i10, ImagePrediction imp) {
     switch (imp) {
@@ -339,7 +358,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
 
             Text(i10?.slogan ?? '',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     )),
             const SizedBox(height: 16),
@@ -349,24 +368,25 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             BannerAds(
                 adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
             const SizedBox(height: 16),
+
+            // time & accuracy
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TimeAndAccuracyCard(
+                    value: "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
+                    isTime: true),
+                SizedBox(
+                  width: 30,
+                ),
+                TimeAndAccuracyCard(
+                  value: "$_accuracy%",
+                  isTime: false,
+                ),
+              ],
+            ),
             if (!isLoading &&
                 imgPrediction == ImagePrediction.notAValidImage) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TimeAndAccuracyCard(
-                      value:
-                          "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
-                      isTime: true),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  TimeAndAccuracyCard(
-                    value: "$_accuracy%",
-                    isTime: false,
-                  ),
-                ],
-              ),
               // Image Details Card
               SizedBox(
                 height: 15,
@@ -381,22 +401,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             // time & accuracy
             if (!isLoading &&
                 imgPrediction != ImagePrediction.notAValidImage) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TimeAndAccuracyCard(
-                      value:
-                          "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
-                      isTime: true),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  TimeAndAccuracyCard(
-                    value: "$_accuracy%",
-                    isTime: false,
-                  ),
-                ],
-              ),
               // Image Details Card
               SizedBox(
                 height: 15,
@@ -466,50 +470,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class DiagnosisReportCard extends StatelessWidget {
-  const DiagnosisReportCard({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.subtitle,
-    required this.content,
-  });
-  final String image, title, subtitle, content;
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Text(
-        // 'Generic Medicine',
-        title,
-      ),
-      subtitle: Text(
-        // "Sulfonamides or lonophores like Amprolium.",
-        subtitle,
-      ),
-      backgroundColor: Colors.white,
-      leading: ClipRRect(
-          borderRadius: BorderRadius.circular(10), child: Image.asset(image)),
-      children: [
-        if (content.isNotEmpty)
-          Container(
-              padding: EdgeInsets.all(15),
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: Colors.grey,
-                ),
-              ),
-              child: Text(
-                // "",
-                content,
-              )),
-      ],
     );
   }
 }
