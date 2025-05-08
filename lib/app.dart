@@ -80,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar(
-          backgroundColor: Color(0xff373A36),
+          key: UniqueKey(), backgroundColor: Color(0xff373A36),
           icons: [Icons.home, Icons.info],
           activeIndex: curr,
           activeColor: Colors.orangeAccent,

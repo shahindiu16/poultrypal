@@ -5,7 +5,7 @@ import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
+// import 'package:tflite_flutter/tflite_flutter.dart';
 
 // prediction_service2.dart
 class PredictionService {

@@ -17,8 +17,8 @@ class _LangChangeBtnState extends State<LangChangeBtn> {
 
   @override
   Widget build(BuildContext context) {
-    var t = AppLocalizations.of(context)!;
-    final Locale locale = Localizations.localeOf(context);
+    // var t = AppLocalizations.of(context)!;
+    // final Locale locale = Localizations.localeOf(context);
     return IconButton(
       onPressed: () {
         setState(() {

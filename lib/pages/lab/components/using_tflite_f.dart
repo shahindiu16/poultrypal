@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
@@ -65,20 +64,54 @@ class PredictionService2 {
     final img.Image? oriImage = img.decodeImage(await imageFile.readAsBytes());
     if (oriImage == null) return ('Invalid image', '0');
 
+    final int width = 224;
+    final int height = 224;
+
     final img.Image resized =
-        img.copyResize(oriImage, width: inputSize, height: inputSize);
-    final input = _imageToByteList(resized);
+        img.copyResize(oriImage, width: width, height: height);
 
+    // Input shape: [1, 224, 224, 3], type: uint8
+    final input = List.generate(
+      1,
+      (_) => List.generate(
+        height,
+        (y) => List.generate(
+          width,
+          (x) {
+            final pixel = resized.getPixel(x, y);
+            final r = (pixel.r);
+            final g = (pixel.g);
+            final b = (pixel.b);
+
+            return [r, g, b];
+          },
+        ),
+      ),
+    );
+
+    // Output shape: [1, numLabels]
+    final outputShape = _interpreter.getOutputTensor(0).shape;
     final output =
-        List.filled(_labels.length, 0.0).reshape([1, _labels.length]);
-
-    _interpreter.run(input, output);
-
-    final scores = output[0];
-    final maxIndex =
+        List<int>.filled(outputShape[1], 0).reshape([1, outputShape[1]]);
+    try {
+      // final isolateInterpreter =
+      //     await IsolateInterpreter.create(address: _interpreter.address);
+      // isolateInterpreter.run(input, output);
+      _interpreter.run(input, output);
+    } catch (e) {
+      print("❌ Interpreter error: $e");
+      return ('Interpreter error', '0');
+    }
+    print("🥡 $output");
+    final scores = output[0].map((e) => e.toDouble()).toList();
+    print("🥡 s: $scores");
+    final maxIdx =
         scores.indexWhere((e) => e == scores.reduce((a, b) => a > b ? a : b));
-    final label = _labels[maxIndex];
-    final confidence = (scores[maxIndex] * 100).toStringAsFixed(2);
+    print("🥡 maxIDX: $maxIdx || $_labels");
+
+    final label = _labels[maxIdx];
+    final confidence = (scores[maxIdx] * 100 / 255)
+        .toStringAsFixed(2); // since output is uint8 0–255
 
     return (label, confidence.toString());
   }

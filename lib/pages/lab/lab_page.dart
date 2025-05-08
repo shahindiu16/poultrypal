@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
 import 'package:poultrypal/pages/lab/components/using_tflite_f.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
-import 'package:image/image.dart' as img; // For image resizing
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
@@ -107,8 +106,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   final PredictionService _predictionService =
       PredictionService(); // Create instance
 
-  InterstitialAd? _interstitialAd;
-  final _consentManager = ConsentManager();
+  // InterstitialAd? _interstitialAd;
+  // final _consentManager = ConsentManager();
 
   var _isMobileAdsInitializeCalled = false;
   bool _adsAlreadyShowed = false;
@@ -120,82 +119,82 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   void initState() {
     super.initState();
     _loadModel();
-    _consentManager.gatherConsent((consentGatheringError) {
-      if (consentGatheringError != null) {
-        // Consent not obtained in current session.
-        debugPrint(
-            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
-      }
-    });
+    // _consentManager.gatherConsent((consentGatheringError) {
+    //   if (consentGatheringError != null) {
+    //     // Consent not obtained in current session.
+    //     debugPrint(
+    //         "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+    //   }
+    // });
 
     // Attempt to initialize the Mobile Ads SDK.
-    _initializeMobileAdsSDK();
+    // _initializeMobileAdsSDK();
   }
 
-  void _initializeMobileAdsSDK() async {
-    if (_isMobileAdsInitializeCalled) {
-      return;
-    }
+  // void _initializeMobileAdsSDK() async {
+  //   if (_isMobileAdsInitializeCalled) {
+  //     return;
+  //   }
 
-    if (await _consentManager.canRequestAds()) {
-      _isMobileAdsInitializeCalled = true;
+  //   if (await _consentManager.canRequestAds()) {
+  //     _isMobileAdsInitializeCalled = true;
 
-      // Initialize the Mobile Ads SDK.
-      MobileAds.instance.initialize();
+  //     // Initialize the Mobile Ads SDK.
+  //     MobileAds.instance.initialize();
 
-      // Load an ad.
-      _loadAd();
-    }
-  }
+  //     // Load an ad.
+  //     _loadAd();
+  //   }
+  // }
 
-  void _loadAd() async {
-    // Only load an ad if the Mobile Ads SDK has gathered consent aligned with
-    // the app's configured messages.
-    var canRequestAds = await _consentManager.canRequestAds();
-    if (!canRequestAds) {
-      return;
-    }
+  // void _loadAd() async {
+  //   // Only load an ad if the Mobile Ads SDK has gathered consent aligned with
+  //   // the app's configured messages.
+  //   var canRequestAds = await _consentManager.canRequestAds();
+  //   if (!canRequestAds) {
+  //     return;
+  //   }
 
-    InterstitialAd.load(
-        adUnitId: _adUnitId,
-        request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
-          onAdLoaded: (InterstitialAd ad) {
-            ad.fullScreenContentCallback = FullScreenContentCallback(
-                // Called when the ad showed the full screen content.
-                onAdShowedFullScreenContent: (ad) {},
-                // Called when an impression occurs on the ad.
-                onAdImpression: (ad) {},
-                // Called when the ad failed to show full screen content.
-                onAdFailedToShowFullScreenContent: (ad, err) {
-                  ad.dispose();
-                },
-                // Called when the ad dismissed full screen content.
-                onAdDismissedFullScreenContent: (ad) {
-                  setState(() {
-                    _adsAlreadyShowed = true;
-                  });
-                  ad.dispose();
-                },
-                // Called when a click is recorded for an ad.
-                onAdClicked: (ad) {});
+  //   InterstitialAd.load(
+  //       adUnitId: _adUnitId,
+  //       request: const AdRequest(),
+  //       adLoadCallback: InterstitialAdLoadCallback(
+  //         // Called when an ad is successfully received.
+  //         onAdLoaded: (InterstitialAd ad) {
+  //           ad.fullScreenContentCallback = FullScreenContentCallback(
+  //               // Called when the ad showed the full screen content.
+  //               onAdShowedFullScreenContent: (ad) {},
+  //               // Called when an impression occurs on the ad.
+  //               onAdImpression: (ad) {},
+  //               // Called when the ad failed to show full screen content.
+  //               onAdFailedToShowFullScreenContent: (ad, err) {
+  //                 ad.dispose();
+  //               },
+  //               // Called when the ad dismissed full screen content.
+  //               onAdDismissedFullScreenContent: (ad) {
+  //                 setState(() {
+  //                   _adsAlreadyShowed = true;
+  //                 });
+  //                 ad.dispose();
+  //               },
+  //               // Called when a click is recorded for an ad.
+  //               onAdClicked: (ad) {});
 
-            // Keep a reference to the ad so you can show it later.
-            _interstitialAd = ad;
-          },
-          // Called when an ad request failed.
-          onAdFailedToLoad: (LoadAdError error) {
-            // ignore: avoid_print
-            print('InterstitialAd failed to load: $error');
-          },
-        ));
-  }
+  //           // Keep a reference to the ad so you can show it later.
+  //           _interstitialAd = ad;
+  //         },
+  //         // Called when an ad request failed.
+  //         onAdFailedToLoad: (LoadAdError error) {
+  //           // ignore: avoid_print
+  //           print('InterstitialAd failed to load: $error');
+  //         },
+  //       ));
+  // }
 
   @override
   void dispose() {
-    _interstitialAd?.dispose();
-    _predictionService.dispose();
+    // _interstitialAd?.dispose();
+    // _predictionService.dispose();
     super.dispose();
   }
 
@@ -212,17 +211,18 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
         final imp = mapLabelToEnum(prediction.$1);
-        final predictionService = PredictionService2();
-        await predictionService.loadModel();
+        // await predictionService3(imageFile.path);
+        // final predictionService2 = PredictionService2();
+        // await predictionService2.loadModel();
 
-        final (label, confidence) =
-            await predictionService.predict(imageFile) ?? ('Unknown', '0');
-
-        print('Inference took: ${stopwatch.elapsedMilliseconds} ms');
-        print(
-          'Prediction: ${prediction.$1}||$imp, Confidence: ${prediction.$2}',
-        );
-        print('Prediction: $label ($confidence%)');
+        // print('Inference took: ${stopwatch.elapsedMilliseconds} ms');
+        // final (_label, _confidence) =
+        //     await predictionService2.predict(imageFile) ?? ('Unknown', '0');
+        // print(
+        //   'Prediction: ${prediction.$1}||$imp, Confidence: ${prediction.$2}',
+        // );
+        // print('Prediction2: $_label ($_confidence%)');
+        // predictionService2.dispose();
         stopwatch.stop();
         setState(() {
           _prediction = prediction.$1;
@@ -236,7 +236,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           isLoading = false;
         });
       }
-      if (!_adsAlreadyShowed) _interstitialAd?.show();
+      // if (!_adsAlreadyShowed) _interstitialAd?.show();
     }
   }
 
@@ -249,6 +249,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   bool isLoading = true;
   // map label to enum
   ImagePrediction mapLabelToEnum(String label) {
+    debugPrint("this is label: $label");
     switch (label.toLowerCase()) {
       case 'coccidiosis':
         return ImagePrediction.cocci;
@@ -338,6 +339,20 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     }
   }
 
+  // // PREDICTION SERVICE 3 [test]
+  // Future<void> predictionService3(String image) async {
+  //   var res = await Tflite.loadModel(
+  //     model: "assets/models/model.tflite",
+  //     labels: "assets/models/labels.txt",
+  //   );
+  //   print("😵 load model res: $res");
+  //   var recognitions = await Tflite.runModelOnImage(
+  //     path: image, // required
+  //   );
+  //   print("😛 recognitions : $recognitions");
+  //   await Tflite.close();
+  // }
+
   @override
   Widget build(BuildContext context) {
     final File imageFile = File(widget.imagePath);
@@ -365,8 +380,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             // Image Preview Card
             ImagePreviewCard(imageFile: imageFile),
             const SizedBox(height: 16),
-            BannerAds(
-                adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+            // BannerAds(
+            //     adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
             const SizedBox(height: 16),
 
             // time & accuracy

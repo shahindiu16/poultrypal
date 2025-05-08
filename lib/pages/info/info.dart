@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/components/section.dart';
@@ -125,19 +125,19 @@ class InfoPage extends StatelessWidget {
               title: i10?.infoPageSection1 ?? "",
               items: privacyPolicySection(i10!),
             ),
-            BannerAds(
-              adsize: AdSize.leaderboard,
-              adUnitId: AdMobAdIds.bannerAdUnitId,
-            ),
+            // BannerAds(
+            //   adsize: AdSize.leaderboard,
+            //   adUnitId: AdMobAdIds.bannerAdUnitId,
+            // ),
             const SizedBox(height: 20),
             Section(
               title: i10.infoPageSection2,
               items: userManualSection(i10),
             ),
-            BannerAds(
-              adsize: AdSize.largeBanner,
-              adUnitId: AdMobAdIds.bannerAdUnitId,
-            ),
+            // BannerAds(
+            //   adsize: AdSize.largeBanner,
+            //   adUnitId: AdMobAdIds.bannerAdUnitId,
+            // ),
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(

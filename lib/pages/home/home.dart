@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/components/home_card.dart';
@@ -41,10 +41,10 @@ class HomePage extends StatelessWidget {
             )
           ],
         ),
-        BannerAds(
-          adsize: AdSize.mediumRectangle,
-          adUnitId: AdMobAdIds.bannerAdUnitId,
-        ),
+        // BannerAds(
+        //   adsize: AdSize.mediumRectangle,
+        //   adUnitId: AdMobAdIds.bannerAdUnitId,
+        // ),
       ],
     );
   }
