@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 
@@ -22,9 +23,9 @@ class PredictionService {
       );
       _imageLabeler = ImageLabeler(options: options);
       _modelLoaded = true;
-      print('Model loaded successfully');
+      debugPrint('Model loaded successfully');
     } catch (e) {
-      print('Error loading model: $e');
+      debugPrint('Error loading model: $e');
       _modelLoaded = false;
     }
   }
@@ -46,7 +47,7 @@ class PredictionService {
       }
       return file.path;
     } catch (e) {
-      print("Error in getModelPath -> $e");
+      debugPrint("Error in getModelPath -> $e");
       return null;
     }
   }
@@ -57,7 +58,7 @@ class PredictionService {
           await _imageLabeler.processImage(inputImage);
       return labels;
     } catch (e) {
-      print('Error labeling image: $e');
+      debugPrint('Error labeling image: $e');
       return null;
     }
   }
@@ -66,7 +67,7 @@ class PredictionService {
     try {
       return InputImage.fromFile(imageFile);
     } catch (e) {
-      print('Error loading or preparing image: $e');
+      debugPrint('Error loading or preparing image: $e');
       return null;
     }
   }

@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
@@ -18,12 +19,12 @@ class PredictionService2 {
     try {
       final modelPath = await _getModelPath();
       if (modelPath == null) throw Exception('Model path not available');
-      _interpreter = await Interpreter.fromFile(File(modelPath));
+      _interpreter = Interpreter.fromFile(File(modelPath));
       _labels = await _loadLabels('assets/models/labels.txt');
       _modelLoaded = true;
-      print('Model loaded ✅');
+      debugPrint('Model loaded ✅');
     } catch (e) {
-      print('❌ Error loading model: $e');
+      debugPrint('❌ Error loading model: $e');
       _modelLoaded = false;
     }
   }
@@ -44,7 +45,7 @@ class PredictionService2 {
       }
       return file.path;
     } catch (e) {
-      print("Error in getModelPath -> $e");
+      debugPrint("Error in getModelPath -> $e");
       return null;
     }
   }
@@ -99,15 +100,15 @@ class PredictionService2 {
       // isolateInterpreter.run(input, output);
       _interpreter.run(input, output);
     } catch (e) {
-      print("❌ Interpreter error: $e");
+      debugPrint("❌ Interpreter error: $e");
       return ('Interpreter error', '0');
     }
-    print("🥡 $output");
+    debugPrint("🥡 $output");
     final scores = output[0].map((e) => e.toDouble()).toList();
-    print("🥡 s: $scores");
+    debugPrint("🥡 s: $scores");
     final maxIdx =
         scores.indexWhere((e) => e == scores.reduce((a, b) => a > b ? a : b));
-    print("🥡 maxIDX: $maxIdx || $_labels");
+    debugPrint("🥡 maxIDX: $maxIdx || $_labels");
 
     final label = _labels[maxIdx];
     final confidence = (scores[maxIdx] * 100 / 255)
@@ -117,34 +118,34 @@ class PredictionService2 {
   }
 
   /// Converts an image to a Float32 input buffer (for non-quantized models)
-  Uint8List _imageToByteList(img.Image image) {
-    // Shape: [1, 224, 224, 3]
-    final List<double> imageAsFloat32 = [];
+  // Uint8List _imageToByteList(img.Image image) {
+  //   // Shape: [1, 224, 224, 3]
+  //   final List<double> imageAsFloat32 = [];
 
-    for (int y = 0; y < inputSize; y++) {
-      for (int x = 0; x < inputSize; x++) {
-        final pixel = image.getPixel(x, y);
-        final r = pixel.r;
-        final g = pixel.g;
-        final b = pixel.b;
+  //   for (int y = 0; y < inputSize; y++) {
+  //     for (int x = 0; x < inputSize; x++) {
+  //       final pixel = image.getPixel(x, y);
+  //       final r = pixel.r;
+  //       final g = pixel.g;
+  //       final b = pixel.b;
 
-        if (isModelQuantized) {
-          // uint8 quantized model, use 0–255
-          imageAsFloat32.addAll([r.toDouble(), g.toDouble(), b.toDouble()]);
-        } else {
-          // float32 model, normalize to [-1, 1]
-          imageAsFloat32.addAll([
-            (r / 127.5) - 1.0,
-            (g / 127.5) - 1.0,
-            (b / 127.5) - 1.0,
-          ]);
-        }
-      }
-    }
+  //       if (isModelQuantized) {
+  //         // uint8 quantized model, use 0–255
+  //         imageAsFloat32.addAll([r.toDouble(), g.toDouble(), b.toDouble()]);
+  //       } else {
+  //         // float32 model, normalize to [-1, 1]
+  //         imageAsFloat32.addAll([
+  //           (r / 127.5) - 1.0,
+  //           (g / 127.5) - 1.0,
+  //           (b / 127.5) - 1.0,
+  //         ]);
+  //       }
+  //     }
+  //   }
 
-    final Float32List floatList = Float32List.fromList(imageAsFloat32);
-    return floatList.buffer.asUint8List();
-  }
+  //   final Float32List floatList = Float32List.fromList(imageAsFloat32);
+  //   return floatList.buffer.asUint8List();
+  // }
 
   void dispose() {
     _interpreter.close();

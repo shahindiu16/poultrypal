@@ -16,12 +16,12 @@
 //     var inputDetails = interpreter.getInputTensor(0);
 //     var outputDetails = interpreter.getOutputTensor(0);
 
-//     print('Input Type: ${inputDetails.type}');
-//     print('Output Type: ${outputDetails.type}');
-//     print('Input Shape: ${inputDetails.shape}');
-//     print('Output Shape: ${outputDetails.shape}');
+//     debugPrint('Input Type: ${inputDetails.type}');
+//     debugPrint('Output Type: ${outputDetails.type}');
+//     debugPrint('Input Shape: ${inputDetails.shape}');
+//     debugPrint('Output Shape: ${outputDetails.shape}');
 //   } catch (e) {
-//     print('Error loading model: $e');
+//     debugPrint('Error loading model: $e');
 //   }
 // }
 
@@ -41,11 +41,11 @@
 //     if (image != null) {
 //       return imageToUint8List(image, inputSize);
 //     } else {
-//       print('Unable to decode image');
+//       debugPrint('Unable to decode image');
 //       return null;
 //     }
 //   } catch (e) {
-//     print('Error loading or preparing image: $e');
+//     debugPrint('Error loading or preparing image: $e');
 //     return null;
 //   }
 // }
@@ -66,7 +66,7 @@
 //     } else if (outputType == TfLiteType.kTfLiteUInt8) {
 //       outputBuffer = Uint8List(outputShape.reduce((a, b) => a * b));
 //     } else {
-//       print("Output Type not supported");
+//       debugPrint("Output Type not supported");
 //       return null; // or handle other types as needed
 //     }
 
@@ -76,7 +76,7 @@
 //     return List<double>.from(
 //         outputBuffer); // Convert to a list of doubles. Adjust as needed.
 //   } catch (e) {
-//     print('Error running inference: $e');
+//     debugPrint('Error running inference: $e');
 //     return null;
 //   }
 // }

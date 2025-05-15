@@ -37,47 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(AppLocalizations.of(context)!.appTitle),
         ),
         body: curr == 0 ? HomePage() : InfoPage(),
-        floatingActionButton: PieMenu(
-          key: UniqueKey(),
-          theme: PieTheme(
-            delayDuration: Duration.zero,
-            pointerDecoration: BoxDecoration(
-              color: Colors.transparent,
-            ),
-          ),
-          actions: [
-            PieAction(
-              tooltip: const Text(''),
-              onSelect: () => pickImage(context, ImageSource.camera),
-              child: const Icon(Icons.camera), // Can be any widget
-              buttonTheme: PieButtonTheme(
-                // backgroundColor: Color(0xff373A36),
-                backgroundColor: Colors.red,
-                iconColor: Colors.white,
-              ),
-            ),
-            PieAction(
-              buttonTheme: PieButtonTheme(
-                // backgroundColor: Color(0xff373A36),
-                backgroundColor: Colors.red,
-                iconColor: Colors.white,
-              ),
-              tooltip: const Text('file'),
-              onSelect: () => pickImage(context, ImageSource.gallery),
-              child: const Icon(Icons.file_open), // Can be any widget
-            ),
-          ],
-          child: FloatingActionButton(
-              key: UniqueKey(),
-              // backgroundColor: Color(0xff373A36),
-              backgroundColor: Colors.red,
-              onPressed: null,
-              shape: CircleBorder(),
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-              )),
-        ),
+        floatingActionButton: FabPie(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar(
           key: UniqueKey(), backgroundColor: Color(0xff373A36),
@@ -97,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    // TODO(self): show popup after the openning 3 seconds
     // Timer(Duration(seconds: 3), () {
     //   showDialog(
     //     context: context,
@@ -117,14 +78,63 @@ class _MyHomePageState extends State<MyHomePage> {
     //   );
     // });
   }
+}
+
+class FabPie extends StatelessWidget {
+  const FabPie({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PieMenu(
+      key: UniqueKey(),
+      theme: PieTheme(
+        regularPressShowsMenu: true,
+        pointerDecoration: BoxDecoration(
+          color: Colors.transparent,
+        ),
+      ),
+      actions: [
+        PieAction(
+          tooltip: const Text(''),
+          onSelect: () => pickImage(context, ImageSource.camera),
+          child: const Icon(Icons.camera), // Can be any widget
+          buttonTheme: PieButtonTheme(
+            // backgroundColor: Color(0xff373A36),
+            backgroundColor: Colors.red,
+            iconColor: Colors.white,
+          ),
+        ),
+        PieAction(
+          buttonTheme: PieButtonTheme(
+            // backgroundColor: Color(0xff373A36),
+            backgroundColor: Colors.red,
+            iconColor: Colors.white,
+          ),
+          tooltip: const Text('file'),
+          onSelect: () => pickImage(context, ImageSource.gallery),
+          child: const Icon(Icons.file_open), // Can be any widget
+        ),
+      ],
+      child: FloatingActionButton(
+          key: UniqueKey(),
+          // backgroundColor: Color(0xff373A36),
+          backgroundColor: Colors.red,
+          onPressed: null,
+          shape: CircleBorder(),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          )),
+    );
+  }
 
   Future<void> pickImage(BuildContext context, ImageSource source) async {
+    final navigate = Navigator.of(context);
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: source);
 
     if (image != null) {
-      Navigator.push(
-        context,
+      navigate.push(
         MaterialPageRoute(
           builder: (context) => ImagePreviewPage(imagePath: image.path),
         ),
@@ -132,3 +142,4 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 }
+

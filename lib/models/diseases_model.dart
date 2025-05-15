@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiseaseModel {
@@ -7,7 +8,7 @@ class DiseaseModel {
   DiseaseModel({required this.name, required this.sections});
 
   factory DiseaseModel.fromJson(Map<String, dynamic> json) {
-    print("Nmae -> ${json['name']}");
+    debugPrint("Nmae -> ${json['name']}");
     return DiseaseModel(
       name: json['name'],
       sections: (json['sections'] as List)
@@ -24,7 +25,7 @@ class SectionModel {
   SectionModel({required this.title, required this.content});
 
   factory SectionModel.fromJson(Map<String, dynamic> json) {
-    print("title -> ${json['title']}");
+    debugPrint("title -> ${json['title']}");
     return SectionModel(
       title: json['title'],
       content: (json['content'] as List)

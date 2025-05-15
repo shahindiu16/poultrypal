@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void getToken() {
     FirebaseMessaging.instance.getToken().then((value) {
-      print("TOKEN IS :: :: $value");
+      debugPrint("TOKEN IS :: :: $value");
     });
   }
 
@@ -92,22 +92,23 @@ Future<void> setupFlutterNotifications() async {
 void showFlutterNotification(RemoteMessage message) async {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
-  print("Remote Notification : ${notification?.title}");
-  print("Android Notification : ${android?.count} || ${android?.imageUrl}");
+  debugPrint("Remote Notification : ${notification?.title}");
+  debugPrint(
+      "Android Notification : ${android?.count} || ${android?.imageUrl}");
 
   if (notification != null && android != null && !kIsWeb) {
     final isImg = android.imageUrl;
     if (isImg != null) {
-      print("Image is not null");
+      debugPrint("Image is not null");
       final ByteArrayAndroidBitmap bigPicture =
           ByteArrayAndroidBitmap(await _getByteArrayFromUrl(isImg));
-      print("bigPICTURE");
+      debugPrint("bigPICTURE");
 
       final BigPictureStyleInformation bigPictureStyleInformation =
           BigPictureStyleInformation(
         bigPicture,
       );
-      print("bigPICTURE style");
+      debugPrint("bigPICTURE style");
 
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -123,7 +124,7 @@ void showFlutterNotification(RemoteMessage message) async {
         ),
       );
     } else {
-      print("Image is null");
+      debugPrint("Image is null");
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,

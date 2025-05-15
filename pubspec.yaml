@@ -20,7 +20,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   google_mlkit_image_labeling: ^0.14.1
-  # google_mobile_ads: ^5.2.0
+  google_mobile_ads: ^6.0.0
   http: ^1.4.0
   image: ^4.5.4
   image_picker: ^1.1.2
