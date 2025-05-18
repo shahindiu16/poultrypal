@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pie_menu/pie_menu.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
@@ -10,6 +11,7 @@ import 'package:poultrypal/pages/components/lang_change.dart';
 import 'package:poultrypal/pages/home/home.dart';
 import 'package:poultrypal/pages/info/info.dart';
 import 'package:poultrypal/pages/lab/lab_page.dart';
+import 'package:poultrypal/utils/image_cropper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -132,13 +134,19 @@ class FabPie extends StatelessWidget {
     final navigate = Navigator.of(context);
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: source);
-
+    // TODO: add the corp image function here, then goto
+    // the image preview page
+    final cp = CropImage();
     if (image != null) {
-      navigate.push(
-        MaterialPageRoute(
-          builder: (context) => ImagePreviewPage(imagePath: image.path),
-        ),
-      );
+      final croppedImage = await cp.cropImage(image!.path, CropStyle.rectangle);
+
+      if (croppedImage != null) {
+        navigate.push(
+          MaterialPageRoute(
+            builder: (context) => ImagePreviewPage(imagePath: image.path),
+          ),
+        );
+      }
     }
   }
 }
