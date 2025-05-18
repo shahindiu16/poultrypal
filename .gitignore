@@ -49,3 +49,4 @@ web
 windows
 .metadata
 pubspec.lock
+android/app/.cxx

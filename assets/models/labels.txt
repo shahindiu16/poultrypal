@@ -1,4 +1,4 @@
-cocci
-healthy
-ncd
-salmo
+0 cocci
+1 healthy
+2 ncd
+3 salmo

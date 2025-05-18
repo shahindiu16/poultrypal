@@ -15,8 +15,8 @@ dependencies:
   firebase_messaging: ^15.2.5
   flutter:
     sdk: flutter
-  flutter_expandable_fab: ^2.5.0
-  flutter_local_notifications: ^19.1.0
+  flutter_expandable_fab: ^2.5.1
+  flutter_local_notifications: ^19.2.0
   flutter_localizations:
     sdk: flutter
   google_mlkit_image_labeling: ^0.14.1
@@ -29,6 +29,7 @@ dependencies:
   path_provider: ^2.1.5
   pie_menu: ^3.3.0
   tflite_flutter: ^0.11.0
+  upgrader: ^11.4.0
   url_launcher: ^6.3.1
 
 dev_dependencies:
@@ -39,6 +40,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
+  icons_launcher: ^3.0.1
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)

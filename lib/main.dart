@@ -6,6 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/firebase_options.dart';
 import 'package:poultrypal/splash.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
         expansionTileTheme: ExpansionTileThemeData(shape: Border()),
       ),
-      home: SplashScreen(),
+      home: UpgradeAlert(child: SplashScreen()),
     );
   }
 }
