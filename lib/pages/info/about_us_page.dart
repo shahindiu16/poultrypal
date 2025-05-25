@@ -26,7 +26,7 @@ class AboutUsPage extends StatelessWidget {
                 title: 'Development Team',
                 children: [
                   _buildTeamMember(
-                    name: 'Project Owner & UI/UX',
+                    name: 'Project Owner & Software Architect',
                     role: 'Razib Mustafiz',
                     link: 'https://www.linkedin.com/in/razibmustafiz',
                   ),
@@ -51,7 +51,7 @@ class AboutUsPage extends StatelessWidget {
               const SizedBox(height: 24.0),
               const Center(
                 child: Text(
-                  '©2023-2024 Nevronus Systems',
+                  '©2023-2025 Nevronus Systems',
                   style: TextStyle(fontSize: 12.0, color: Colors.grey),
                 ),
               ),

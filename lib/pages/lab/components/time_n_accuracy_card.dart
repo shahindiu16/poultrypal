@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
 
 class TimeAndAccuracyCard extends StatelessWidget {
   const TimeAndAccuracyCard({
@@ -45,7 +45,8 @@ class TimeAndAccuracyCard extends StatelessWidget {
           // Text("${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
           Text(value,
               style: TextStyle(
-                color: Colors.grey,
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.bold,
               )),
         ],
       ),

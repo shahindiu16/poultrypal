@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pie_menu/pie_menu.dart';
@@ -138,12 +138,13 @@ class FabPie extends StatelessWidget {
     // the image preview page
     final cp = CropImage();
     if (image != null) {
-      final croppedImage = await cp.cropImage(image!.path, CropStyle.rectangle);
+      final croppedImage = await cp.cropImage(image.path, CropStyle.rectangle);
 
       if (croppedImage != null) {
         navigate.push(
           MaterialPageRoute(
-            builder: (context) => ImagePreviewPage(imagePath: image.path),
+            builder: (context) =>
+                ImagePreviewPage(imagePath: croppedImage.path),
           ),
         );
       }

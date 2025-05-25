@@ -42,7 +42,11 @@ class HomeCard extends StatelessWidget {
                 img,
               ),
             ),
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(
+                  color: Colors.blueAccent, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

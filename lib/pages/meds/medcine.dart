@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:poultrypal/admob/admob_ids.dart';
+import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/components/med_info.dart';
 
 class MedicinesPage extends StatelessWidget {
@@ -23,7 +26,7 @@ class MedicinesPage extends StatelessWidget {
       body: ListView(
         children: [
           Text(
-            "(Brand-name drug are only applicable in Bangladesh)",
+            "(Brand-name drugs are only applicable in Bangladesh)",
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   fontStyle: FontStyle.italic,
                 ),
@@ -73,6 +76,10 @@ class MedicinesPage extends StatelessWidget {
               ],
             ),
           ),
+
+          // NOTE: ADMOB
+          BannerAds(
+              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
           Card(
             margin: EdgeInsets.all(10),
             child: ExpansionTile(
@@ -106,6 +113,10 @@ class MedicinesPage extends StatelessWidget {
               ],
             ),
           ),
+
+          // NOTE: ADMOB
+          BannerAds(
+              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
           Card(
             margin: EdgeInsets.all(10),
             child: ExpansionTile(
@@ -139,6 +150,10 @@ class MedicinesPage extends StatelessWidget {
               ],
             ),
           ),
+
+          // NOTE: ADMOB
+          BannerAds(
+              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
         ],
       ),
     );
