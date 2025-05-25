@@ -13,6 +13,8 @@ class CropImage {
   }
   // below all the function of the instance
 
+  final title =
+      'Please select desired area of the image that contains chicken faeces';
   //!WARNING: crop image
   Future<XFile?> cropImage(String imagePath, CropStyle? cropStyle) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
@@ -20,7 +22,7 @@ class CropImage {
       // aspectRatioPresets: [CropAspectRatioPreset.original],
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
+          toolbarTitle: title,
           toolbarColor: Colors.black,
           toolbarWidgetColor: Colors.white,
           lockAspectRatio: false,
@@ -28,7 +30,7 @@ class CropImage {
           cropStyle: cropStyle ?? CropStyle.rectangle,
         ),
         IOSUiSettings(
-          title: 'Crop Image',
+          title: title,
         ),
       ],
     );

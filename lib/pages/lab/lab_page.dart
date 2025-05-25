@@ -4,11 +4,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
 import 'package:poultrypal/pages/lab/components/image_preview_card.dart';
@@ -32,6 +31,8 @@ enum ReportList {
   deathRate,
   prevension,
 }
+
+const int maxFailedLoadAttempts = 3;
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
   String _prediction = 'No prediction yet';
@@ -107,6 +108,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       PredictionService(); // Create instance
 
   InterstitialAd? _interstitialAd;
+  int _numInterstitialLoadAttempts = 0;
   final _consentManager = ConsentManager();
 
   var _isMobileAdsInitializeCalled = false;
@@ -118,6 +120,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   @override
   void initState() {
     super.initState();
+    _createInterstitialAd();
+    // Attempt to initialize the Mobile Ads SDK.
     _loadModel();
     _consentManager.gatherConsent((consentGatheringError) {
       if (consentGatheringError != null) {
@@ -126,69 +130,60 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
       }
     });
-
-    // Attempt to initialize the Mobile Ads SDK.
-    _initializeMobileAdsSDK();
   }
 
-  void _initializeMobileAdsSDK() async {
-    if (_isMobileAdsInitializeCalled) {
-      return;
-    }
-
-    if (await _consentManager.canRequestAds()) {
-      _isMobileAdsInitializeCalled = true;
-
-      // Initialize the Mobile Ads SDK.
-      MobileAds.instance.initialize();
-
-      // Load an ad.
-      _loadAd();
-    }
-  }
-
-  void _loadAd() async {
-    // Only load an ad if the Mobile Ads SDK has gathered consent aligned with
-    // the app's configured messages.
-    var canRequestAds = await _consentManager.canRequestAds();
-    if (!canRequestAds) {
-      return;
-    }
-
+  void _createInterstitialAd() {
+    debugPrint('CREATING INTERSTITIALAD......');
     InterstitialAd.load(
-        adUnitId: _adUnitId,
-        request: const AdRequest(),
+        adUnitId: Platform.isAndroid
+            ? 'ca-app-pub-3940256099942544/1033173712'
+            : 'ca-app-pub-3940256099942544/4411468910',
+        request: AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
-          // Called when an ad is successfully received.
           onAdLoaded: (InterstitialAd ad) {
-            ad.fullScreenContentCallback = FullScreenContentCallback(
-                // Called when the ad showed the full screen content.
-                onAdShowedFullScreenContent: (ad) {},
-                // Called when an impression occurs on the ad.
-                onAdImpression: (ad) {},
-                // Called when the ad failed to show full screen content.
-                onAdFailedToShowFullScreenContent: (ad, err) {
-                  ad.dispose();
-                },
-                // Called when the ad dismissed full screen content.
-                onAdDismissedFullScreenContent: (ad) {
-                  setState(() {
-                    _adsAlreadyShowed = true;
-                  });
-                  ad.dispose();
-                },
-                // Called when a click is recorded for an ad.
-                onAdClicked: (ad) {});
-
-            // Keep a reference to the ad so you can show it later.
+            debugPrint('$ad loaded');
             _interstitialAd = ad;
+            _numInterstitialLoadAttempts = 0;
+            _interstitialAd!.setImmersiveMode(true);
+            _showInterstitialAd();
           },
-          // Called when an ad request failed.
           onAdFailedToLoad: (LoadAdError error) {
-            // ignore: avoid_print
-            debugPrint('InterstitialAd failed to load: $error');
+            debugPrint('InterstitialAd failed to load: $error.');
+
+            _numInterstitialLoadAttempts += 1;
+            _interstitialAd = null;
+            if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+              _createInterstitialAd();
+            }
           },
         ));
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      debugPrint('Warning: attempt to show interstitial before loaded.');
+      return;
+    }
+    if (_adsAlreadyShowed) {
+      return;
+    }
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          debugPrint('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        debugPrint('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createInterstitialAd();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+    _adsAlreadyShowed = true;
   }
 
   @override
@@ -236,7 +231,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           isLoading = false;
         });
       }
-      if (!_adsAlreadyShowed) _interstitialAd?.show();
+      // debugPrint('SHOWING ADS NOW......: $_adsAlreadyShowed');
+      // _showInterstitialAd();
     }
   }
 
@@ -380,6 +376,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             // Image Preview Card
             ImagePreviewCard(imageFile: imageFile),
             const SizedBox(height: 16),
+
+            // NOTE: ADMOB
             BannerAds(
                 adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
             const SizedBox(height: 16),
