@@ -19,7 +19,7 @@ class PredictionService {
       if (modelPath == null) throw Exception('Model path not available.');
       final LocalLabelerOptions options = LocalLabelerOptions(
         modelPath: modelPath,
-        // confidenceThreshold: 0.8,
+        confidenceThreshold: 0.8,
       );
       _imageLabeler = ImageLabeler(options: options);
       _modelLoaded = true;

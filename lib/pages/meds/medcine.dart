@@ -79,7 +79,10 @@ class MedicinesPage extends StatelessWidget {
 
           // NOTE: ADMOB
           BannerAds(
-              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+            adsize: AdSize.fullBanner,
+            // adUnitId: AdMobAdIds.testBannerAdUnitId,
+            adUnitId: AdMobAdIds.medicineBannerAdUnitId1,
+          ),
           Card(
             margin: EdgeInsets.all(10),
             child: ExpansionTile(
@@ -116,7 +119,10 @@ class MedicinesPage extends StatelessWidget {
 
           // NOTE: ADMOB
           BannerAds(
-              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+            adsize: AdSize.fullBanner,
+            // adUnitId: AdMobAdIds.testBannerAdUnitId,
+            adUnitId: AdMobAdIds.medicineBannerAdUnitId2,
+          ),
           Card(
             margin: EdgeInsets.all(10),
             child: ExpansionTile(
@@ -153,7 +159,10 @@ class MedicinesPage extends StatelessWidget {
 
           // NOTE: ADMOB
           BannerAds(
-              adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+            adsize: AdSize.fullBanner,
+            // adUnitId: AdMobAdIds.testBannerAdUnitId,
+            adUnitId: AdMobAdIds.medicineBannerAdUnitId3,
+          ),
         ],
       ),
     );

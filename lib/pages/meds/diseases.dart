@@ -26,6 +26,12 @@ class DiseasesPage extends StatelessWidget {
         itemCount: diseases.length,
         itemBuilder: (context, index) {
           final disease = diseases[index];
+          final adID = index == 0
+              ? AdMobAdIds.diseasesBannerAdUnitId1
+              : index == 1
+                  ? AdMobAdIds.diseasesBannerAdUnitId2
+                  : AdMobAdIds.diseasesBannerAdUnitId3;
+          // final adID = AdMobAdIds.testBannerAdUnitId;
           return Column(
             children: [
               Card(
@@ -69,8 +75,9 @@ class DiseasesPage extends StatelessWidget {
 
               // NOTE: ADMOB
               BannerAds(
-                  adsize: AdSize.fullBanner,
-                  adUnitId: AdMobAdIds.bannerAdUnitId),
+                adsize: AdSize.fullBanner,
+                adUnitId: adID,
+              ),
             ],
           );
         },

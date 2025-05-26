@@ -128,7 +128,8 @@ class InfoPage extends StatelessWidget {
             ),
             BannerAds(
               adsize: AdSize.leaderboard,
-              adUnitId: AdMobAdIds.bannerAdUnitId,
+              // adUnitId: AdMobAdIds.testBannerAdUnitId,
+              adUnitId: AdMobAdIds.infoBannerAdUnitId1,
             ),
             const SizedBox(height: 20),
             Section(
@@ -137,7 +138,8 @@ class InfoPage extends StatelessWidget {
             ),
             BannerAds(
               adsize: AdSize.largeBanner,
-              adUnitId: AdMobAdIds.bannerAdUnitId,
+              // adUnitId: AdMobAdIds.testBannerAdUnitId,
+              adUnitId: AdMobAdIds.infoBannerAdUnitId2,
             ),
             ElevatedButton(
                 onPressed: () {

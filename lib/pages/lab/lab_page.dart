@@ -135,9 +135,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   void _createInterstitialAd() {
     debugPrint('CREATING INTERSTITIALAD......');
     InterstitialAd.load(
-        adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-3940256099942544/1033173712'
-            : 'ca-app-pub-3940256099942544/4411468910',
+        // adUnitId: AdMobAdIds.testInterstitialAdUnitId,
+        adUnitId: AdMobAdIds.labInterstitialAdUnitId,
         request: AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
@@ -379,7 +378,10 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
 
             // NOTE: ADMOB
             BannerAds(
-                adsize: AdSize.fullBanner, adUnitId: AdMobAdIds.bannerAdUnitId),
+              adsize: AdSize.fullBanner,
+              // adUnitId: AdMobAdIds.testBannerAdUnitId,
+              adUnitId: AdMobAdIds.reportBannerAdUnitID,
+            ),
             const SizedBox(height: 16),
 
             // time & accuracy

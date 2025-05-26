@@ -36,9 +36,10 @@ class AboutUsPage extends StatelessWidget {
                     link: 'https://www.linkedin.com/in/akram-hossain-59925872',
                   ),
                   _buildTeamMember(
-                    name: 'ML Engineer',
-                    role: 'Redwan Hossain',
-                  ),
+                      name: 'ML Engineer',
+                      role: 'Redwan Hossain',
+                      link:
+                          'https://www.linkedin.com/in/redwan-hossain-1334aa17b/'),
                   _buildTeamMember(
                     name: 'Technical Advisor',
                     role: 'Chandan Kumar Roy',
