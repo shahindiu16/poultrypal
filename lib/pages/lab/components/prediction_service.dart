@@ -20,6 +20,7 @@ class PredictionService {
       final LocalLabelerOptions options = LocalLabelerOptions(
         modelPath: modelPath,
         confidenceThreshold: 0.8,
+        maxCount: 20,
       );
       _imageLabeler = ImageLabeler(options: options);
       _modelLoaded = true;
@@ -72,18 +73,37 @@ class PredictionService {
     }
   }
 
-  (String, String) getPrediction(List<ImageLabel> labels) {
-    if (labels.isNotEmpty) {
-      ImageLabel bestLabel =
-          labels.reduce((a, b) => a.confidence > b.confidence ? a : b);
-      //return (bestLabel.label, (bestLabel.confidence * 800).toStringAsFixed(2));
+  // (String, String) getPrediction(List<ImageLabel> labels) {
+  //   if (labels.isNotEmpty) {
+  //     ImageLabel bestLabel =
+  //         labels.reduce((a, b) => a.confidence > b.confidence ? a : b);
+  //
+  //     return (
+  //       bestLabel.label,
+  //       (bestLabel.confidence * 100).toStringAsFixed(2)
+  //     ); // 0.80 => 80.00%
+  //   } else {
+  //     return ("Not a valid image!!", "100");
+  //   }
+  // }
 
-      return (
-        bestLabel.label,
-        (bestLabel.confidence * 100).toStringAsFixed(2)
-      ); // 0.80 => 80.00%
+  (String, String) getPrediction(List<ImageLabel> labels) {
+    const double confidenceThreshold = 0.80;
+
+    // Filter out labels below the threshold
+    final highConfidenceLabels = labels
+        .where((label) => label.confidence >= confidenceThreshold)
+        .toList();
+
+    if (highConfidenceLabels.isNotEmpty) {
+      // Pick the most confident label
+      final bestLabel = highConfidenceLabels.reduce(
+        (a, b) => a.confidence > b.confidence ? a : b,
+      );
+
+      return (bestLabel.label, (bestLabel.confidence * 100).toStringAsFixed(2));
     } else {
-      return ("Not a valid image!!", "100");
+      return ("Prediction confidence too low", "N/A");
     }
   }
 

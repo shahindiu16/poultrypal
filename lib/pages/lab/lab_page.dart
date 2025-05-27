@@ -205,18 +205,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
         final imp = mapLabelToEnum(prediction.$1);
-        // await predictionService3(imageFile.path);
-        // final predictionService2 = PredictionService2();
-        // await predictionService2.loadModel();
-
-        // debugPrint('Inference took: ${stopwatch.elapsedMilliseconds} ms');
-        // final (_label, _confidence) =
-        //     await predictionService2.predict(imageFile) ?? ('Unknown', '0');
-        // debugPrint(
-        //   'Prediction: ${prediction.$1}||$imp, Confidence: ${prediction.$2}',
-        // );
-        // debugPrint('Prediction2: $_label ($_confidence%)');
-        // predictionService2.dispose();
         stopwatch.stop();
         setState(() {
           _prediction = prediction.$1;
@@ -230,8 +218,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           isLoading = false;
         });
       }
-      // debugPrint('SHOWING ADS NOW......: $_adsAlreadyShowed');
-      // _showInterstitialAd();
     }
   }
 

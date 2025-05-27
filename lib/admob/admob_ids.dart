@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 class AdMobAdIds {
   // static String? get testDeviceID {
@@ -19,17 +17,6 @@ class AdMobAdIds {
   // static String get testInterstitialAdUnitId {
   //   return 'ca-app-pub-3940256099942544/1033173712';
   // }
-
-  static String? get rewardedAdUnitId {
-    if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/5224354917"; // Test ID
-      // return "YOUR_ANDROID_REWARDED_AD_UNIT_ID";
-    } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/1712489072"; // Test ID
-      // return "YOUR_IOS_REWARDED_AD_UNIT_ID";
-    }
-    return null;
-  }
 
   // Add more ad unit types here if needed
   static String get homeScreenbannerAdUnitId {
