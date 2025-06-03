@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
 import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
+import 'package:poultrypal/utils/image_cropper.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:flutter/material.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
@@ -16,9 +19,9 @@ import 'package:poultrypal/pages/lab/components/time_n_accuracy_card.dart';
 import 'package:poultrypal/utils/utilts.dart';
 
 class ImagePreviewPage extends StatefulWidget {
-  final String imagePath;
+  String imagePath;
 
-  const ImagePreviewPage({super.key, required this.imagePath});
+  ImagePreviewPage({super.key, required this.imagePath});
 
   @override
   State<ImagePreviewPage> createState() => _ImagePreviewPageState();
@@ -221,12 +224,64 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     }
   }
 
+  Future<void> _doAnotherPrediction(String newFile) async {
+    await _predictionService.loadModel(); // Load using the service
+    final File imageFile = File(newFile);
+    var inputImage =
+        await _predictionService.loadImageAndPrepare(imageFile); // Example size
+    if (inputImage != null) {
+      final stopwatch = Stopwatch();
+      stopwatch.start();
+      final labels = await _predictionService.processImage(inputImage);
+      if (labels != null) {
+        final prediction = _predictionService.getPrediction(labels);
+        final imp = mapLabelToEnum(prediction.$1);
+        stopwatch.stop();
+        setState(() {
+          _prediction = prediction.$1;
+          _accuracy = prediction.$2;
+          timeTook = stopwatch.elapsedMilliseconds;
+          isLoading = false;
+          imgPrediction = imp;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  // pick another image
+  Future<void> _pickImage(BuildContext context, ImageSource source) async {
+    final smng = ScaffoldMessenger.of(context);
+    final loca = AppLocalizations.of(context);
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 85);
+
+    final cp = CropImage();
+    if (pickedFile != null) {
+      final croppedImage =
+          await cp.cropImage(pickedFile.path, CropStyle.rectangle);
+      // onImageSelected(pickedFile.path);
+      if (croppedImage != null) {
+        widget.imagePath = croppedImage.path;
+        _doAnotherPrediction(croppedImage.path);
+      }
+    } else {
+      smng.showSnackBar(
+        SnackBar(content: Text(loca?.noImageSelected ?? 'No image selected')),
+      );
+    }
+  }
+
   /* 
   0 cocci
   1 healthy
   2 ncd
   3 salmo 
   */
+
   bool isLoading = true;
   // map label to enum
   ImagePrediction mapLabelToEnum(String label) {
@@ -326,11 +381,11 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   //     model: "assets/models/model.tflite",
   //     labels: "assets/models/labels.txt",
   //   );
-  //   debugPrint("😵 load model res: $res");
+  //   debugPrint("load model res: $res");
   //   var recognitions = await Tflite.runModelOnImage(
   //     path: image, // required
   //   );
-  //   debugPrint("😛 recognitions : $recognitions");
+  //   debugPrint("recognitions : $recognitions");
   //   await Tflite.close();
   // }
 
@@ -359,7 +414,12 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                     )),
             const SizedBox(height: 16),
             // Image Preview Card
-            ImagePreviewCard(imageFile: imageFile),
+            ImagePreviewCard(
+              imageFile: imageFile,
+              // onImageSelected: (String imagePath) {
+              //   _doAnotherPrediction(imagePath);
+              // },
+            ),
             const SizedBox(height: 16),
 
             // NOTE: ADMOB
@@ -467,7 +527,46 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 height: 10,
               ),
             ],
-            if (isLoading) Center(child: CircularProgressIndicator.adaptive())
+            if (isLoading)
+              Center(
+                  child: CircularProgressIndicator
+                      .adaptive()), // show the two btns
+
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  spacing: 8,
+                  children: [
+                    Text("Choose Another image"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () =>
+                              _pickImage(context, ImageSource.camera),
+                          icon: const Icon(Icons.camera_alt),
+                          label: Text(
+                            i10?.takePicture ?? "Take Picture",
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ),
+                        ElevatedButton.icon(
+                          onPressed: () =>
+                              _pickImage(context, ImageSource.gallery),
+                          icon: const Icon(Icons.photo_library),
+                          label: Text(
+                            i10?.selectFromGallery ?? "Select from Gallery",
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
