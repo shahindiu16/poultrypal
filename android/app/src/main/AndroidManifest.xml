@@ -2,7 +2,6 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.VIBRATE" />
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -51,6 +50,7 @@
     <meta-data
       android:name="com.google.android.gms.ads.APPLICATION_ID"
       android:value="ca-app-pub-8049150915836149~7209577381" />
+      <!-- "ca-app-pub-8049150915836149~7209577381" /> -->
       <!-- real id="ca-app-pub-8049150915836149~7209577381" -->
       <!-- test id="ca-app-pub-3940256099942544~3347511713" -->
     <!-- Don't delete the meta-data below.

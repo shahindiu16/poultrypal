@@ -104,6 +104,24 @@ abstract class AppLocalizations {
   /// **'Poultry Pal'**
   String get appTitle;
 
+  /// No description provided for @noImageSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No image selected'**
+  String get noImageSelected;
+
+  /// No description provided for @takePicture.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Picture'**
+  String get takePicture;
+
+  /// No description provided for @selectFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Select from Gallery'**
+  String get selectFromGallery;
+
   /// No description provided for @homeCardDiseases.
   ///
   /// In en, this message translates to:

@@ -2,7 +2,7 @@ name: poultrypal
 description: "A new Flutter project."
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.6.0
@@ -20,8 +20,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   google_mlkit_image_labeling: ^0.14.1
-  # google_mobile_ads: ^6.0.0 # this version has major problem
-  google_mobile_ads: ^5.3.1
+  google_mobile_ads: ^6.0.0 # this version has major problem
+  # google_mobile_ads: ^5.3.1
   http: ^1.4.0
   image: ^4.5.4
   image_cropper: ^9.1.0

@@ -1,6 +1,9 @@
 {
   "appTitle": "পোল্ট্রি পাল",
   "homeCardDiseases": "রোগসমূহ",
+  "noImageSelected": "কোন ছবি নির্বাচিত করা হয়নি",
+  "takePicture": "ছবি তুলুন",
+  "selectFromGallery": "গ্যালারী থেকে নির্বাচন করুন",
   "homeCardDiseasesTitle": "রোগসমূহ এবং চিকিৎসা",
   "homeCardMedicines": "ওষুধ",
   "imagePreview": "ছবির পূর্বরূপ",

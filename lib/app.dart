@@ -117,16 +117,25 @@ class FabPie extends StatelessWidget {
           child: const Icon(Icons.file_open), // Can be any widget
         ),
       ],
-      child: FloatingActionButton(
-          key: UniqueKey(),
-          // backgroundColor: Color(0xff373A36),
-          backgroundColor: Colors.red,
-          onPressed: null,
-          shape: CircleBorder(),
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          )),
+      child: CircleAvatar(
+        backgroundColor: Colors.red,
+        radius: 30,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      // child: FloatingActionButton(
+      //   key: UniqueKey(),
+      //   // backgroundColor: Color(0xff373A36),
+      //   backgroundColor: Colors.red,
+      //   onPressed: null,
+      //   shape: CircleBorder(),
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 

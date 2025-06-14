@@ -12,6 +12,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Poultry Pal';
 
   @override
+  String get noImageSelected => 'No image selected';
+
+  @override
+  String get takePicture => 'Take Picture';
+
+  @override
+  String get selectFromGallery => 'Select from Gallery';
+
+  @override
   String get homeCardDiseases => 'Diseases';
 
   @override

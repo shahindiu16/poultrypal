@@ -12,6 +12,15 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appTitle => 'পোল্ট্রি পাল';
 
   @override
+  String get noImageSelected => 'কোন ছবি নির্বাচিত করা হয়নি';
+
+  @override
+  String get takePicture => 'ছবি তুলুন';
+
+  @override
+  String get selectFromGallery => 'গ্যালারী থেকে নির্বাচন করুন';
+
+  @override
   String get homeCardDiseases => 'রোগসমূহ';
 
   @override

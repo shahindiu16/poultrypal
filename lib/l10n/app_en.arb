@@ -1,5 +1,8 @@
 {
   "appTitle": "Poultry Pal",
+  "noImageSelected": "No image selected",
+  "takePicture": "Take Picture",
+  "selectFromGallery": "Select from Gallery",
   "homeCardDiseases": "Diseases",
   "homeCardDiseasesTitle": "Diseases & Treatments",
   "homeCardMedicines": "Medicines",
