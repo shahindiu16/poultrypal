@@ -116,6 +116,12 @@ abstract class AppLocalizations {
   /// **'Take Picture'**
   String get takePicture;
 
+  /// No description provided for @chooseImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another image'**
+  String get chooseImage;
+
   /// No description provided for @selectFromGallery.
   ///
   /// In en, this message translates to:

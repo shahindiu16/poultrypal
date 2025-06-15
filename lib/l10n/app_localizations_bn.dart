@@ -18,6 +18,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get takePicture => 'ছবি তুলুন';
 
   @override
+  String get chooseImage => 'অন্য চিত্র নির্বাচন করুন';
+
+  @override
   String get selectFromGallery => 'গ্যালারী থেকে নির্বাচন করুন';
 
   @override

@@ -147,7 +147,10 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             _interstitialAd = ad;
             _numInterstitialLoadAttempts = 0;
             _interstitialAd!.setImmersiveMode(true);
-            _showInterstitialAd();
+            // _showInterstitialAd();
+            if (!_adsAlreadyShowed) {
+              _showInterstitialAd();
+            }
           },
           onAdFailedToLoad: (LoadAdError error) {
             debugPrint('InterstitialAd failed to load: $error.');
@@ -166,9 +169,9 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       debugPrint('Warning: attempt to show interstitial before loaded.');
       return;
     }
-    if (_adsAlreadyShowed) {
-      return;
-    }
+    // if (_adsAlreadyShowed) {
+    //   return;
+    // }
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
           debugPrint('ad onAdShowedFullScreenContent.'),
@@ -244,12 +247,14 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           isLoading = false;
           imgPrediction = imp;
         });
+        _showInterstitialAd();
       } else {
         setState(() {
           isLoading = false;
         });
       }
     }
+    // _showInterstitialAd();
   }
 
   // pick another image
@@ -539,7 +544,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 child: Column(
                   spacing: 8,
                   children: [
-                    Text("Choose Another image"),
+                    Text(i10?.chooseImage ?? "Choose Another image"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
