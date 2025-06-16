@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:poultrypal/pages/info/info.dart';
 
 class Section extends StatelessWidget {
-  final String title;
-  final List<SectionItem> items;
 
   const Section({
-    super.key,
-    required this.title,
-    required this.items,
+    required this.title, required this.items, super.key,
   });
+  final String title;
+  final List<SectionItem> items;
 
   @override
   Widget build(BuildContext context) {
@@ -33,27 +31,25 @@ class Section extends StatelessWidget {
 }
 
 class ExpandableItem extends StatelessWidget {
-  final String title;
-  final List<String> content;
 
   const ExpandableItem({
-    super.key,
-    required this.title,
-    required this.content,
+    required this.title, required this.content, super.key,
   });
+  final String title;
+  final List<String> content;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: ExpansionTile(
-        childrenPadding: EdgeInsets.all(10),
+        childrenPadding: const EdgeInsets.all(10),
         title: Text(title),
         children: [
           for (var text in content)
             text.endsWith('.jpg')
                 ? ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: Image.asset(text),
                   )
                 : Padding(

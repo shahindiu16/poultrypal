@@ -12,7 +12,7 @@ class LangChangeBtn extends StatefulWidget {
 class _LangChangeBtnState extends State<LangChangeBtn> {
   bool isUsa = true;
 
-  String getLocalString() => isUsa ? "en" : "bn";
+  String getLocalString() => isUsa ? 'en' : 'bn';
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _LangChangeBtnState extends State<LangChangeBtn> {
       icon: AnimatedContainer(
         duration: Durations.medium2,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           child: isUsa
               ? Assets.img.banglaFlag.image()
               : Assets.img.usaFlag.image(),

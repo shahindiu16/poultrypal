@@ -28,7 +28,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
   static void setLocale(BuildContext context, Locale newLocale) {
-    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    final state = context.findAncestorStateOfType<_MyAppState>();
     state?.setLocale(newLocale);
   }
 }
@@ -36,7 +36,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
-  setLocale(Locale locale) {
+  void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
@@ -57,9 +57,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        expansionTileTheme: ExpansionTileThemeData(shape: Border()),
+        expansionTileTheme: const ExpansionTileThemeData(shape: Border()),
       ),
-      home: UpgradeAlert(child: SplashScreen()),
+      home: UpgradeAlert(child: const SplashScreen()),
     );
   }
 }

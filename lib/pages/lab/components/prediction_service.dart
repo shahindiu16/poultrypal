@@ -17,7 +17,7 @@ class PredictionService {
     try {
       final modelPath = await getModelPath();
       if (modelPath == null) throw Exception('Model path not available.');
-      final LocalLabelerOptions options = LocalLabelerOptions(
+      final options = LocalLabelerOptions(
         modelPath: modelPath,
         confidenceThreshold: 0.8,
         maxCount: 20,
@@ -39,7 +39,7 @@ class PredictionService {
 
       await Directory(dirname(fullPath)).create(recursive: true);
       final file = File(fullPath);
-      if (!await file.exists()) {
+      if (!file.existsSync()) {
         final byteData = await rootBundle.load(asset);
         await file.writeAsBytes(
           byteData.buffer
@@ -48,14 +48,14 @@ class PredictionService {
       }
       return file.path;
     } catch (e) {
-      debugPrint("Error in getModelPath -> $e");
+      debugPrint('Error in getModelPath -> $e');
       return null;
     }
   }
 
   Future<List<ImageLabel>?> processImage(InputImage inputImage) async {
     try {
-      final List<ImageLabel> labels =
+      final labels =
           await _imageLabeler.processImage(inputImage);
       return labels;
     } catch (e) {
@@ -88,7 +88,7 @@ class PredictionService {
   // }
 
   (String, String) getPrediction(List<ImageLabel> labels) {
-    const double confidenceThreshold = 0.80;
+    const confidenceThreshold = 0.80;
 
     // Filter out labels below the threshold
     final highConfidenceLabels = labels
@@ -103,7 +103,7 @@ class PredictionService {
 
       return (bestLabel.label, (bestLabel.confidence * 100).toStringAsFixed(2));
     } else {
-      return ("Prediction confidence too low", "N/A");
+      return ('Prediction confidence too low', 'N/A');
     }
   }
 

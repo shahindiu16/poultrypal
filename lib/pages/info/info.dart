@@ -123,7 +123,7 @@ class InfoPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Section(
-              title: i10?.infoPageSection1 ?? "",
+              title: i10?.infoPageSection1 ?? '',
               items: privacyPolicySection(i10!),
             ),
             BannerAds(
@@ -149,7 +149,7 @@ class InfoPage extends StatelessWidget {
                         builder: (context) => const AboutUsPage()),
                   );
                 },
-                child: Text("About Us"))
+                child: const Text('About Us'))
           ],
         ),
       ),

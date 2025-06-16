@@ -26,10 +26,10 @@ class ConsentManager {
   void gatherConsent(
       OnConsentGatheringCompleteListener onConsentGatheringCompleteListener) {
     // For testing purposes, you can force a DebugGeography of Eea or NotEea.
-    ConsentDebugSettings debugSettings = ConsentDebugSettings(
+    final debugSettings = ConsentDebugSettings(
         // debugGeography: DebugGeography.debugGeographyEea,
         );
-    ConsentRequestParameters params =
+    final params =
         ConsentRequestParameters(consentDebugSettings: debugSettings);
 
     // Requesting an update to consent information should be called on every app launch.

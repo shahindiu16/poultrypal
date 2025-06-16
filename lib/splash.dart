@@ -20,12 +20,12 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     getToken();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(Duration(seconds: 6), () {
+      Timer(const Duration(seconds: 6), () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) =>
-                MyHomePage(), // Replace with your actual next screen
+                const MyHomePage(), // Replace with your actual next screen
           ),
         );
       });
@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void getToken() {
     FirebaseMessaging.instance.getToken().then((value) {
-      debugPrint("TOKEN IS :: :: $value");
+      debugPrint('TOKEN IS :: :: $value');
     });
   }
 
@@ -90,25 +90,25 @@ Future<void> setupFlutterNotifications() async {
 }
 
 void showFlutterNotification(RemoteMessage message) async {
-  RemoteNotification? notification = message.notification;
-  AndroidNotification? android = message.notification?.android;
-  debugPrint("Remote Notification : ${notification?.title}");
+  final notification = message.notification;
+  final android = message.notification?.android;
+  debugPrint('Remote Notification : ${notification?.title}');
   debugPrint(
-      "Android Notification : ${android?.count} || ${android?.imageUrl}");
+      'Android Notification : ${android?.count} || ${android?.imageUrl}');
 
   if (notification != null && android != null && !kIsWeb) {
     final isImg = android.imageUrl;
     if (isImg != null) {
-      debugPrint("Image is not null");
-      final ByteArrayAndroidBitmap bigPicture =
+      debugPrint('Image is not null');
+      final bigPicture =
           ByteArrayAndroidBitmap(await _getByteArrayFromUrl(isImg));
-      debugPrint("bigPICTURE");
+      debugPrint('bigPICTURE');
 
-      final BigPictureStyleInformation bigPictureStyleInformation =
+      final bigPictureStyleInformation =
           BigPictureStyleInformation(
         bigPicture,
       );
-      debugPrint("bigPICTURE style");
+      debugPrint('bigPICTURE style');
 
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
@@ -118,20 +118,20 @@ void showFlutterNotification(RemoteMessage message) async {
           android: AndroidNotificationDetails(channel.id, channel.name,
               channelDescription: channel.description,
               styleInformation: bigPictureStyleInformation,
-              icon: "app_icon"
+              icon: 'app_icon'
               // ... other notification details
               ),
         ),
       );
     } else {
-      debugPrint("Image is null");
+      debugPrint('Image is null');
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
         notification.body,
         NotificationDetails(
           android: AndroidNotificationDetails(channel.id, channel.name,
-              channelDescription: channel.description, icon: "app_icon"
+              channelDescription: channel.description, icon: 'app_icon'
               // ... other notification details
               ),
         ),
@@ -148,7 +148,7 @@ void showFlutterNotification(RemoteMessage message) async {
 }
 
 Future<Uint8List> _getByteArrayFromUrl(String url) async {
-  final http.Response response = await http.get(Uri.parse(url));
+  final response = await http.get(Uri.parse(url));
   return response.bodyBytes;
 }
 

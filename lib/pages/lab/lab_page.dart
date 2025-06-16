@@ -9,7 +9,6 @@ import 'package:poultrypal/admob/widgest/consent_manager.dart';
 import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
 import 'package:poultrypal/utils/image_cropper.dart';
-import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:flutter/material.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
@@ -19,9 +18,9 @@ import 'package:poultrypal/pages/lab/components/time_n_accuracy_card.dart';
 import 'package:poultrypal/utils/utilts.dart';
 
 class ImagePreviewPage extends StatefulWidget {
-  String imagePath;
 
-  ImagePreviewPage({super.key, required this.imagePath});
+  ImagePreviewPage({required this.imagePath, super.key});
+  String imagePath;
 
   @override
   State<ImagePreviewPage> createState() => _ImagePreviewPageState();
@@ -38,21 +37,21 @@ enum ReportList {
 const int maxFailedLoadAttempts = 3;
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
-  String _prediction = 'No prediction yet';
+  var _prediction = 'No prediction yet';
   String _accuracy = '';
   int? timeTook;
-  tfl.Interpreter? _interpreter;
+  // tfl.Interpreter? _interpreter;
   final Map<String, ReportList> _reportListMap = {
-    "Disease Detected": ReportList.diseaseDetected,
-    "শনাক্তকৃত রোগ": ReportList.diseaseDetected,
-    "Generic Medicine": ReportList.genericMedicine,
-    "জেনেরিক ওষুধ": ReportList.genericMedicine,
-    "Severity Level": ReportList.severityLevel,
-    "তীব্রতার স্তর": ReportList.severityLevel,
-    "Death Rate": ReportList.deathRate,
-    "মৃত্যুহার": ReportList.deathRate,
-    "Prevention": ReportList.prevension,
-    "প্রতিরোধ": ReportList.prevension,
+    'Disease Detected': ReportList.diseaseDetected,
+    'শনাক্তকৃত রোগ': ReportList.diseaseDetected,
+    'Generic Medicine': ReportList.genericMedicine,
+    'জেনেরিক ওষুধ': ReportList.genericMedicine,
+    'Severity Level': ReportList.severityLevel,
+    'তীব্রতার স্তর': ReportList.severityLevel,
+    'Death Rate': ReportList.deathRate,
+    'মৃত্যুহার': ReportList.deathRate,
+    'Prevention': ReportList.prevension,
+    'প্রতিরোধ': ReportList.prevension,
   };
 
   ReportList getReportListFromTitle(String title) {
@@ -64,45 +63,45 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     switch (imp) {
       case ImagePrediction.notAValidImage:
       case ImagePrediction.healthy:
-        return "";
+        return '';
       case ImagePrediction.salmo:
         switch (rst) {
           case ReportList.diseaseDetected:
-            return i10?.contentdiseaseDetectedSalmo ?? "";
+            return i10?.contentdiseaseDetectedSalmo ?? '';
           case ReportList.genericMedicine:
-            return i10?.contentgenericMedicineSalmo ?? "";
+            return i10?.contentgenericMedicineSalmo ?? '';
           case ReportList.severityLevel:
-            return i10?.contentseverityLevelSalmo ?? "";
+            return i10?.contentseverityLevelSalmo ?? '';
           case ReportList.deathRate:
-            return i10?.contentdeathRateSalmo ?? "";
+            return i10?.contentdeathRateSalmo ?? '';
           case ReportList.prevension:
-            return i10?.contentprevensionSalmo ?? "";
+            return i10?.contentprevensionSalmo ?? '';
         }
       case ImagePrediction.cocci:
         switch (rst) {
           case ReportList.diseaseDetected:
-            return i10?.contentdiseaseDetectedCocci ?? "";
+            return i10?.contentdiseaseDetectedCocci ?? '';
           case ReportList.genericMedicine:
-            return i10?.contentgenericMedicineCocci ?? "";
+            return i10?.contentgenericMedicineCocci ?? '';
           case ReportList.severityLevel:
-            return i10?.contentseverityLevelCocci ?? "";
+            return i10?.contentseverityLevelCocci ?? '';
           case ReportList.deathRate:
-            return i10?.contentdeathRateCocci ?? "";
+            return i10?.contentdeathRateCocci ?? '';
           case ReportList.prevension:
-            return i10?.contentprevensionCocci ?? "";
+            return i10?.contentprevensionCocci ?? '';
         }
       case ImagePrediction.ncd:
         switch (rst) {
           case ReportList.diseaseDetected:
-            return i10?.contentdiseaseDetectedncd ?? "";
+            return i10?.contentdiseaseDetectedncd ?? '';
           case ReportList.genericMedicine:
-            return i10?.contentgenericMedicinencd ?? "";
+            return i10?.contentgenericMedicinencd ?? '';
           case ReportList.severityLevel:
-            return i10?.contentseverityLevelncd ?? "";
+            return i10?.contentseverityLevelncd ?? '';
           case ReportList.deathRate:
-            return i10?.contentdeathRatencd ?? "";
+            return i10?.contentdeathRatencd ?? '';
           case ReportList.prevension:
-            return i10?.contentprevensionncd ?? "";
+            return i10?.contentprevensionncd ?? '';
         }
     }
   }
@@ -114,7 +113,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   int _numInterstitialLoadAttempts = 0;
   final _consentManager = ConsentManager();
 
-  var _isMobileAdsInitializeCalled = false;
+  final _isMobileAdsInitializeCalled = false;
   bool _adsAlreadyShowed = false;
 
   final String _adUnitId = Platform.isAndroid
@@ -130,7 +129,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       if (consentGatheringError != null) {
         // Consent not obtained in current session.
         debugPrint(
-            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+            '${consentGatheringError.errorCode}: ${consentGatheringError.message}');
       }
     });
   }
@@ -140,7 +139,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     InterstitialAd.load(
         // adUnitId: AdMobAdIds.testInterstitialAdUnitId,
         adUnitId: AdMobAdIds.labInterstitialAdUnitId,
-        request: AdRequest(),
+        request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) {
             debugPrint('$ad loaded');
@@ -201,12 +200,12 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   ImagePrediction imgPrediction = ImagePrediction.notAValidImage;
   Future<void> _loadModel() async {
     await _predictionService.loadModel(); // Load using the service
-    final File imageFile = File(widget.imagePath);
-    var inputImage =
+    final imageFile = File(widget.imagePath);
+    final inputImage =
         await _predictionService.loadImageAndPrepare(imageFile); // Example size
     if (inputImage != null) {
-      final stopwatch = Stopwatch();
-      stopwatch.start();
+      final stopwatch = Stopwatch()
+      ..start();
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
@@ -229,12 +228,12 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
 
   Future<void> _doAnotherPrediction(String newFile) async {
     await _predictionService.loadModel(); // Load using the service
-    final File imageFile = File(newFile);
-    var inputImage =
+    final imageFile = File(newFile);
+    final inputImage =
         await _predictionService.loadImageAndPrepare(imageFile); // Example size
     if (inputImage != null) {
-      final stopwatch = Stopwatch();
-      stopwatch.start();
+      final stopwatch = Stopwatch()
+      ..start();
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
@@ -290,7 +289,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   bool isLoading = true;
   // map label to enum
   ImagePrediction mapLabelToEnum(String label) {
-    debugPrint("this is label: $label");
+    debugPrint('this is label: $label');
     switch (label.toLowerCase()) {
       case 'coccidiosis':
         return ImagePrediction.cocci;
@@ -396,12 +395,12 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final File imageFile = File(widget.imagePath);
+    final imageFile = File(widget.imagePath);
     final i10 = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Report'),
-        actions: [
+        actions: const [
           LangChangeBtn(),
         ],
       ),
@@ -440,13 +439,13 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TimeAndAccuracyCard(
-                    value: "${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
+                    value: '${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec',
                     isTime: true),
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
                 TimeAndAccuracyCard(
-                  value: "$_accuracy%",
+                  value: '$_accuracy%',
                   isTime: false,
                 ),
               ],
@@ -454,7 +453,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             if (!isLoading &&
                 imgPrediction == ImagePrediction.notAValidImage) ...[
               // Image Details Card
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(i10?.invalidImage ?? '',
@@ -468,7 +467,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             if (!isLoading &&
                 imgPrediction != ImagePrediction.notAValidImage) ...[
               // Image Details Card
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(i10?.diagnosisReportTitle ?? '',
@@ -476,7 +475,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                         fontWeight: FontWeight.bold,
                       )),
 
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
@@ -487,7 +486,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 content: getContent(i10, imgPrediction,
                     getReportListFromTitle(i10?.diagnosisReportTitle1 ?? '')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
 
@@ -498,7 +497,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 content: getContent(i10, imgPrediction,
                     getReportListFromTitle(i10?.diagnosisReportTitle2 ?? '')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               DiagnosisReportCard(
@@ -508,7 +507,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 content: getContent(i10, imgPrediction,
                     getReportListFromTitle(i10?.diagnosisReportTitle3 ?? '')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               DiagnosisReportCard(
@@ -518,7 +517,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 content: getContent(i10, imgPrediction,
                     getReportListFromTitle(i10?.diagnosisReportTitle4 ?? '')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               DiagnosisReportCard(
@@ -528,12 +527,12 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 content: getContent(i10, imgPrediction,
                     getReportListFromTitle(i10?.diagnosisReportTitle5 ?? '')),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ],
             if (isLoading)
-              Center(
+              const Center(
                   child: CircularProgressIndicator
                       .adaptive()), // show the two btns
 
@@ -544,7 +543,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 child: Column(
                   spacing: 8,
                   children: [
-                    Text(i10?.chooseImage ?? "Choose Another image"),
+                    Text(i10?.chooseImage ?? 'Choose Another image'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -553,7 +552,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                               _pickImage(context, ImageSource.camera),
                           icon: const Icon(Icons.camera_alt),
                           label: Text(
-                            i10?.takePicture ?? "Take Picture",
+                            i10?.takePicture ?? 'Take Picture',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ),
@@ -562,7 +561,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                               _pickImage(context, ImageSource.gallery),
                           icon: const Icon(Icons.photo_library),
                           label: Text(
-                            i10?.selectFromGallery ?? "Select from Gallery",
+                            i10?.selectFromGallery ?? 'Select from Gallery',
                             style: Theme.of(context).textTheme.labelSmall,
                           ),
                         ),

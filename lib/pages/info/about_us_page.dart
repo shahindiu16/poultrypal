@@ -67,13 +67,13 @@ class AboutUsPage extends StatelessWidget {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: const Text(
+              child: Text(
                 'Poultry Pal',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -82,13 +82,13 @@ class AboutUsPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8.0),
-            const Text(
+            SizedBox(height: 8.0),
+            Text(
               'Poultry Pal is developed by Nevronus Systems to assist chicken farmers in detecting and preventing diseases affecting their flocks. Using AI, the app analyzes chicken droppings to provide indicative disease detection. However, consulting a registered veterinarian is always advised before taking action.',
               style: TextStyle(fontSize: 16.0),
             ),
-            const SizedBox(height: 12.0),
-            const Text(
+            SizedBox(height: 12.0),
+            Text(
               'With a user-friendly interface and expert-backed insights, Poultry Pal empowers farmers to manage poultry health efficiently, reducing disease risks and ensuring flock well-being.',
               style: TextStyle(fontSize: 16.0),
             ),

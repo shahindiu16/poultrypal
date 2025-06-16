@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 class DiagnosisReportCard extends StatelessWidget {
   const DiagnosisReportCard({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.subtitle,
-    required this.content,
+    required this.image, required this.title, required this.subtitle, required this.content, super.key,
   });
   final String image, title, subtitle, content;
 
@@ -27,8 +23,8 @@ class DiagnosisReportCard extends StatelessWidget {
       children: [
         if (content.isNotEmpty)
           Container(
-              padding: EdgeInsets.all(15),
-              margin: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(

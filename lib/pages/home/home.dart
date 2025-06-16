@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                 title: i10!.homeCardDiseases,
                 nextPage: () {
                   Navigator.push(context,
-                      CupertinoPageRoute(builder: (_) => DiseasesPage()));
+                      CupertinoPageRoute(builder: (_) => const DiseasesPage()));
                 },
               ),
             ),

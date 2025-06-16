@@ -18,7 +18,7 @@ class DiseasesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(i10.homeCardDiseasesTitle),
-        actions: [
+        actions: const [
           LangChangeBtn(),
         ],
       ),
@@ -35,7 +35,7 @@ class DiseasesPage extends StatelessWidget {
           return Column(
             children: [
               Card(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: ExpansionTile(
                   initiallyExpanded: true,
                   title: Text(

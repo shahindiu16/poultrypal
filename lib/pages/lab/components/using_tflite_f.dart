@@ -45,7 +45,7 @@ class PredictionService2 {
       }
       return file.path;
     } catch (e) {
-      debugPrint("Error in getModelPath -> $e");
+      debugPrint('Error in getModelPath -> $e');
       return null;
     }
   }
@@ -62,13 +62,13 @@ class PredictionService2 {
   Future<(String, String)?> predict(File imageFile) async {
     if (!_modelLoaded) return null;
 
-    final img.Image? oriImage = img.decodeImage(await imageFile.readAsBytes());
+    final oriImage = img.decodeImage(await imageFile.readAsBytes());
     if (oriImage == null) return ('Invalid image', '0');
 
-    final int width = 224;
-    final int height = 224;
+    final width = 224;
+    final height = 224;
 
-    final img.Image resized =
+    final resized =
         img.copyResize(oriImage, width: width, height: height);
 
     // Input shape: [1, 224, 224, 3], type: uint8
@@ -100,15 +100,15 @@ class PredictionService2 {
       // isolateInterpreter.run(input, output);
       _interpreter.run(input, output);
     } catch (e) {
-      debugPrint("❌ Interpreter error: $e");
+      debugPrint('❌ Interpreter error: $e');
       return ('Interpreter error', '0');
     }
-    debugPrint("🥡 $output");
+    debugPrint('🥡 $output');
     final scores = output[0].map((e) => e.toDouble()).toList();
-    debugPrint("🥡 s: $scores");
+    debugPrint('🥡 s: $scores');
     final maxIdx =
         scores.indexWhere((e) => e == scores.reduce((a, b) => a > b ? a : b));
-    debugPrint("🥡 maxIDX: $maxIdx || $_labels");
+    debugPrint('🥡 maxIDX: $maxIdx || $_labels');
 
     final label = _labels[maxIdx];
     final confidence = (scores[maxIdx] * 100 / 255)

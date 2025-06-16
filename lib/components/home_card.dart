@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
-    super.key,
-    required this.img,
-    required this.title,
+    required this.img, required this.title, super.key,
     this.nextPage,
   });
   final String img, title;
@@ -20,17 +18,17 @@ class HomeCard extends StatelessWidget {
       },
       child: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.all(20),
-        margin: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.grey,
               blurRadius: 0.3,
             )
           ],
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
         ),
@@ -44,7 +42,7 @@ class HomeCard extends StatelessWidget {
             ),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.blueAccent, fontWeight: FontWeight.bold),
             ),
           ],

@@ -5,8 +5,7 @@ import 'package:poultrypal/l10n/app_localizations.dart';
 
 class ImagePreviewCard extends StatelessWidget {
   const ImagePreviewCard({
-    super.key,
-    required this.imageFile,
+    required this.imageFile, super.key,
   });
 
   final File imageFile;
@@ -20,10 +19,9 @@ class ImagePreviewCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              i10?.imagePreview ?? "",
+              i10?.imagePreview ?? '',
               style: Theme.of(context).textTheme.titleSmall,
             ),
             Padding(
@@ -31,7 +29,7 @@ class ImagePreviewCard extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 7 / 9,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   child: Image.file(
                     imageFile,
                     fit: BoxFit.cover,

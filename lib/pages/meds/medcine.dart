@@ -26,18 +26,18 @@ class MedicinesPage extends StatelessWidget {
       body: ListView(
         children: [
           Text(
-            "(Brand-name drugs are only applicable in Bangladesh)",
+            '(Brand-name drugs are only applicable in Bangladesh)',
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   fontStyle: FontStyle.italic,
                 ),
             textAlign: TextAlign.center,
           ),
           Card(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: ExpansionTile(
               initiallyExpanded: true,
               title: Text(
-                "Coccidiosis",
+                'Coccidiosis',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.blueAccent,
                     ),
@@ -57,17 +57,16 @@ class MedicinesPage extends StatelessWidget {
                           maxLines: 2,
                         ),
                         subtitle: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(trade.company,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
                                 )),
                             trade.dosage != null
                                 ? Text(trade.dosage!)
-                                : SizedBox.shrink(),
+                                : const SizedBox.shrink(),
                           ],
                         ),
                       );
@@ -84,11 +83,11 @@ class MedicinesPage extends StatelessWidget {
             adUnitId: AdMobAdIds.medicineBannerAdUnitId1,
           ),
           Card(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: ExpansionTile(
               initiallyExpanded: true,
               title: Text(
-                "Newcastle",
+                'Newcastle',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.blueAccent,
                     ),
@@ -109,7 +108,7 @@ class MedicinesPage extends StatelessWidget {
                         subtitle: Text(trade.company),
                         trailing: trade.dosage != null
                             ? Text(trade.dosage!)
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       );
                     }).toList(),
                   ),
@@ -124,11 +123,11 @@ class MedicinesPage extends StatelessWidget {
             adUnitId: AdMobAdIds.medicineBannerAdUnitId2,
           ),
           Card(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: ExpansionTile(
               initiallyExpanded: true,
               title: Text(
-                "Salmonellosis",
+                'Salmonellosis',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.blueAccent,
                     ),
@@ -149,7 +148,7 @@ class MedicinesPage extends StatelessWidget {
                         subtitle: Text(trade.company),
                         trailing: trade.dosage != null
                             ? Text(trade.dosage!)
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       );
                     }).toList(),
                   ),

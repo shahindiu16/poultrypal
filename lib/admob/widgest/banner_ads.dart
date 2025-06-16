@@ -4,7 +4,7 @@ import 'package:poultrypal/admob/widgest/consent_manager.dart';
 
 /// An example app that loads a banner ad.
 class BannerAds extends StatefulWidget {
-  const BannerAds({super.key, required this.adsize, required this.adUnitId});
+  const BannerAds({required this.adsize, required this.adUnitId, super.key});
   final AdSize adsize;
   final String adUnitId;
 
@@ -15,7 +15,7 @@ class BannerAds extends StatefulWidget {
 class BannerAdsState extends State<BannerAds> {
   final _consentManager = ConsentManager();
   var _isMobileAdsInitializeCalled = false;
-  var _isPrivacyOptionsRequired = false;
+  bool _isPrivacyOptionsRequired = false;
   BannerAd? _bannerAd;
   bool _isLoaded = false;
   Orientation? _currentOrientation;
@@ -28,7 +28,7 @@ class BannerAdsState extends State<BannerAds> {
       if (consentGatheringError != null) {
         // Consent not obtained in current session.
         debugPrint(
-            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+            '${consentGatheringError.errorCode}: ${consentGatheringError.message}');
       }
 
       // Check if a privacy options entry point is required.
@@ -70,47 +70,13 @@ class BannerAdsState extends State<BannerAds> {
     );
   }
 
-  // List<Widget> _appBarActions() {
-  //   var array = [AppBarItem(AppBarItem.adInpsectorText, 0)];
-
-  //   if (_isPrivacyOptionsRequired) {
-  //     array.add(AppBarItem(AppBarItem.privacySettingsText, 1));
-  //   }
-
-  //   return <Widget>[
-  //     PopupMenuButton<AppBarItem>(
-  //         itemBuilder: (context) => array
-  //             .map((item) => PopupMenuItem<AppBarItem>(
-  //                   value: item,
-  //                   child: Text(
-  //                     item.label,
-  //                   ),
-  //                 ))
-  //             .toList(),
-  //         onSelected: (item) {
-  //           switch (item.value) {
-  //             case 0:
-  //               MobileAds.instance.openAdInspector((error) {
-  //                 // Error will be non-null if ad inspector closed due to an error.
-  //               });
-  //             case 1:
-  //               _consentManager.showPrivacyOptionsForm((formError) {
-  //                 if (formError != null) {
-  //                   debugPrint("${formError.errorCode}: ${formError.message}");
-  //                 }
-  //               });
-  //           }
-  //         })
-  //   ];
-  // }
-
   /// Loads and shows a banner ad.
   ///
   /// Dimensions of the ad are determined by the width of the screen.
   void _loadAd() async {
     // Only load an ad if the Mobile Ads SDK has gathered consent aligned with
     // the app's configured messages.
-    var canRequestAds = await _consentManager.canRequestAds();
+    final canRequestAds = await _consentManager.canRequestAds();
     if (!canRequestAds) {
       return;
     }

@@ -31,19 +31,19 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
-          actions: [
+          actions: const [
             LangChangeBtn(),
           ],
-          backgroundColor: Color(0xfff8f9fa),
+          backgroundColor: const Color(0xfff8f9fa),
           leading: Assets.icon.image(),
           title: Text(AppLocalizations.of(context)!.appTitle),
         ),
-        body: curr == 0 ? HomePage() : InfoPage(),
-        floatingActionButton: FabPie(),
+        body: curr == 0 ? const HomePage() : const InfoPage(),
+        floatingActionButton: const FabPie(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar(
-          key: UniqueKey(), backgroundColor: Color(0xff373A36),
-          icons: [Icons.home, Icons.info],
+          key: UniqueKey(), backgroundColor: const Color(0xff373A36),
+          icons: const [Icons.home, Icons.info],
           activeIndex: curr,
           activeColor: Colors.orangeAccent,
           inactiveColor: Colors.grey,
@@ -89,7 +89,7 @@ class FabPie extends StatelessWidget {
   Widget build(BuildContext context) {
     return PieMenu(
       key: UniqueKey(),
-      theme: PieTheme(
+      theme: const PieTheme(
         regularPressShowsMenu: true,
         pointerDecoration: BoxDecoration(
           color: Colors.transparent,
@@ -100,14 +100,14 @@ class FabPie extends StatelessWidget {
           tooltip: const Text(''),
           onSelect: () => pickImage(context, ImageSource.camera),
           child: const Icon(Icons.camera), // Can be any widget
-          buttonTheme: PieButtonTheme(
+          buttonTheme: const PieButtonTheme(
             // backgroundColor: Color(0xff373A36),
             backgroundColor: Colors.red,
             iconColor: Colors.white,
           ),
         ),
         PieAction(
-          buttonTheme: PieButtonTheme(
+          buttonTheme: const PieButtonTheme(
             // backgroundColor: Color(0xff373A36),
             backgroundColor: Colors.red,
             iconColor: Colors.white,
@@ -117,7 +117,7 @@ class FabPie extends StatelessWidget {
           child: const Icon(Icons.file_open), // Can be any widget
         ),
       ],
-      child: CircleAvatar(
+      child: const CircleAvatar(
         backgroundColor: Colors.red,
         radius: 30,
         child: Icon(
@@ -141,8 +141,8 @@ class FabPie extends StatelessWidget {
 
   Future<void> pickImage(BuildContext context, ImageSource source) async {
     final navigate = Navigator.of(context);
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: source);
+    final picker = ImagePicker();
+    final image = await picker.pickImage(source: source);
     // TODO: add the corp image function here, then goto
     // the image preview page
     final cp = CropImage();

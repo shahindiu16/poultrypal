@@ -5,9 +5,7 @@ import 'package:poultrypal/l10n/app_localizations.dart';
 
 class TimeAndAccuracyCard extends StatelessWidget {
   const TimeAndAccuracyCard({
-    super.key,
-    required this.value,
-    required this.isTime,
+    required this.value, required this.isTime, super.key,
   });
 
   final String value;
@@ -17,7 +15,7 @@ class TimeAndAccuracyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final i10 = AppLocalizations.of(context);
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
@@ -28,7 +26,7 @@ class TimeAndAccuracyCard extends StatelessWidget {
       child: Column(
         children: [
           if (isTime)
-            Icon(
+            const Icon(
               CupertinoIcons.clock_fill,
               color: Colors.green,
             )
@@ -37,14 +35,14 @@ class TimeAndAccuracyCard extends StatelessWidget {
               Icons.bar_chart,
               color: Colors.orange[800],
             ),
-          Text(isTime ? i10?.time ?? "" : i10?.accuracy ?? "",
+          Text(isTime ? i10?.time ?? '' : i10?.accuracy ?? '',
               style: TextStyle(
                 color: isTime ? Colors.green : Colors.orange[800],
                 fontWeight: FontWeight.bold,
               )),
           // Text("${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec",
           Text(value,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold,
               )),
