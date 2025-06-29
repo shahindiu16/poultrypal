@@ -48,8 +48,11 @@
       android:value="high_importance_channel" />
     <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
     <meta-data
-      android:name="com.google.android.gms.ads.APPLICATION_ID"
-      android:value="ca-app-pub-8049150915836149~7209577381" />
+          android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+          android:value="true"/>
+    <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-3940256099942544~3347511713" />
       <!-- "ca-app-pub-8049150915836149~7209577381" /> -->
       <!-- real id="ca-app-pub-8049150915836149~7209577381" -->
       <!-- test id="ca-app-pub-3940256099942544~3347511713" -->
