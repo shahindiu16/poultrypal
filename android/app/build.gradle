@@ -23,10 +23,9 @@ android {
     }
     namespace = "com.nevronus.poultrypal"
     // compileSdk = flutter.compileSdkVersion
-    compileSdk = 35
+    compileSdk = 36
 //    ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
-
     // compileOptions {
     //     sourceCompatibility = JavaVersion.VERSION_1_8
     //     targetCompatibility = JavaVersion.VERSION_1_8
@@ -87,7 +86,7 @@ android {
     buildTypes {
         release {
             shrinkResources true
-            // minifyEnabled true
+             minifyEnabled true
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.release
@@ -99,6 +98,7 @@ flutter {
     source = "../.."
 }
 dependencies {
+  implementation 'com.google.android.gms:play-services-ads:24.4.0' // App was crashing for the admob implementation. Then, i found out that this dependencies would help fixing the issue. Although, i think it fixes the issue for now.
   implementation "com.google.firebase:firebase-iid:21.1.0"
-  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 }
