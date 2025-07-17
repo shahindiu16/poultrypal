@@ -127,7 +127,7 @@ class InfoPage extends StatelessWidget {
               items: privacyPolicySection(i10!),
             ),
             BannerAds(
-              adsize: AdSize.leaderboard,
+              adsize: AdSize.fullBanner,
               // adUnitId: AdMobAdIds.testBannerAdUnitId,
               adUnitId: AdMobAdIds.infoBannerAdUnitId1,
             ),
@@ -137,7 +137,7 @@ class InfoPage extends StatelessWidget {
               items: userManualSection(i10),
             ),
             BannerAds(
-              adsize: AdSize.largeBanner,
+              adsize: AdSize.fullBanner,
               // adUnitId: AdMobAdIds.testBannerAdUnitId,
               adUnitId: AdMobAdIds.infoBannerAdUnitId2,
             ),

@@ -26,7 +26,7 @@ class MedicinesPage extends StatelessWidget {
       body: ListView(
         children: [
           Text(
-            '(Brand-name drugs are only applicable in Bangladesh)',
+            '(Brand-name drugs are only applicable in Bangladesh. Please consult with a registered veterinarian before administering any drug.)',
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   fontStyle: FontStyle.italic,
                 ),

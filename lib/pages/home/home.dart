@@ -43,8 +43,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         BannerAds(
-          adsize: AdSize.mediumRectangle,
-          // adUnitId: AdMobAdIds.testBannerAdUnitId,
+          adsize: AdSize.fullBanner,
           adUnitId: AdMobAdIds.homeScreenbannerAdUnitId,
         ),
       ],

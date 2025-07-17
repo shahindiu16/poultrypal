@@ -27,7 +27,7 @@ class AboutUsPage extends StatelessWidget {
                 children: [
                   _buildTeamMember(
                     name: 'Project Owner & Software Architect',
-                    role: 'Razib Mustafiz',
+                    role: 'Mohammad Razib Mustafiz',
                     link: 'https://www.linkedin.com/in/razibmustafiz',
                   ),
                   _buildTeamMember(
@@ -42,7 +42,7 @@ class AboutUsPage extends StatelessWidget {
                           'https://www.linkedin.com/in/redwan-hossain-1334aa17b/'),
                   _buildTeamMember(
                     name: 'Technical Advisor',
-                    role: 'Chandan Kumar Roy',
+                    role: 'Chandan Kumar Roy (PhD)',
                     link: 'https://www.linkedin.com/in/royck',
                   ),
                 ],
