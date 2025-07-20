@@ -128,9 +128,11 @@ class InfoPage extends StatelessWidget {
               items: privacyPolicySection(i10!),
             ),
           ),
-          MyBannerAdWidget(
-            // adUnitId: AdMobAdIds.testBannerAdUnitId,
-            adUnitId: AdMobAdIds.infoBannerAdUnitId1,
+          Center(
+            child: MyBannerAdWidget(
+              // adUnitId: AdMobAdIds.testBannerAdUnitId,
+              adUnitId: AdMobAdIds.infoBannerAdUnitId1,
+            ),
           ),
           const SizedBox(height: 20),
           Padding(
@@ -140,19 +142,28 @@ class InfoPage extends StatelessWidget {
               items: userManualSection(i10),
             ),
           ),
-          MyBannerAdWidget(
-            // adSize: AdSize.fullBanner,
-            // adUnitId: AdMobAdIds.testBannerAdUnitId,
-            adUnitId: AdMobAdIds.infoBannerAdUnitId2,
+          Center(
+            child: MyBannerAdWidget(
+              // adSize: AdSize.fullBanner,
+              // adUnitId: AdMobAdIds.testBannerAdUnitId,
+              adUnitId: AdMobAdIds.infoBannerAdUnitId2,
+            ),
           ),
+
+          SizedBox(height: 20,),
           ElevatedButton(
+            // full width
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(50),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const AboutUsPage()),
                 );
               },
-              child: const Text('About Us'))
+              child: const Text('About Us')),
+          SizedBox(height: 35,),
         ],
       ),
     );
