@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
+import 'package:poultrypal/admob/widgest/my_banner_ads.dart' show MyBannerAdWidget;
 import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
 import 'package:poultrypal/utils/image_cropper.dart';
@@ -404,140 +405,144 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           LangChangeBtn(),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // slogan
+      body: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // slogan
 
-            Text(i10?.slogan ?? '',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    )),
-            const SizedBox(height: 16),
-            // Image Preview Card
-            ImagePreviewCard(
+          Text(i10?.slogan ?? '',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  )),
+          const SizedBox(height: 16),
+          // Image Preview Card
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ImagePreviewCard(
               imageFile: imageFile,
               // onImageSelected: (String imagePath) {
               //   _doAnotherPrediction(imagePath);
               // },
             ),
-            const SizedBox(height: 16),
+          ),
+          const SizedBox(height: 16),
 
-            // NOTE: ADMOB
-            BannerAds(
-              adsize: AdSize.fullBanner,
-              // adUnitId: AdMobAdIds.testBannerAdUnitId,
-              adUnitId: AdMobAdIds.reportBannerAdUnitID,
-            ),
-            const SizedBox(height: 16),
+          // NOTE: ADMOB
+          // BannerAds(
+          //   adsize: AdSize.fullBanner,
+          //   // adUnitId: AdMobAdIds.testBannerAdUnitId,
+          //   adUnitId: AdMobAdIds.reportBannerAdUnitID,
+          // ),
+          MyBannerAdWidget (adUnitId: AdMobAdIds.reportBannerAdUnitID,),
+          const SizedBox(height: 16),
 
-            // time & accuracy
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TimeAndAccuracyCard(
-                    value: '${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec',
-                    isTime: true),
-                const SizedBox(
-                  width: 30,
-                ),
-                TimeAndAccuracyCard(
-                  value: '$_accuracy%',
-                  isTime: false,
-                ),
-              ],
-            ),
-            if (!isLoading &&
-                imgPrediction == ImagePrediction.notAValidImage) ...[
-              // Image Details Card
+          // time & accuracy
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TimeAndAccuracyCard(
+                  value: '${((timeTook ?? 0) / 1000).toStringAsFixed(2)} sec',
+                  isTime: true),
               const SizedBox(
-                height: 15,
+                width: 30,
               ),
-              Text(i10?.invalidImage ?? '',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      )),
-            ],
-
-            // time & accuracy
-            if (!isLoading &&
-                imgPrediction != ImagePrediction.notAValidImage) ...[
-              // Image Details Card
-              const SizedBox(
-                height: 15,
-              ),
-              Text(i10?.diagnosisReportTitle ?? '',
-                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      )),
-
-              const SizedBox(
-                height: 15,
-              ),
-
-              DiagnosisReportCard(
-                image: Assets.img.chicken2713365.path,
-                title: i10?.diagnosisReportTitle1 ?? '',
-                subtitle: getSubtitle(i10, imgPrediction),
-                content: getContent(i10, imgPrediction,
-                    getReportListFromTitle(i10?.diagnosisReportTitle1 ?? '')),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-
-              DiagnosisReportCard(
-                image: Assets.img.firstAidKit2713349.path,
-                title: i10?.diagnosisReportTitle2 ?? '',
-                subtitle: getSubtitleGeneric(i10, imgPrediction),
-                content: getContent(i10, imgPrediction,
-                    getReportListFromTitle(i10?.diagnosisReportTitle2 ?? '')),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DiagnosisReportCard(
-                image: Assets.img.diagram2713368.path,
-                title: i10?.diagnosisReportTitle3 ?? '',
-                subtitle: getSubtitleSeverity(i10, imgPrediction),
-                content: getContent(i10, imgPrediction,
-                    getReportListFromTitle(i10?.diagnosisReportTitle3 ?? '')),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DiagnosisReportCard(
-                image: Assets.img.death2713357Copy.path,
-                title: i10?.diagnosisReportTitle4 ?? '',
-                subtitle: getSubtitleDetahRate(i10, imgPrediction),
-                content: getContent(i10, imgPrediction,
-                    getReportListFromTitle(i10?.diagnosisReportTitle4 ?? '')),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              DiagnosisReportCard(
-                image: Assets.img.protection2713342.path,
-                title: i10?.diagnosisReportTitle5 ?? '',
-                subtitle: getSubtitlePrevention(i10, imgPrediction),
-                content: getContent(i10, imgPrediction,
-                    getReportListFromTitle(i10?.diagnosisReportTitle5 ?? '')),
-              ),
-              const SizedBox(
-                height: 10,
+              TimeAndAccuracyCard(
+                value: '$_accuracy%',
+                isTime: false,
               ),
             ],
-            if (isLoading)
-              const Center(
-                  child: CircularProgressIndicator
-                      .adaptive()), // show the two btns
+          ),
+          if (!isLoading &&
+              imgPrediction == ImagePrediction.notAValidImage) ...[
+            // Image Details Card
+            const SizedBox(
+              height: 15,
+            ),
+            Text(i10?.invalidImage ?? '',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    )),
+          ],
 
-            const SizedBox(height: 12),
-            Card(
+          // time & accuracy
+          if (!isLoading &&
+              imgPrediction != ImagePrediction.notAValidImage) ...[
+            // Image Details Card
+            const SizedBox(
+              height: 15,
+            ),
+            Text(i10?.diagnosisReportTitle ?? '',
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    )),
+
+            const SizedBox(
+              height: 15,
+            ),
+
+            DiagnosisReportCard(
+              image: Assets.img.chicken2713365.path,
+              title: i10?.diagnosisReportTitle1 ?? '',
+              subtitle: getSubtitle(i10, imgPrediction),
+              content: getContent(i10, imgPrediction,
+                  getReportListFromTitle(i10?.diagnosisReportTitle1 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+            DiagnosisReportCard(
+              image: Assets.img.firstAidKit2713349.path,
+              title: i10?.diagnosisReportTitle2 ?? '',
+              subtitle: getSubtitleGeneric(i10, imgPrediction),
+              content: getContent(i10, imgPrediction,
+                  getReportListFromTitle(i10?.diagnosisReportTitle2 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DiagnosisReportCard(
+              image: Assets.img.diagram2713368.path,
+              title: i10?.diagnosisReportTitle3 ?? '',
+              subtitle: getSubtitleSeverity(i10, imgPrediction),
+              content: getContent(i10, imgPrediction,
+                  getReportListFromTitle(i10?.diagnosisReportTitle3 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DiagnosisReportCard(
+              image: Assets.img.death2713357Copy.path,
+              title: i10?.diagnosisReportTitle4 ?? '',
+              subtitle: getSubtitleDetahRate(i10, imgPrediction),
+              content: getContent(i10, imgPrediction,
+                  getReportListFromTitle(i10?.diagnosisReportTitle4 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DiagnosisReportCard(
+              image: Assets.img.protection2713342.path,
+              title: i10?.diagnosisReportTitle5 ?? '',
+              subtitle: getSubtitlePrevention(i10, imgPrediction),
+              content: getContent(i10, imgPrediction,
+                  getReportListFromTitle(i10?.diagnosisReportTitle5 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+          if (isLoading)
+            const Center(
+                child: CircularProgressIndicator
+                    .adaptive()), // show the two btns
+
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -571,8 +576,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

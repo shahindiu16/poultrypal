@@ -9,13 +9,15 @@ import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/meds/diseases.dart';
 import 'package:poultrypal/pages/meds/medcine.dart';
 
+import '../../admob/widgest/my_banner_ads.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final i10 = AppLocalizations.of(context);
-    return Column(
+    return ListView(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,10 +44,23 @@ class HomePage extends StatelessWidget {
             )
           ],
         ),
-        BannerAds(
-          adsize: AdSize.fullBanner,
-          adUnitId: AdMobAdIds.homeScreenbannerAdUnitId,
+
+        // Text("Testing banner Mine"),
+        /// flutter
+        MyBannerAdWidget(adUnitId: AdMobAdIds.homeScreenbannerAdUnitId,
+          adSize: AdSize.mediumRectangle,
         ),
+
+        // Text("Testing ENDS GPT"),
+        //
+        // /// gpt
+        // MyCustomAdWidget2 (adUnitId: AdMobAdIds.reportBannerAdUnitID, adSize: adsize),
+        // Text("Testing ENDS old"),
+        /// OLD
+        // BannerAds(
+        //   adsize: adsize,
+        //   adUnitId: AdMobAdIds.homeScreenbannerAdUnitId,
+        // ),
       ],
     );
   }

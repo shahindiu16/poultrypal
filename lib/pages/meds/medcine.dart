@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
 import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
@@ -77,8 +78,8 @@ class MedicinesPage extends StatelessWidget {
           ),
 
           // NOTE: ADMOB
-          BannerAds(
-            adsize: AdSize.fullBanner,
+          MyBannerAdWidget(
+            // adsize: AdSize.banner,
             // adUnitId: AdMobAdIds.testBannerAdUnitId,
             adUnitId: AdMobAdIds.medicineBannerAdUnitId1,
           ),
@@ -117,8 +118,8 @@ class MedicinesPage extends StatelessWidget {
           ),
 
           // NOTE: ADMOB
-          BannerAds(
-            adsize: AdSize.fullBanner,
+          MyBannerAdWidget(
+            // adsize: AdSize.fullBanner,
             // adUnitId: AdMobAdIds.testBannerAdUnitId,
             adUnitId: AdMobAdIds.medicineBannerAdUnitId2,
           ),
@@ -157,8 +158,8 @@ class MedicinesPage extends StatelessWidget {
           ),
 
           // NOTE: ADMOB
-          BannerAds(
-            adsize: AdSize.fullBanner,
+          MyBannerAdWidget(
+            // adsize: AdSize.fullBanner,
             // adUnitId: AdMobAdIds.testBannerAdUnitId,
             adUnitId: AdMobAdIds.medicineBannerAdUnitId3,
           ),

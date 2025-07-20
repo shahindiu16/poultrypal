@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/banner_ads.dart';
+import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/components/section.dart';
 import 'package:poultrypal/gen/assets.gen.dart';
@@ -117,41 +118,42 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final i10 = AppLocalizations.of(context);
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Section(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Section(
               title: i10?.infoPageSection1 ?? '',
               items: privacyPolicySection(i10!),
             ),
-            BannerAds(
-              adsize: AdSize.fullBanner,
-              // adUnitId: AdMobAdIds.testBannerAdUnitId,
-              adUnitId: AdMobAdIds.infoBannerAdUnitId1,
-            ),
-            const SizedBox(height: 20),
-            Section(
+          ),
+          MyBannerAdWidget(
+            // adUnitId: AdMobAdIds.testBannerAdUnitId,
+            adUnitId: AdMobAdIds.infoBannerAdUnitId1,
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Section(
               title: i10.infoPageSection2,
               items: userManualSection(i10),
             ),
-            BannerAds(
-              adsize: AdSize.fullBanner,
-              // adUnitId: AdMobAdIds.testBannerAdUnitId,
-              adUnitId: AdMobAdIds.infoBannerAdUnitId2,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AboutUsPage()),
-                  );
-                },
-                child: const Text('About Us'))
-          ],
-        ),
+          ),
+          MyBannerAdWidget(
+            // adSize: AdSize.fullBanner,
+            // adUnitId: AdMobAdIds.testBannerAdUnitId,
+            adUnitId: AdMobAdIds.infoBannerAdUnitId2,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutUsPage()),
+                );
+              },
+              child: const Text('About Us'))
+        ],
       ),
     );
   }
