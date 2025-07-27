@@ -1,24 +1,29 @@
 import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
-import 'package:poultrypal/admob/widgest/my_banner_ads.dart' show MyBannerAdWidget;
-import 'package:poultrypal/l10n/app_localizations.dart';
-import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
-import 'package:poultrypal/utils/image_cropper.dart';
-import 'package:flutter/material.dart';
+import 'package:poultrypal/admob/widgest/my_banner_ads.dart'
+    show MyBannerAdWidget;
 import 'package:poultrypal/gen/assets.gen.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
+import 'package:poultrypal/pages/lab/components/diagnose_report_card.dart';
 import 'package:poultrypal/pages/lab/components/image_preview_card.dart';
 import 'package:poultrypal/pages/lab/components/prediction_service.dart';
 import 'package:poultrypal/pages/lab/components/time_n_accuracy_card.dart';
+import 'package:poultrypal/utils/image_cropper.dart';
 import 'package:poultrypal/utils/utilts.dart';
+import 'package:screen_protector/screen_protector.dart';
+
+import 'components/pdf_generate.dart';
 
 class ImagePreviewPage extends StatefulWidget {
-
   ImagePreviewPage({required this.imagePath, super.key});
   String imagePath;
 
@@ -37,6 +42,13 @@ enum ReportList {
 const int maxFailedLoadAttempts = 3;
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
+  // prevent screenshot
+  void _preventScreenshotOn() async =>
+      await ScreenProtector.protectDataLeakageOn();
+
+  void _protectDataLeakageOff() async =>
+      await ScreenProtector.protectDataLeakageOff();
+  // prevent screenshot(DONE)
   var _prediction = 'No prediction yet';
   String _accuracy = '';
   int? timeTook;
@@ -121,6 +133,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
       : 'ca-app-pub-3940256099942544/4411468910';
   @override
   void initState() {
+    _preventScreenshotOn();
     super.initState();
     _createInterstitialAd();
     // Attempt to initialize the Mobile Ads SDK.
@@ -192,6 +205,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
 
   @override
   void dispose() {
+    _protectDataLeakageOff();
     _interstitialAd?.dispose();
     _predictionService.dispose();
     super.dispose();
@@ -204,8 +218,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     final inputImage =
         await _predictionService.loadImageAndPrepare(imageFile); // Example size
     if (inputImage != null) {
-      final stopwatch = Stopwatch()
-      ..start();
+      final stopwatch = Stopwatch()..start();
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
@@ -232,8 +245,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     final inputImage =
         await _predictionService.loadImageAndPrepare(imageFile); // Example size
     if (inputImage != null) {
-      final stopwatch = Stopwatch()
-      ..start();
+      final stopwatch = Stopwatch()..start();
       final labels = await _predictionService.processImage(inputImage);
       if (labels != null) {
         final prediction = _predictionService.getPrediction(labels);
@@ -279,11 +291,11 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     }
   }
 
-  /* 
+  /*
   0 cocci
   1 healthy
   2 ncd
-  3 salmo 
+  3 salmo
   */
 
   bool isLoading = true;
@@ -433,7 +445,9 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           //   // adUnitId: AdMobAdIds.testBannerAdUnitId,
           //   adUnitId: AdMobAdIds.reportBannerAdUnitID,
           // ),
-          MyBannerAdWidget (adUnitId: AdMobAdIds.reportBannerAdUnitID,),
+          MyBannerAdWidget(
+            adUnitId: AdMobAdIds.reportBannerAdUnitID,
+          ),
           const SizedBox(height: 16),
 
           // time & accuracy
@@ -481,6 +495,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
               height: 15,
             ),
 
+            // diesease detected
             DiagnosisReportCard(
               image: Assets.img.chicken2713365.path,
               title: i10?.diagnosisReportTitle1 ?? '',
@@ -493,12 +508,13 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             ),
 
             /// branded medicine
-            if (imgPrediction!=ImagePrediction.healthy && imgPrediction!=ImagePrediction.notAValidImage)
-            DiagnosisReportCard2(
-              image: Assets.img.medical13854010.path,
-              title: i10?.brandedMedicine ?? '',
-              imp:imgPrediction ,
-            ),
+            if (imgPrediction != ImagePrediction.healthy &&
+                imgPrediction != ImagePrediction.notAValidImage)
+              DiagnosisReportCard2(
+                image: Assets.img.medical13854010.path,
+                title: i10?.brandedMedicine ?? '',
+                imp: imgPrediction,
+              ),
             const SizedBox(
               height: 10,
             ),
@@ -546,8 +562,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
           ],
           if (isLoading)
             const Center(
-                child: CircularProgressIndicator
-                    .adaptive()), // show the two btns
+                child:
+                    CircularProgressIndicator.adaptive()), // show the two btns
 
           const SizedBox(height: 12),
           Padding(
@@ -588,6 +604,27 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // convert he imagePath to Uint8List
+          final bytes = imageFile.readAsBytesSync();
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (_) => PdfGenerate(
+                dieseaseImage: bytes,
+                deathRate: getSubtitleDetahRate(i10, imgPrediction),
+                diseaseName: getSubtitle(i10, imgPrediction),
+                genericMedicine: getSubtitleGeneric(i10, imgPrediction),
+                prevention: getSubtitlePrevention(i10, imgPrediction),
+                severityLevel: getSubtitleSeverity(i10, imgPrediction),
+              ),
+            ),
+          );
+        },
+        label: const Text("Report"),
+        icon: const Icon(Icons.print),
       ),
     );
   }

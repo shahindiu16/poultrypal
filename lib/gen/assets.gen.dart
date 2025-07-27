@@ -87,6 +87,9 @@ class $AssetsImgGen {
   AssetGenImage get protection2713342 =>
       const AssetGenImage('assets/img/protection_2713342.png');
 
+  /// File path: assets/img/qrcode.png
+  AssetGenImage get qrcode => const AssetGenImage('assets/img/qrcode.png');
+
   /// File path: assets/img/usa_flag.webp
   AssetGenImage get usaFlag => const AssetGenImage('assets/img/usa_flag.webp');
 
@@ -111,6 +114,7 @@ class $AssetsImgGen {
         medical13854010,
         pictureIcon,
         protection2713342,
+        qrcode,
         usaFlag
       ];
 }
