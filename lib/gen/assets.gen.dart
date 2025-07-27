@@ -1,3 +1,5 @@
+// dart format width=80
+
 /// GENERATED CODE - DO NOT MODIFY BY HAND
 /// *****************************************************
 ///  FlutterGen
@@ -5,7 +7,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
+// ignore_for_file: deprecated_member_use,directives_ordering,implicit_dynamic_list_literal,unnecessary_import
 
 import 'package:flutter/widgets.dart';
 
@@ -14,8 +16,7 @@ class $AssetsImgGen {
 
   /// File path: assets/img/Gemini_Generated_Image_h2uo0zh2uo0zh2uo.jpg
   AssetGenImage get geminiGeneratedImageH2uo0zh2uo0zh2uo => const AssetGenImage(
-    'assets/img/Gemini_Generated_Image_h2uo0zh2uo0zh2uo.jpg',
-  );
+      'assets/img/Gemini_Generated_Image_h2uo0zh2uo0zh2uo.jpg');
 
   /// File path: assets/img/Info-active.png
   AssetGenImage get infoActive =>
@@ -39,8 +40,7 @@ class $AssetsImgGen {
   /// File path: assets/img/chicken_death_emoticons_animal_filled_line_f-512.png
   AssetGenImage get chickenDeathEmoticonsAnimalFilledLineF512 =>
       const AssetGenImage(
-        'assets/img/chicken_death_emoticons_animal_filled_line_f-512.png',
-      );
+          'assets/img/chicken_death_emoticons_animal_filled_line_f-512.png');
 
   /// File path: assets/img/death_2713357 - Copy.png
   AssetGenImage get death2713357Copy =>
@@ -92,27 +92,27 @@ class $AssetsImgGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-    geminiGeneratedImageH2uo0zh2uo0zh2uo,
-    infoActive,
-    info,
-    nevronusLogoPing,
-    banglaFlag,
-    chicken2713365,
-    chickenDeathEmoticonsAnimalFilledLineF512,
-    death2713357Copy,
-    diagram2713368,
-    firstAidKit2713349,
-    hands13854025,
-    icon,
-    image,
-    info1614680,
-    information5180272,
-    logo,
-    medical13854010,
-    pictureIcon,
-    protection2713342,
-    usaFlag,
-  ];
+        geminiGeneratedImageH2uo0zh2uo0zh2uo,
+        infoActive,
+        info,
+        nevronusLogoPing,
+        banglaFlag,
+        chicken2713365,
+        chickenDeathEmoticonsAnimalFilledLineF512,
+        death2713357Copy,
+        diagram2713368,
+        firstAidKit2713349,
+        hands13854025,
+        icon,
+        image,
+        info1614680,
+        information5180272,
+        logo,
+        medical13854010,
+        pictureIcon,
+        protection2713342,
+        usaFlag
+      ];
 }
 
 class $AssetsModelsGen {
@@ -152,52 +152,53 @@ class $AssetsUserManualGen {
       const AssetGenImage('assets/user_manual/take_pic.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
-    homeScreen,
-    inferanceScreen,
-    infoScreen,
-    redButton,
-    takePic,
-  ];
+  List<AssetGenImage> get values =>
+      [homeScreen, inferanceScreen, infoScreen, redButton, takePic];
 }
 
 class Assets {
   const Assets._();
 
-  static const AssetGenImage adaptiveIcon = AssetGenImage(
-    'assets/adaptive-icon.png',
-  );
-  static const AssetGenImage coronavirus = AssetGenImage(
-    'assets/coronavirus.png',
-  );
+  static const AssetGenImage adaptiveIcon =
+      AssetGenImage('assets/adaptive-icon.png');
+  static const AssetGenImage coronavirus =
+      AssetGenImage('assets/coronavirus.png');
   static const AssetGenImage icon = AssetGenImage('assets/icon.png');
   static const AssetGenImage icon2 = AssetGenImage('assets/icon2.png');
   static const $AssetsImgGen img = $AssetsImgGen();
   static const $AssetsModelsGen models = $AssetsModelsGen();
   static const AssetGenImage splash = AssetGenImage('assets/splash.png');
   static const AssetGenImage splash2 = AssetGenImage('assets/splash2.png');
+  static const AssetGenImage splash3 = AssetGenImage('assets/splash3.png');
   static const AssetGenImage syringe = AssetGenImage('assets/syringe.png');
   static const $AssetsUserManualGen userManual = $AssetsUserManualGen();
 
   /// List of all assets
   static List<AssetGenImage> get values => [
-    adaptiveIcon,
-    coronavirus,
-    icon,
-    icon2,
-    splash,
-    splash2,
-    syringe,
-  ];
+        adaptiveIcon,
+        coronavirus,
+        icon,
+        icon2,
+        splash,
+        splash2,
+        splash3,
+        syringe
+      ];
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+    this.animation,
+  });
 
   final String _assetName;
 
   final Size? size;
   final Set<String> flavors;
+  final AssetGenImageAnimation? animation;
 
   Image image({
     Key? key,
@@ -252,11 +253,30 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;
 
   String get keyName => _assetName;
+}
+
+class AssetGenImageAnimation {
+  const AssetGenImageAnimation({
+    required this.isAnimation,
+    required this.duration,
+    required this.frames,
+  });
+
+  final bool isAnimation;
+  final Duration duration;
+  final int frames;
 }
