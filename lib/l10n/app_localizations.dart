@@ -116,6 +116,12 @@ abstract class AppLocalizations {
   /// **'Take Picture'**
   String get takePicture;
 
+  /// No description provided for @brandedMedicine.
+  ///
+  /// In en, this message translates to:
+  /// **'Branded medicine'**
+  String get brandedMedicine;
+
   /// No description provided for @chooseImage.
   ///
   /// In en, this message translates to:

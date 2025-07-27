@@ -18,6 +18,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get takePicture => 'ছবি তুলুন';
 
   @override
+  String get brandedMedicine => 'ব্র্যান্ডেড ঔষধ';
+
+  @override
   String get chooseImage => 'অন্য চিত্র নির্বাচন করুন';
 
   @override
