@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
-import 'package:poultrypal/l10n/app_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
-import 'package:poultrypal/admob/widgest/banner_ads.dart';
+import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
 import 'package:poultrypal/components/med_info.dart';
+import 'package:poultrypal/l10n/app_localizations.dart';
 
 class MedicinesPage extends StatelessWidget {
   MedicinesPage({super.key});

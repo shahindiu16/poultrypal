@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
-import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/components/section.dart';
@@ -150,7 +148,7 @@ class InfoPage extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           ElevatedButton(
             // full width
               style: ElevatedButton.styleFrom(
@@ -163,7 +161,7 @@ class InfoPage extends StatelessWidget {
                 );
               },
               child: const Text('About Us')),
-          SizedBox(height: 35,),
+          const SizedBox(height: 35,),
         ],
       ),
     );

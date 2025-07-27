@@ -4,7 +4,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
-import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/admob/widgest/consent_manager.dart';
 import 'package:poultrypal/admob/widgest/my_banner_ads.dart' show MyBannerAdWidget;
 import 'package:poultrypal/l10n/app_localizations.dart';
@@ -488,6 +487,17 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
               subtitle: getSubtitle(i10, imgPrediction),
               content: getContent(i10, imgPrediction,
                   getReportListFromTitle(i10?.diagnosisReportTitle1 ?? '')),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+            /// branded medicine
+            if (imgPrediction!=ImagePrediction.healthy && imgPrediction!=ImagePrediction.notAValidImage)
+            DiagnosisReportCard2(
+              image: Assets.img.medical13854010.path,
+              title: i10?.brandedMedicine ?? '',
+              imp:imgPrediction ,
             ),
             const SizedBox(
               height: 10,

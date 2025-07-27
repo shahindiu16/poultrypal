@@ -1,8 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poultrypal/utils/utilts.dart';
+
+import 'medicine_popup.dart';
 
 class DiagnosisReportCard extends StatelessWidget {
   const DiagnosisReportCard({
-    required this.image, required this.title, required this.subtitle, required this.content, super.key,
+    required this.image,
+    required this.title,
+    required this.subtitle,
+    required this.content,
+    super.key,
   });
   final String image, title, subtitle, content;
 
@@ -36,6 +44,48 @@ class DiagnosisReportCard extends StatelessWidget {
                 content,
               )),
       ],
+    );
+  }
+}
+
+class DiagnosisReportCard2 extends StatelessWidget {
+  const DiagnosisReportCard2({
+    required this.image,
+    required this.title,
+    super.key,
+    required this.imp,
+  });
+  final String image, title;
+  final ImagePrediction imp;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        // show a bottom sheet
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (_) => MedicinePopup(diseasesType: imp)));
+      },
+      // iconColor: Colors.transparent,
+      title: Text(
+        // 'Generic Medicine',
+        title,
+      ),
+      trailing: Icon(
+        Icons.arrow_forward,
+      ),
+      // backgroundColor: Colors.white,
+      leading: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: const Color(0xffff6c52),
+          // FF6C52
+        ),
+        child: Image.asset(image),
+      ),
     );
   }
 }

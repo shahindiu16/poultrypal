@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poultrypal/admob/widgest/my_banner_ads.dart';
 import 'package:poultrypal/l10n/app_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:poultrypal/admob/admob_ids.dart';
-import 'package:poultrypal/admob/widgest/banner_ads.dart';
 import 'package:poultrypal/models/diseases_model.dart';
 import 'package:poultrypal/pages/components/lang_change.dart';
 

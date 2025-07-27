@@ -73,19 +73,6 @@ class PredictionService {
     }
   }
 
-  // (String, String) getPrediction(List<ImageLabel> labels) {
-  //   if (labels.isNotEmpty) {
-  //     ImageLabel bestLabel =
-  //         labels.reduce((a, b) => a.confidence > b.confidence ? a : b);
-  //
-  //     return (
-  //       bestLabel.label,
-  //       (bestLabel.confidence * 100).toStringAsFixed(2)
-  //     ); // 0.80 => 80.00%
-  //   } else {
-  //     return ("Not a valid image!!", "100");
-  //   }
-  // }
 
   (String, String) getPrediction(List<ImageLabel> labels) {
     const confidenceThreshold = 0.80;
