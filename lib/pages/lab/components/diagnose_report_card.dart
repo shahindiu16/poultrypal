@@ -52,8 +52,7 @@ class DiagnosisReportCard2 extends StatelessWidget {
   const DiagnosisReportCard2({
     required this.image,
     required this.title,
-    super.key,
-    required this.imp,
+    required this.imp, super.key,
   });
   final String image, title;
   final ImagePrediction imp;
@@ -73,7 +72,7 @@ class DiagnosisReportCard2 extends StatelessWidget {
         // 'Generic Medicine',
         title,
       ),
-      trailing: Icon(
+      trailing: const Icon(
         Icons.arrow_forward,
       ),
       // backgroundColor: Colors.white,
