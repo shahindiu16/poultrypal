@@ -188,13 +188,24 @@ class _PdfGenerateState extends State<PdfGenerate> {
               Expanded(
                 child: PdfPreview(
                   build: (format) => pdfData,
+                  canChangeOrientation: false,
+                  canChangePageFormat: false,
+                  canDebug: false,
+                  // useActions: true,
+                  actions: [
+                    // save pdf
+                    PdfPreviewAction(
+                      icon: const Icon(Icons.save),
+                      onPressed: (_, __, ___) => savePdfToStorage(pdfData),
+                    ),
+                  ],
                 ),
               ),
-              ElevatedButton.icon(
-                onPressed: () => savePdfToStorage(pdfData),
-                icon: const Icon(Icons.download),
-                label: const Text('Save'),
-              ),
+              // ElevatedButton.icon(
+              //   onPressed: () => savePdfToStorage(pdfData),
+              //   icon: const Icon(Icons.download),
+              //   label: const Text('Save'),
+              // ),
               const SizedBox(height: 16),
             ],
           );

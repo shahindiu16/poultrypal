@@ -17,8 +17,8 @@ Future<Uint8List> buildDiagnosisPdf({
   final pdf = pw.Document();
 
   // Create a pw.MemoryImage from the Uint8List
-  final pw.MemoryImage qrPdfImage = pw.MemoryImage(qrImageBytes);
-  final pw.MemoryImage dmPdfImage = pw.MemoryImage(dm);
+  final qrPdfImage = pw.MemoryImage(qrImageBytes);
+  final dmPdfImage = pw.MemoryImage(dm);
 
   pdf.addPage(
     pw.MultiPage(
@@ -33,6 +33,7 @@ Future<Uint8List> buildDiagnosisPdf({
         pw.SizedBox(height: 24),
         // put the image HERE
         pw.Image(dmPdfImage, width: 300, height: 300),
+        pw.SizedBox(height: 24),
         pw.Text('Diagnosis Report',
             style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
         pw.Divider(),
