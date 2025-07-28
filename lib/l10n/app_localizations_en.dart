@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get takePicture => 'Take Picture';
 
   @override
-  String get brandedMedicine => 'Branded medicine';
+  String get brandedMedicine => 'Branded Medicine';
 
   @override
   String get chooseImage => 'Choose another image';

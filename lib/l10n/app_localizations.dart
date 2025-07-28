@@ -119,7 +119,7 @@ abstract class AppLocalizations {
   /// No description provided for @brandedMedicine.
   ///
   /// In en, this message translates to:
-  /// **'Branded medicine'**
+  /// **'Branded Medicine'**
   String get brandedMedicine;
 
   /// No description provided for @chooseImage.
