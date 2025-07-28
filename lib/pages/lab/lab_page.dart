@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,7 @@ import 'package:poultrypal/utils/image_cropper.dart';
 import 'package:poultrypal/utils/utilts.dart';
 import 'package:screen_protector/screen_protector.dart';
 
+import '../../components/med_info.dart';
 import 'components/pdf_generate.dart';
 
 class ImagePreviewPage extends StatefulWidget {
@@ -610,28 +612,61 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton.icon(
+                onPressed: () {
+                  // convert he imagePath to Uint8List
+                  final bytes = imageFile.readAsBytesSync();
+
+                  final newcastMed = parseNewcastleMedInfo(newcastleMedInfo);
+
+                  final cocMed = parseNewcastleMedInfo(coccidiosisMedInfo);
+
+                  final salmonMed = parseNewcastleMedInfo(salmonellosisMedInfo);
+                  String getBrandedMed() {
+                    switch (imgPrediction) {
+                      case ImagePrediction.salmo:
+                        final tmp = salmonMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      // return salmonMed.first.genericName;
+                      case ImagePrediction.cocci:
+                        final tmp = cocMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      case ImagePrediction.ncd:
+                        final tmp = newcastMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      default:
+                        return '';
+                    }
+                  }
+
+                  final bb = getBrandedMed();
+                  log('Branded Medicine: $bb');
+
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (_) => PdfGenerate(
+                        dieseaseImage: bytes,
+                        deathRate: getSubtitleDetahRate(i10, imgPrediction),
+                        diseaseName: getSubtitle(i10, imgPrediction),
+                        genericMedicine: getSubtitleGeneric(i10, imgPrediction),
+                        prevention: getContent(
+                            i10,
+                            imgPrediction,
+                            getReportListFromTitle(
+                                i10?.diagnosisReportTitle5 ?? '')),
+                        severityLevel: getSubtitleSeverity(i10, imgPrediction),
+                        brandedMed: bb,
+                      ),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.print),
+                label: Text("Generate Report")),
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // convert he imagePath to Uint8List
-          final bytes = imageFile.readAsBytesSync();
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (_) => PdfGenerate(
-                dieseaseImage: bytes,
-                deathRate: getSubtitleDetahRate(i10, imgPrediction),
-                diseaseName: getSubtitle(i10, imgPrediction),
-                genericMedicine: getSubtitleGeneric(i10, imgPrediction),
-                prevention: getSubtitlePrevention(i10, imgPrediction),
-                severityLevel: getSubtitleSeverity(i10, imgPrediction),
-              ),
-            ),
-          );
-        },
-        label: const Text('Report'),
-        icon: const Icon(Icons.print),
       ),
     );
   }

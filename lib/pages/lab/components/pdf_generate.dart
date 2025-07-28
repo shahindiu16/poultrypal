@@ -20,11 +20,13 @@ class PdfGenerate extends StatefulWidget {
       required this.severityLevel,
       required this.deathRate,
       required this.prevention,
-      super.key});
+      super.key,
+      required this.brandedMed});
   final Uint8List dieseaseImage;
   final String diseaseName,
       genericMedicine,
       severityLevel,
+      brandedMed,
       deathRate,
       prevention;
 
@@ -51,6 +53,7 @@ class _PdfGenerateState extends State<PdfGenerate> {
       appName: appName,
       slogan: slogan,
       diseaseName: widget.diseaseName,
+      brandedMed: widget.brandedMed,
       genericMedicine: widget.genericMedicine,
       severityLevel: widget.severityLevel,
       deathRate: widget.deathRate,

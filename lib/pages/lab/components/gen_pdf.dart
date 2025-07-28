@@ -7,6 +7,7 @@ Future<Uint8List> buildDiagnosisPdf({
   required String appName,
   required String slogan,
   required String diseaseName,
+  required String brandedMed,
   required String genericMedicine,
   required String severityLevel,
   required String deathRate,
@@ -23,32 +24,39 @@ Future<Uint8List> buildDiagnosisPdf({
   pdf.addPage(
     pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
-      margin: const pw.EdgeInsets.all(32),
+      mainAxisAlignment: pw.MainAxisAlignment.center,
+      crossAxisAlignment: pw.CrossAxisAlignment.center,
+      // margin: const pw.EdgeInsets.all(22),
       build: (context) => [
         pw.Text(appName,
             style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
         pw.SizedBox(height: 4),
         pw.Text(slogan,
-            style: const pw.TextStyle(fontSize: 16, color: PdfColors.grey)),
-        pw.SizedBox(height: 24),
-        // put the image HERE
-        pw.Image(dmPdfImage, width: 300, height: 300),
-        pw.SizedBox(height: 24),
+            style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey)),
+        pw.SizedBox(height: 14),
         pw.Text('Diagnosis Report',
             style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+        pw.SizedBox(height: 14),
+        // put the image HERE
+        pw.Image(dmPdfImage, width: 225, height: 225),
+        pw.SizedBox(height: 14),
         pw.Divider(),
         _buildKeyValue('Disease Detected', diseaseName),
+        _buildKeyValue('Branded Medicine', brandedMed),
         _buildKeyValue('Generic Medicine', genericMedicine),
         _buildKeyValue('Severity Level', severityLevel),
         _buildKeyValue('Death Rate', deathRate),
         _buildKeyValue('Prevention', prevention),
-        pw.SizedBox(height: 40),
+        pw.SizedBox(height: 10),
         pw.Divider(),
-        pw.Text('Install Now!',
-            style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
-        pw.SizedBox(height: 8),
-        // Use the pw.MemoryImage here
-        pw.Image(qrPdfImage, width: 100, height: 100),
+        pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
+          pw.Text('Install Poultry Pal Now!',
+              style:
+                  pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
+          // pw.SizedBox(height: 8),
+          // Use the pw.MemoryImage here
+          pw.Image(qrPdfImage, width: 100, height: 100),
+        ])
       ],
     ),
   );
