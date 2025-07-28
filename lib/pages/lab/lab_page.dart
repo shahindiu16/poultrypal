@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -131,9 +132,15 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   final String _adUnitId = Platform.isAndroid
       ? 'ca-app-pub-3940256099942544/1033173712'
       : 'ca-app-pub-3940256099942544/4411468910';
+  Future<void> disableCapture() async {
+    await FlutterWindowManagerPlus.addFlags(
+        FlutterWindowManagerPlus.FLAG_SECURE);
+  }
+
   @override
   void initState() {
     _preventScreenshotOn();
+    disableCapture();
     super.initState();
     _createInterstitialAd();
     // Attempt to initialize the Mobile Ads SDK.
@@ -623,7 +630,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             ),
           );
         },
-        label: const Text("Report"),
+        label: const Text('Report'),
         icon: const Icon(Icons.print),
       ),
     );
