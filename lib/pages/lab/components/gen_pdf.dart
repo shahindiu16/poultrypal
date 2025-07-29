@@ -47,7 +47,7 @@ Future<Uint8List> buildDiagnosisPdf({
         _buildKeyValue('Severity Level', severityLevel),
         _buildKeyValue('Death Rate', deathRate),
         _buildKeyValue('Prevention', prevention),
-        pw.SizedBox(height: 10),
+        pw.SizedBox(height: 6),
         pw.Divider(),
         pw.Row(mainAxisAlignment: pw.MainAxisAlignment.spaceBetween, children: [
           pw.Text('Install Poultry Pal Now!',
@@ -55,7 +55,10 @@ Future<Uint8List> buildDiagnosisPdf({
                   pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
           // pw.SizedBox(height: 8),
           // Use the pw.MemoryImage here
-          pw.Image(qrPdfImage, width: 100, height: 100),
+          pw.Column(mainAxisSize: pw.MainAxisSize.min, children: [
+            pw.Image(qrPdfImage, width: 100, height: 100),
+            pw.Text("http://tiny.cc/poultrypal"),
+          ]),
         ])
       ],
     ),
