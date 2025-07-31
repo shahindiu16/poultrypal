@@ -71,3 +71,14 @@ flutter:
     - assets/user_manual/
     - assets/models/model.tflite
     - assets/models/labels.txt
+
+  fonts:
+    - family: NotoSansBengali
+      fonts:
+        - asset: assets/fonts/NotoSansBengali-Regular.ttf
+        - asset: assets/fonts/NotoSansBengali-Bold.ttf
+          weight: 700 # Specify weight if you have a bold variant
+#          kalpurush
+    - family: kalpurush
+      fonts:
+        - asset: assets/fonts/kalpurush.ttf
