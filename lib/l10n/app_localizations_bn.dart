@@ -21,6 +21,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get brandedMedicine => 'ব্র্যান্ডেড ঔষধ';
 
   @override
+  String get installNow => 'এখন পোল্ট্রি পাল ইনস্টল করুন!';
+
+  @override
+  String get desclaimer =>
+      'পোল্ট্রি পাল দ্বারা সরবরাহিত ফলাফল কেবল তথ্যের উদ্দেশ্যে। নির্ণয় অবশ্যই একটি যথাযথ অনুমোদিত পেশাদার দ্বারা প্রতিষ্ঠিত করতে হবে। ডাক্তারের রায় ব্যতীত এই প্রতিবেদনটি এটিকে অবৈধ করে তুলবে।';
+
+  @override
   String get chooseImage => 'অন্য চিত্র নির্বাচন করুন';
 
   @override

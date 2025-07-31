@@ -122,6 +122,18 @@ abstract class AppLocalizations {
   /// **'Branded Medicine'**
   String get brandedMedicine;
 
+  /// No description provided for @installNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Poultry Pal Now!'**
+  String get installNow;
+
+  /// No description provided for @desclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Result provided by Poultry Pal is for information purposes only. The diagnosis must be established by a duly authorized professional. This report without Doctor\'s verdict will make it invalid.'**
+  String get desclaimer;
+
   /// No description provided for @chooseImage.
   ///
   /// In en, this message translates to:

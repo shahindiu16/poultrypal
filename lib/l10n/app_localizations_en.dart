@@ -21,6 +21,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get brandedMedicine => 'Branded Medicine';
 
   @override
+  String get installNow => 'Install Poultry Pal Now!';
+
+  @override
+  String get desclaimer =>
+      'Result provided by Poultry Pal is for information purposes only. The diagnosis must be established by a duly authorized professional. This report without Doctor\'s verdict will make it invalid.';
+
+  @override
   String get chooseImage => 'Choose another image';
 
   @override
