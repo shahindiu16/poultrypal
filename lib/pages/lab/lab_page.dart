@@ -575,6 +575,67 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                     CircularProgressIndicator.adaptive()), // show the two btns
 
           const SizedBox(height: 12),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FilledButton.icon(
+                onPressed: () {
+                  // convert he imagePath to Uint8List
+                  final bytes = imageFile.readAsBytesSync();
+
+                  final newcastMed = parseNewcastleMedInfo(newcastleMedInfo);
+
+                  final cocMed = parseNewcastleMedInfo(coccidiosisMedInfo);
+
+                  final salmonMed = parseNewcastleMedInfo(salmonellosisMedInfo);
+                  String getBrandedMed() {
+                    switch (imgPrediction) {
+                      case ImagePrediction.salmo:
+                        final tmp = salmonMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      // return salmonMed.first.genericName;
+                      case ImagePrediction.cocci:
+                        final tmp = cocMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      case ImagePrediction.ncd:
+                        final tmp = newcastMed.first.tradeNames.first;
+                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
+                      default:
+                        return '';
+                    }
+                  }
+
+                  final bb = getBrandedMed();
+                  log('Branded Medicine: $bb');
+
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (_) => PdfGenerate(
+                        appName: i10?.appTitle ?? '',
+                        slogan: i10?.slogan ?? '',
+                        diagnosisR: i10?.diagnosisReportTitle ?? '',
+                        disclaimer: i10?.desclaimer ?? '',
+                        installNow: i10?.installNow ?? '',
+                        dieseaseImage: bytes,
+                        deathRate: getSubtitleDetahRate(i10, imgPrediction),
+                        diseaseName: getSubtitle(i10, imgPrediction),
+                        genericMedicine: getSubtitleGeneric(i10, imgPrediction),
+                        prevention: getContent(
+                            i10,
+                            imgPrediction,
+                            getReportListFromTitle(
+                                i10?.diagnosisReportTitle5 ?? '')),
+                        severityLevel: getSubtitleSeverity(i10, imgPrediction),
+                        brandedMed: bb,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.print),
+                label: const Text('Generate Report')),
+          ),
+          const SizedBox(height: 12),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -611,60 +672,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton.icon(
-                onPressed: () {
-                  // convert he imagePath to Uint8List
-                  final bytes = imageFile.readAsBytesSync();
-
-                  final newcastMed = parseNewcastleMedInfo(newcastleMedInfo);
-
-                  final cocMed = parseNewcastleMedInfo(coccidiosisMedInfo);
-
-                  final salmonMed = parseNewcastleMedInfo(salmonellosisMedInfo);
-                  String getBrandedMed() {
-                    switch (imgPrediction) {
-                      case ImagePrediction.salmo:
-                        final tmp = salmonMed.first.tradeNames.first;
-                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
-                      // return salmonMed.first.genericName;
-                      case ImagePrediction.cocci:
-                        final tmp = cocMed.first.tradeNames.first;
-                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
-                      case ImagePrediction.ncd:
-                        final tmp = newcastMed.first.tradeNames.first;
-                        return '${tmp.tradeName}\n${tmp.company}\n${tmp.dosage}';
-                      default:
-                        return '';
-                    }
-                  }
-
-                  final bb = getBrandedMed();
-                  log('Branded Medicine: $bb');
-
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (_) => PdfGenerate(
-                        dieseaseImage: bytes,
-                        deathRate: getSubtitleDetahRate(i10, imgPrediction),
-                        diseaseName: getSubtitle(i10, imgPrediction),
-                        genericMedicine: getSubtitleGeneric(i10, imgPrediction),
-                        prevention: getContent(
-                            i10,
-                            imgPrediction,
-                            getReportListFromTitle(
-                                i10?.diagnosisReportTitle5 ?? '')),
-                        severityLevel: getSubtitleSeverity(i10, imgPrediction),
-                        brandedMed: bb,
-                      ),
-                    ),
-                  );
-                },
-                icon: Icon(Icons.print),
-                label: Text("Generate Report")),
           ),
         ],
       ),

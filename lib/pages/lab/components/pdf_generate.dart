@@ -20,15 +20,25 @@ class PdfGenerate extends StatefulWidget {
       required this.severityLevel,
       required this.deathRate,
       required this.prevention,
+      required this.brandedMed,
+      required this.appName,
+      required this.slogan,
       super.key,
-      required this.brandedMed});
+      required this.diagnosisR,
+      required this.disclaimer,
+      required this.installNow});
   final Uint8List dieseaseImage;
   final String diseaseName,
       genericMedicine,
       severityLevel,
       brandedMed,
       deathRate,
-      prevention;
+      prevention,
+      appName,
+      slogan,
+      diagnosisR,
+      disclaimer,
+      installNow;
 
   @override
   State<PdfGenerate> createState() => _PdfGenerateState();
@@ -37,8 +47,8 @@ class PdfGenerate extends StatefulWidget {
 class _PdfGenerateState extends State<PdfGenerate> {
   late Future<Uint8List> _pdfFuture;
 
-  final String appName = 'Poultry Pal';
-  final String slogan = 'Snap a Shot to Secure the Flock';
+  // final String appName = 'Poultry Pal';
+  // final String slogan = 'Snap a Shot to Secure the Flock';
 
   @override
   void initState() {
@@ -50,8 +60,11 @@ class _PdfGenerateState extends State<PdfGenerate> {
     final qrBytes = await rootBundle.load(Assets.img.qrcode.path);
 
     return await buildDiagnosisPdf(
-      appName: appName,
-      slogan: slogan,
+      desclaimer: widget.disclaimer,
+      installNow: widget.installNow,
+      appName: widget.appName,
+      diagnosisR: widget.diagnosisR,
+      slogan: widget.slogan,
       diseaseName: widget.diseaseName,
       brandedMed: widget.brandedMed,
       genericMedicine: widget.genericMedicine,
